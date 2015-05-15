@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SimEcar</string>
+    <string name="action_settings">Settings</string>
+    <string name="activity_cs_title">Add Charging Station</string>
+    <string name="activity_about_title">About SimECar</string>
+    <string name="activity_satistic_title">Statistics overview</string>
+    <string name="warning_APIVersion">This feature is only visible for Android 4.2 Jelly Bean MR1 (API 17) or higher.</string>
+    <string name="coveredDistance">Covered distance (km):</string>
+    <string name="currentSpeed">Current speed (kmh):</string>
+    <string name="speedApiTest">API Test Speed (kmh):</string>
+    <string name="timeTo100">Time to 100%:</string>
+    <string name="remainingTimeOnBattery">Remaining distance on battery:</string>
+    <string name="currentLocation">Location:</string>
+    <string name="currentConsumption">Energy Consumption (kWh):</string>
+    <string name="time">time</string>
+    <string name="state">State:</string>
+    <string name="gpsDisabled"></string>
+    <string name="menu_preferences">Settings</string>
+
+    <string-array name="drawer_options">
+        <item>Dashboard</item>
+        <item>State of charge</item>
+        <item>Avg. consumption</item>
+        <item>Drive possibility</item>
+        <item>Drive distances</item>
+        <item>Log</item>
+        <item>Drive graph</item>
+        <item>EV Recommendation</item>
+        <item>Eco-Driving</item>
+        <item>Analysis</item>
+    </string-array>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="cs_name">Name:</string>
+    <string name="cs_type">Charging station type:</string>
+    <string name="cs_info">Create a charging station at your current location.</string>
+    <string name="button_lable_cs_save">Save charging station</string>
+    <string name="editText_hint">Name of charging station e.g. Home</string>
+
+    <!-- Statistics -->
+    <string name="avg_consumption_description">This report compares the average energy consumption of the current month with the previous ones.</string>
+    <string name="drive_distances_description">This report visualises the number of closed drives, grouped by their length in kilometers.</string>
+    <string name="drive_possiblity_description">This report visualises the amount of drives that were driveable, not driveable and drivable if at the beginning of the trip the battery would have been fully charged.</string>
+    <string name="soc_description">This report visualises the battery state of charge in percent.</string>
+
+</resources>

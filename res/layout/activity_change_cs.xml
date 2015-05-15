@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:paddingLeft="16dp"
+	android:paddingRight="16dp" >
+
+	<TextView
+		android:id="@+id/textview_lable_csName"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/cs_name"
+		android:textStyle="bold" />
+
+	<EditText
+		android:id="@+id/editText_csName"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="20dp"
+		android:ems="10"
+		android:hint="@string/editText_hint"
+		android:inputType="text" >
+
+		<requestFocus />
+	</EditText>
+
+	<TextView
+		android:id="@+id/textview_lable_type"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/cs_type"
+		android:textStyle="bold" />
+
+	<Spinner
+		android:id="@+id/chargingTypes_Spinner"
+		android:layout_width="240dp"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="20dp" />
+
+	<Button
+		android:id="@+id/cs_save"
+		style="?android:attr/buttonStyleSmall"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/button_lable_cs_save" />
+
+	<TextView
+		android:id="@+id/cs_info"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="24dp"
+		android:text="@string/cs_info"
+		android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</LinearLayout>

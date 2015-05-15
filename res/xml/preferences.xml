@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+	<PreferenceCategory android:title="@string/pref_title_general" >
+		<ListPreference
+			android:key="display.car_name"
+			android:title="@string/pref_title_E_cars"
+			android:defaultValue="BMW i3" />
+
+		<Preference android:title="@string/pref_title_cs" >
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:targetClass="de.unibamberg.eesys.projekt.gui.ChargingStationActivity"
+				android:targetPackage="de.unibamberg.eesys.projekt"
+				android:summary="@string/pref_summary_cs" />
+		</Preference>
+		<Preference android:title="@string/activity_about_title" >
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:targetClass="de.unibamberg.eesys.projekt.gui.AboutActivity"
+				android:targetPackage="de.unibamberg.eesys.projekt" />
+		</Preference>
+		<Preference android:title="@string/pref_title_exportDB"
+			android:key="testing.exportDB"
+			android:summary="@string/pref_summary_exportDB" />
+		
+	</PreferenceCategory>
+	
+	<PreferenceCategory android:title="@string/pref_title_override" >
+		<ListPreference
+			android:entries="@array/pref_list_activities"
+			android:entryValues="@array/pref_list_activities"
+			android:key="testing.activity"
+			android:title="Activity" />
+		<ListPreference
+			android:entries="@array/pref_list_speeds"
+			android:entryValues="@array/pref_list_speeds"
+			android:key="testing.speed"
+			android:title="Speed" />
+		<ListPreference
+			android:entries="@array/pref_list_ignore_activity_recognition"
+			android:entryValues="@array/pref_list_ignore_activity_recognition"
+			android:defaultValue="ignore activity recognition"
+			android:key="testing.ignore_activity_recognition"
+			android:title="Ignore Activity Recognition" />
+
+		<Preference
+			android:key="testing.importDB"
+			android:title="Import DB" />
+
+		<Preference
+			android:key="testing.loadGpx"
+			android:title="Import GPX files from assets" />
+
+		<ListPreference
+			android:entries="@array/pref_list_show_debug_messages"
+			android:entryValues="@array/pref_list_show_debug_messages"
+			android:key="testing.show_debug_messages"
+			android:title="Show debug messages" />
+	</PreferenceCategory>
+
+</PreferenceScreen>

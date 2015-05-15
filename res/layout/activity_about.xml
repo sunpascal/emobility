@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical" >
+
+	<TextView
+		android:id="@+id/aboutTitle"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:text="@string/simECarforAndroid"
+		android:layout_marginTop="32dp"
+		android:layout_marginBottom="12dp"
+		android:textAppearance="?android:attr/textAppearanceLarge" />
+
+	<ImageView
+		android:id="@+id/imageView1"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:src="@drawable/ic_launcher" />
+
+	<TextView
+		android:id="@+id/aboutUniversity"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:text="@string/university"
+		android:layout_marginTop="12dp"
+		android:textAppearance="?android:attr/textAppearanceMedium" />
+
+	<TextView
+		android:id="@+id/aboutFaculty"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:text="@string/chair"
+		android:layout_marginBottom="8dp"
+		android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+
+	<TextView
+		android:id="@+id/aboutDeveloper1"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/developer1" 
+		android:layout_margin="4dp"
+		android:gravity="center"/>
+
+	<TextView
+		android:id="@+id/aboutDeveloper2"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/developer2" 
+		android:layout_margin="4dp"
+		android:gravity="center"/>
+
+	<TextView
+		android:id="@+id/aboutDeveloper3"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/developer3"
+		android:layout_margin="4dp" 
+		android:gravity="center"/>
+
+	<TextView
+		android:id="@+id/aboutDeveloper4"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/developer4"
+		android:layout_margin="4dp" 
+		android:gravity="center"/>
+
+	<TextView
+		android:id="@+id/aboutDeveloper5"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/developer5"
+		android:layout_margin="4dp" 
+		android:gravity="center"/>
+
+	<TextView
+		android:id="@+id/aboutDeveloper6"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/developer6"
+		android:layout_margin="4dp" 
+		android:gravity="center"/>
+
+	<TextView
+		android:id="@+id/aboutAppVersion"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/appVersion"
+		android:layout_margin="4dp" 
+		android:gravity="center"/>
+
+</LinearLayout>
