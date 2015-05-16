@@ -97,7 +97,7 @@ public class BackgroundService extends Service implements GpsUpdateListener {
 		if (appContext.getEcar().getCarState() == CarState.DRIVING) {
 			captureLocation();
 		}
-
+		
 		appContext.updateGui();
 
 	}

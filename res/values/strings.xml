@@ -7,9 +7,9 @@
     <string name="activity_about_title">About SimECar</string>
     <string name="activity_satistic_title">Statistics overview</string>
     <string name="warning_APIVersion">This feature is only visible for Android 4.2 Jelly Bean MR1 (API 17) or higher.</string>
-    <string name="coveredDistance">Covered distance (km):</string>
-    <string name="currentSpeed">Current speed (kmh):</string>
-    <string name="speedApiTest">API Test Speed (kmh):</string>
+    <string name="coveredDistance">Trip distance (km):</string>
+    <string name="currentSpeed">Current speed (km/h):</string>
+    <string name="speedApiTest">API Test Speed (km/h):</string>
     <string name="timeTo100">Time to 100%:</string>
     <string name="remainingTimeOnBattery">Remaining distance on battery:</string>
     <string name="currentLocation">Location:</string>
@@ -21,12 +21,14 @@
 
     <string-array name="drawer_options">
         <item>Dashboard</item>
+<!-- 
         <item>State of charge</item>
         <item>Avg. consumption</item>
         <item>Drive possibility</item>
         <item>Drive distances</item>
         <item>Log</item>
         <item>Drive graph</item>
+ -->        
         <item>EV Recommendation</item>
         <item>Eco-Driving</item>
         <item>Analysis</item>
@@ -45,5 +47,9 @@
     <string name="drive_distances_description">This report visualises the number of closed drives, grouped by their length in kilometers.</string>
     <string name="drive_possiblity_description">This report visualises the amount of drives that were driveable, not driveable and drivable if at the beginning of the trip the battery would have been fully charged.</string>
     <string name="soc_description">This report visualises the battery state of charge in percent.</string>
+    <string name="zerokWh">0 kWh</string>
+    <string name="firstVehicleRec">"Based on your driving profile, the following vehicle is recommended: "</string>
+    <string name="secondVehicleRec1">If you use a different vehicle for 5% of your trips, the following vehicle will become feasible:</string>
+    <string name="WhichTripsAreCritical"><u>Which trips are critical?</u></string>
 
 </resources>

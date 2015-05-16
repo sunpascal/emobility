@@ -48,6 +48,15 @@ import de.unibamberg.eesys.projekt.gui.MainActivity;
  */
 public class AppContext extends Application {
 	private static final String TAG = "AppContext";
+	private MainActivity mainActivity; 
+
+	public MainActivity getMainActivity() {
+		return mainActivity;
+	}
+
+	public void setMainActivity(MainActivity mainActivity) {
+		this.mainActivity = mainActivity;
+	}
 
 	/**
 	 * database object to access functionalities to load or store data in the DB
@@ -522,4 +531,11 @@ public class AppContext extends Application {
 		return currentGpsStatus;
 	}
 
+	// todo: kann wieder gelöscht werden, da Aufruf über getActivity() gelöst
+	public void showDrawer(int name) {
+		mainActivity.selectItem(name);
+		
+	}
+	
+	
 }

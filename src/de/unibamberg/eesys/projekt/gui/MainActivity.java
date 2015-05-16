@@ -59,6 +59,8 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		appContext = (AppContext) getApplicationContext();
+		appContext.setMainActivity(this);  // used to access drawer via appContent from other fragments
+		
 		L.v("MainActivity onCreate()");
 		setContentView(R.layout.activity_main);
 
@@ -221,7 +223,7 @@ public class MainActivity extends FragmentActivity {
 	 * @param position
 	 *            of the option in the drawer
 	 */
-	private void selectItem(int position) {
+	public void selectItem(int position) {
 
 		// check that the activity is using the layout version with the
 		// content_frame FrameLayout
@@ -230,6 +232,21 @@ public class MainActivity extends FragmentActivity {
 			// create a new Fragment to be placed in the activity layout
 			Fragment selectedFragment = null;
 			switch (position) {
+			case 1:
+				selectedFragment = new EvRecommendationFragment();
+				shownFragment = "EvRecommendationShown";
+				break;		
+			case 2:
+				selectedFragment = new EcoDrivingFragment();
+				shownFragment = "EcoDrivingShown";
+				break;	
+			case 3:
+				selectedFragment = new AnalysisFragment();
+				shownFragment = "AnalysisShown";
+				break;						
+			
+			/* Menüeinträge aus Projekt App */ 
+			/*
 			case 1:
 				selectedFragment = new StateOfChargeFragment();
 				shownFragment = "StateOfChargeShown";
@@ -253,23 +270,13 @@ public class MainActivity extends FragmentActivity {
 			case 6:
 				selectedFragment = new DriveGraphFragment();
 				shownFragment = "DriveGraphShown";
-				break;
-			case 7:
-				selectedFragment = new EvRecommendation();
-				shownFragment = "EvRecommendationShown";
 				break;		
-			case 8:
-				selectedFragment = new EcoDriving();
-				shownFragment = "EcoDrivingShown";
-				break;	
-			case 9:
-				selectedFragment = new Analysis();
-				shownFragment = "AnalysisShown";
-				break;					
+			*/	
+				
 			case 0:
 			default:
-				selectedFragment = new StatusFragment();
-				shownFragment = "StatusShown";
+				selectedFragment = new DashboardFragment();
+				shownFragment = "DashboardShown";
 				break;
 			}
 
