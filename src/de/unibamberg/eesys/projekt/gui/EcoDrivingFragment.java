@@ -1,12 +1,12 @@
 package de.unibamberg.eesys.projekt.gui;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import android.app.Fragment;
-
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -43,12 +43,21 @@ public class EcoDrivingFragment extends Fragment {
 	
 	AppContext appContext;
 	View rootView;	
+	private FragmentActivity myContext;
 	
 	DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
 	ViewPager mViewPager;
 
+	private int numberOfTabs = 2; 
+	
 	public EcoDrivingFragment() {
 	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+	    myContext=(FragmentActivity) activity;
+	    super.onAttach(activity);
+	}	
 	
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -65,12 +74,26 @@ public class EcoDrivingFragment extends Fragment {
 	    // Specify that tabs should be displayed in the action bar.
 	    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
+        // ViewPager and its adapters use support library
+        // fragments, so use getSupportFragmentManager.
+        mDemoCollectionPagerAdapter =
+                new DemoCollectionPagerAdapter(
+                		myContext.getSupportFragmentManager());
+        mViewPager.setAdapter(mDemoCollectionPagerAdapter);
+	    
+	    
 	    // Create a tab listener that is called when the user changes tabs.
 	    ActionBar.TabListener tabListener = new ActionBar.TabListener() {
 	        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
 	            // When the tab is selected, switch to the
 	            // corresponding page in the ViewPager.
-	        	mViewPager.setCurrentItem(tab.getPosition());
+	        	
+            	int t = getActivity().getActionBar().getTabCount();
+                // When swiping between pages, select the corresponding tab.
+            	
+            	if (tab != null) {     	
+            		mViewPager.setCurrentItem(tab.getPosition());
+            	}
 	        }
 
 	        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
@@ -82,12 +105,18 @@ public class EcoDrivingFragment extends Fragment {
 	        }
 	    };
 
-	    // Add 3 tabs, specifying the tab's text and TabListener
-	    for (int i = 0; i < 3; i++) {
-	        actionBar.addTab(
+	    
+    	// todo: figure out how to manage tab lifecycle
+    	actionBar.removeAllTabs();
+	    
+	    // Add n tabs, specifying the tab's text and TabListener
+	    for (int i = 0; i < numberOfTabs; i++) {
+	        
+	    	actionBar.addTab(
 	                actionBar.newTab()
 	                        .setText("Tab " + (i + 1))
 	                        .setTabListener(tabListener));
+	        
 	    }
 	    
 	    
@@ -96,8 +125,11 @@ public class EcoDrivingFragment extends Fragment {
 	            new ViewPager.SimpleOnPageChangeListener() {
 	                @Override
 	                public void onPageSelected(int position) {
+	                	int t = getActivity().getActionBar().getTabCount();
 	                    // When swiping between pages, select the corresponding tab.
-	                    getActivity().getActionBar().setSelectedNavigationItem(position);
+	                	if (position < getActivity().getActionBar().getTabCount()) {
+	                		getActivity().getActionBar().setSelectedNavigationItem(position);
+	                	}
 	                }
 	            });	    
 	    
@@ -114,7 +146,12 @@ public class EcoDrivingFragment extends Fragment {
 
 	    @Override
 	    public android.support.v4.app.Fragment getItem(int i) {
-	    	android.support.v4.app.Fragment fragment = (android.support.v4.app.Fragment) new EcoDrivingBatteryStateFragment();
+	    	
+	    	android.support.v4.app.Fragment fragment = (android.support.v4.app.Fragment) new EcoDrivingFeedbackTableFragment();
+	    	
+	    	if (i == 1) 
+	    		fragment = (android.support.v4.app.Fragment) new EcoDrivingFeedbackTeqniqueFragment();
+	    		
 	        Bundle args = new Bundle();
 	        // Our object is just an integer :-P
 	        args.putInt(EcoDrivingBatteryStateFragment.ARG_OBJECT, i + 1);

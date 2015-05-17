@@ -61,6 +61,8 @@ public class MainActivity extends FragmentActivity {
 		appContext = (AppContext) getApplicationContext();
 		appContext.setMainActivity(this);  // used to access drawer via appContent from other fragments
 		
+		getActionBar().removeAllTabs();		
+		
 		L.v("MainActivity onCreate()");
 		setContentView(R.layout.activity_main);
 

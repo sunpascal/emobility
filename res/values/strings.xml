@@ -51,5 +51,7 @@
     <string name="firstVehicleRec">"Based on your driving profile, the following vehicle is recommended: "</string>
     <string name="secondVehicleRec1">If you use a different vehicle for 5% of your trips, the following vehicle will become feasible:</string>
     <string name="WhichTripsAreCritical"><u>Which trips are critical?</u></string>
+    <string name="technique_good">"You are doing well on the following eco-driving techniques: "</string>
+    <string name="improve_on">"You could improve on the following: "</string>
 
 </resources>

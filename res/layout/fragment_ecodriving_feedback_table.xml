@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/whole"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#a8a8a8"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This table lists your consumption and personal range for each trip." />
+    
+<android.support.v4.view.ViewPager
+    android:id="@+id/viewPagerEcoDriving"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+    
+
+   <RelativeLayout
+        android:id="@+id/soc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dip"
+        android:layout_weight="5"
+        android:background="#a8a8a8"
+        android:gravity="center"
+        android:text="@string/soc_description" >
+    </TextView>
+
+</LinearLayout>

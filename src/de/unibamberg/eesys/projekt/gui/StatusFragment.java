@@ -75,6 +75,10 @@ public class StatusFragment extends Fragment implements GuiUpdateInterface,
 
 		appContext = (AppContext) getActivity().getApplicationContext();
 		appContext.setOnUpdateListener(this);
+		
+		getActivity().getActionBar().hide();
+		int t = getActivity().getActionBar().getTabCount();
+		getActivity().getActionBar().removeAllTabs();
 
 		// Setting TextViews (static TextViews)
 		txtAkkuState = (TextView) rootView
