@@ -1,6 +1,6 @@
 package de.unibamberg.eesys.projekt.gui;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;

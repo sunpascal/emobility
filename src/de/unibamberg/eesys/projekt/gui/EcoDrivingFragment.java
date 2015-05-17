@@ -49,7 +49,7 @@ public class EcoDrivingFragment extends Fragment {
 	DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
 	ViewPager mViewPager;
 
-	private int numberOfTabs = 3; 
+	private int numberOfTabs = 4; 
 	
 	public EcoDrivingFragment() {
 	}
@@ -160,6 +160,26 @@ public class EcoDrivingFragment extends Fragment {
 	    			fragment = new DriversLogFragment();
 	    			break; 
 	    		}
+	    		case 3: {
+	    			fragment = new StateOfChargeFragment();
+	    			break; 
+	    		}	  
+	    		case 4: {
+	    			fragment = new DrivePossibilityFragment();
+	    			break; 
+	    		}	   
+	    		case 5: {
+	    			fragment = new DriveGraphFragment();
+	    			break; 
+	    		}	 	
+	    		case 6: {
+	    			fragment = new DriveDistancesFragment();
+	    			break; 
+	    		}		 
+	    		case 7: {
+	    			fragment = new AvgConsumptionFragment();
+	    			break; 
+	    		}		    		
 	    	}
 	    	
 	        Bundle args = new Bundle();
