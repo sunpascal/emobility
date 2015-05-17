@@ -1,6 +1,7 @@
 package de.unibamberg.eesys.projekt.gui;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.app.ActionBar;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -76,9 +77,10 @@ public class StatusFragment extends Fragment implements GuiUpdateInterface,
 		appContext = (AppContext) getActivity().getApplicationContext();
 		appContext.setOnUpdateListener(this);
 		
-		getActivity().getActionBar().hide();
+//		getActivity().getActionBar().hide();
 		int t = getActivity().getActionBar().getTabCount();
 		getActivity().getActionBar().removeAllTabs();
+		getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
 		// Setting TextViews (static TextViews)
 		txtAkkuState = (TextView) rootView

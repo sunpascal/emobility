@@ -5,9 +5,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -48,7 +49,7 @@ public class EcoDrivingFragment extends Fragment {
 	DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
 	ViewPager mViewPager;
 
-	private int numberOfTabs = 2; 
+	private int numberOfTabs = 3; 
 	
 	public EcoDrivingFragment() {
 	}
@@ -88,10 +89,11 @@ public class EcoDrivingFragment extends Fragment {
 	            // When the tab is selected, switch to the
 	            // corresponding page in the ViewPager.
 	        	
-            	int t = getActivity().getActionBar().getTabCount();
+//            	 int t =getActivity().getActionBar().getTabCount();
                 // When swiping between pages, select the corresponding tab.
             	
-            	if (tab != null) {     	
+            	ViewPager vp = mViewPager;
+            	if ( getActivity() != null && vp != null && tab != null) {     	
             		mViewPager.setCurrentItem(tab.getPosition());
             	}
 	        }
@@ -145,13 +147,21 @@ public class EcoDrivingFragment extends Fragment {
 	    }
 
 	    @Override
-	    public android.support.v4.app.Fragment getItem(int i) {
+	    public Fragment getItem(int i) {
 	    	
-	    	android.support.v4.app.Fragment fragment = (android.support.v4.app.Fragment) new EcoDrivingFeedbackTableFragment();
+	    	Fragment fragment =  new EcoDrivingFeedbackTableFragment();
 	    	
-	    	if (i == 1) 
-	    		fragment = (android.support.v4.app.Fragment) new EcoDrivingFeedbackTeqniqueFragment();
-	    		
+	    	switch (i) {
+	    		case 1: {
+	    		fragment =  new EcoDrivingFeedbackTeqniqueFragment();
+	    		break; 
+	    		}
+	    		case 2: {
+	    			fragment = new DriversLogFragment();
+	    			break; 
+	    		}
+	    	}
+	    	
 	        Bundle args = new Bundle();
 	        // Our object is just an integer :-P
 	        args.putInt(EcoDrivingBatteryStateFragment.ARG_OBJECT, i + 1);

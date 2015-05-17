@@ -3,7 +3,6 @@
     android:id="@+id/whole"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#a8a8a8"
     android:orientation="vertical" >
     
 <android.support.v4.view.ViewPager
@@ -27,7 +26,6 @@
         android:layout_height="match_parent"
         android:layout_margin="5dip"
         android:layout_weight="5"
-        android:background="#a8a8a8"
         android:gravity="center"
         android:text="@string/soc_description" >
     </TextView>

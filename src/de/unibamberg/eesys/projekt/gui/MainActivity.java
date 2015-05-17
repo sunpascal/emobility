@@ -1,13 +1,13 @@
 package de.unibamberg.eesys.projekt.gui;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
@@ -291,7 +291,7 @@ public class MainActivity extends FragmentActivity {
 			selectedFragment.setArguments(args);
 
 			// add the fragment to the 'content_frame' FrameLayout
-			this.getFragmentManager().beginTransaction()
+			this.getSupportFragmentManager().beginTransaction()
 					.replace(R.id.content_frame, selectedFragment).commit();
 
 			// update selected item and title, then close the drawer
@@ -320,7 +320,7 @@ public class MainActivity extends FragmentActivity {
 			args.putInt(selectedFragment.toString(), 0);
 			selectedFragment.setArguments(args);
 
-			this.getFragmentManager().beginTransaction()
+			this.getSupportFragmentManager().beginTransaction()
 					.replace(R.id.content_frame, selectedFragment).commit();
 			shownFragment = "StatusShown";
 		}
