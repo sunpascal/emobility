@@ -12,7 +12,7 @@
         android:text="This table lists your consumption and personal range for each trip." />
     
 <android.support.v4.view.ViewPager
-    android:id="@+id/viewPagerEcoDriving"
+    android:id="@+id/viewPager"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
     

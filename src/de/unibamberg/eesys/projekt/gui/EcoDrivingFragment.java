@@ -46,11 +46,6 @@ public class EcoDrivingFragment extends Fragment {
 	View rootView;	
 	private FragmentActivity myContext;
 	
-	DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
-	ViewPager mViewPager;
-
-	private int numberOfTabs = 4; 
-	
 	public EcoDrivingFragment() {
 	}
 	
@@ -69,137 +64,10 @@ public class EcoDrivingFragment extends Fragment {
 		appContext = (AppContext) getActivity().getApplicationContext();
 		
 	    
-	    mViewPager = (ViewPager) rootView.findViewById(R.id.viewPagerEcoDriving);
-	    final ActionBar actionBar = getActivity().getActionBar();
-
-	    // Specify that tabs should be displayed in the action bar.
-	    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-        // ViewPager and its adapters use support library
-        // fragments, so use getSupportFragmentManager.
-        mDemoCollectionPagerAdapter =
-                new DemoCollectionPagerAdapter(
-                		myContext.getSupportFragmentManager());
-        mViewPager.setAdapter(mDemoCollectionPagerAdapter);
-	    
-	    
-	    // Create a tab listener that is called when the user changes tabs.
-	    ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-	        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-	            // When the tab is selected, switch to the
-	            // corresponding page in the ViewPager.
-	        	
-//            	 int t =getActivity().getActionBar().getTabCount();
-                // When swiping between pages, select the corresponding tab.
-            	
-            	ViewPager vp = mViewPager;
-            	if ( getActivity() != null && vp != null && tab != null) {     	
-            		mViewPager.setCurrentItem(tab.getPosition());
-            	}
-	        }
-
-	        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-	            // hide the given tab
-	        }
-
-	        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-	            // probably ignore this event
-	        }
-	    };
-
-	    
-    	// todo: figure out how to manage tab lifecycle
-    	actionBar.removeAllTabs();
-	    
-	    // Add n tabs, specifying the tab's text and TabListener
-	    for (int i = 0; i < numberOfTabs; i++) {
-	        
-	    	actionBar.addTab(
-	                actionBar.newTab()
-	                        .setText("Tab " + (i + 1))
-	                        .setTabListener(tabListener));
-	        
-	    }
-	    
-	    
-	    // respond to user swipes
-	    mViewPager.setOnPageChangeListener(
-	            new ViewPager.SimpleOnPageChangeListener() {
-	                @Override
-	                public void onPageSelected(int position) {
-	                	int t = getActivity().getActionBar().getTabCount();
-	                    // When swiping between pages, select the corresponding tab.
-	                	if (position < getActivity().getActionBar().getTabCount()) {
-	                		getActivity().getActionBar().setSelectedNavigationItem(position);
-	                	}
-	                }
-	            });	    
-	    
-	    return rootView;	    
+	    return rootView;	
 	    
 	}
 	
-	// Since this is an object collection, use a FragmentStatePagerAdapter,
-	// and NOT a FragmentPagerAdapter.
-	public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
-	    public DemoCollectionPagerAdapter(FragmentManager fm) {
-	        super(fm);
-	    }
-
-	    @Override
-	    public Fragment getItem(int i) {
-	    	
-	    	Fragment fragment =  new EcoDrivingFeedbackTableFragment();
-	    	
-	    	switch (i) {
-	    		case 1: {
-	    		fragment =  new EcoDrivingFeedbackTeqniqueFragment();
-	    		break; 
-	    		}
-	    		case 2: {
-	    			fragment = new DriversLogFragment();
-	    			break; 
-	    		}
-	    		case 3: {
-	    			fragment = new StateOfChargeFragment();
-	    			break; 
-	    		}	  
-	    		case 4: {
-	    			fragment = new DrivePossibilityFragment();
-	    			break; 
-	    		}	   
-	    		case 5: {
-	    			fragment = new DriveGraphFragment();
-	    			break; 
-	    		}	 	
-	    		case 6: {
-	    			fragment = new DriveDistancesFragment();
-	    			break; 
-	    		}		 
-	    		case 7: {
-	    			fragment = new AvgConsumptionFragment();
-	    			break; 
-	    		}		    		
-	    	}
-	    	
-	        Bundle args = new Bundle();
-	        // Our object is just an integer :-P
-	        args.putInt(EcoDrivingBatteryStateFragment.ARG_OBJECT, i + 1);
-	        fragment.setArguments(args);
-	        return fragment;
-	    }
-
-	    @Override
-	    public int getCount() {
-	        return 100;
-	    }
-
-	    @Override
-	    public CharSequence getPageTitle(int position) {
-	        return "OBJECT " + (position + 1);
-	    }
-
-	}
 
 
 
