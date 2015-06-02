@@ -53,5 +53,7 @@
     <string name="WhichTripsAreCritical"><u>Which trips are critical?</u></string>
     <string name="technique_good">"You are doing well on the following eco-driving techniques: "</string>
     <string name="improve_on">"You could improve on the following: "</string>
+    <string name="secondVehicleRec2">If you improve your consumption by 10% the following vehicle will become feasible for you:</string>
+    <string name="howCanIimproveMyConsumption">How can I improve my consumption?</string>
 
 </resources>

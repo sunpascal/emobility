@@ -1,10 +1,9 @@
 package de.unibamberg.eesys.projekt.gui;
 
+import java.util.ArrayList;
+
 import android.app.ActionBar;
-import android.app.ActionBar.Tab;
-import android.app.ActionBar.TabListener;
 import android.app.AlertDialog;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -27,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 import de.unibamberg.eesys.projekt.AppContext;
 import de.unibamberg.eesys.projekt.L;
 import de.unibamberg.eesys.projekt.R;
@@ -39,7 +39,7 @@ import de.unibamberg.eesys.projekt.R;
  * @author Julia
  *
  */
-public class MainActivity extends FragmentActivity implements TabListener{
+public class MainActivity extends SwipeActivity {
 
 	static final String TAG = "MainActivity";
 	static final String WAYPOINT = "waypoint";
@@ -55,18 +55,15 @@ public class MainActivity extends FragmentActivity implements TabListener{
 	private boolean gpsEnabled;
 	private boolean open;
 
-	private MODE shownFragment = MODE.DASHBOARD;
-
 	DashboardFragment gpsUpdateListener;
 	
-	// tabs 
-	private DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
-	private ViewPager mViewPager;
 	private ActionBar actionBar; 
 	
-	private static enum MODE {
+	protected static enum MODE {
 		DASHBOARD, EV_RECOMMENDATION, ECO_DRIVING, ANALYSIS, BLANK
 	};
+	
+	private FragmentFolder fragmentFolder;
 	
 	/**
 	 * Manages the options from the drawer and inflates the selected Fragment
@@ -75,198 +72,32 @@ public class MainActivity extends FragmentActivity implements TabListener{
 	 */
 	public void selectItem(int position) {
 
-		// check that the activity is using the layout version with the
-		// content_frame FrameLayout
-		if (this.findViewById(R.id.content_frame) != null) {
+		// will be null if fragment cannot be found or is already active
+		Fragment selectedFragment = fragmentFolder.getDrawerFromPosition(position);
+		
+		// check that the activity is using the layout version with thecontent_frame FrameLayout
+		// and only continue if fragment could be found
+		if (this.findViewById(R.id.content_frame) != null && selectedFragment != null) {
 
-			// create a new Fragment to be placed in the activity layout
-			Fragment selectedFragment = null;
-			switch (position) {
-			
-			case 0:
-				selectedFragment = new DashboardFragment();
-				shownFragment = MODE.DASHBOARD;
-				actionBar.removeAllTabs();
-//				actionBar.hide();
-				break;	
-			case 1:			
-				selectedFragment = new EvRecommendationFragment();
-				shownFragment = MODE.EV_RECOMMENDATION;
-		    	actionBar.removeAllTabs();
-//		    	actionBar.hide();
-				break;		
-			case 2:
-				selectedFragment = new EcoDrivingFragment();
-				shownFragment = MODE.ECO_DRIVING;
-				break;	
-			case 3:
-				selectedFragment = new AnalysisFragment();
-				shownFragment = MODE.ANALYSIS;
-				break;		
-				
-			default: 
-					selectedFragment = new DashboardFragment();
-					shownFragment = MODE.DASHBOARD;
-					actionBar.removeAllTabs();
-//					actionBar.hide();
-				break;
-			}
-			
-//				showBlankFragment();
-				
-				// in case this activity was started with special instructions from
-				// an Intent, pass the Intent's extras to the fragment as arguments
-				selectedFragment.setArguments(this.getIntent().getExtras());
-				Bundle args = new Bundle();
-				args.putInt(selectedFragment.toString(), position);
-				selectedFragment.setArguments(args);
-	
-				// add the fragment to the 'content_frame' FrameLayout
-				getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, selectedFragment).commit();
-				getSupportFragmentManager().executePendingTransactions();
-	
-				// update selected item and title, then close the drawer
-				this.mDrawerList.setItemChecked(position, true);
-				this.setTitle(this.mDrawerOptions[position]);
-				this.mDrawerLayout.closeDrawer(mDrawerList);
-				
-				// hier tabs für entsprechendes Drawer menü vorbereiten
-				if (shownFragment == MODE.ANALYSIS) {
-				
-					// Add n tabs, specifying the tab's text and TabListener
-				    for (int i = 0; i < 2; i++) {
-				    	actionBar.addTab(
-				                actionBar.newTab()
-				                        .setText("" + (i + 1))
-				                        .setTabListener(this));
-				    }
-				    actionBar.show();				
-				}
-		}
-	}
-
-
-	// Since this is an object collection, use a FragmentStatePagerAdapter,
-	// and NOT a FragmentPagerAdapter.
-	public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
-	    public DemoCollectionPagerAdapter(FragmentManager fm) {
-	        super(fm);
-	    }
-
-	    @Override
-	    /** open tab */ 
-	    public Fragment getItem(int i) {
-	    	
-	    	Fragment fragment =  null;
-	    	
-	    	// todo: hier unterscheiden welches Drawer menü offen ist!
-	    	if (shownFragment == MODE.ANALYSIS) {
-	    	
-		    	switch (i) {
-		    	
-		    		case 0: {
-		    			fragment =  new DashboardFragment();
-		    			break; 
-		    		}	   	    	
-		    	
-		    		case 7: {
-			    		fragment =  new EcoDrivingFeedbackTeqniqueFragment();
-			    		break; 
-		    		}	    	
-		    	
-		    		case 1: {
-		    			fragment = new DriversLogFragment();
-		    			break; 
-		    		}
-		    		case 2: {
-		    			fragment = new StateOfChargeFragment();
-		    			break; 
-		    		}	  
-		    		case 3: {
-		    			fragment = new DrivePossibilityFragment();
-		    			break; 
-		    		}	   
-		    		case 4: {
-		    			fragment = new DriveGraphFragment();
-		    			break; 
-		    		}	 	
-		    		case 5: {
-		    			fragment = new DriveDistancesFragment();
-		    			break; 
-		    		}		 
-		    		case 6: {
-		    			fragment = new AvgConsumptionFragment();
-		    			break; 
-		    		}	
-		    	}
-	    		
-	    		
-	    	}
-	    	
-//	    	showBlankFragment();
-	    	
-	    	if (fragment != null) { 
-	    		Bundle args = new Bundle();
-	    		args.putString("tabName", fragment.toString());
-	    		fragment.setArguments(args);
-	    	}
-	        return fragment;
-	    }
-	    
-
-	    @Override
-	    public int getCount() {
-	        return 100;
-	    }
-
-	    @Override
-	    public CharSequence getPageTitle(int position) {
-	        return "OBJECT " + (position + 1);
-	    }
-
-	}
-
-	public final void showBlankFragment() {
-			Fragment selectedFragment = new BlankFragment();
+			// in case this activity was started with special instructions from
+			// an Intent, pass the Intent's extras to the fragment as arguments
 			selectedFragment.setArguments(this.getIntent().getExtras());
 			Bundle args = new Bundle();
-			args.putInt(selectedFragment.toString(), 0);
+			args.putInt(selectedFragment.toString(), position);
 			selectedFragment.setArguments(args);
 
-			this.getSupportFragmentManager().beginTransaction()
-					.replace(R.id.content_frame, selectedFragment).commit();
-			shownFragment = MODE.BLANK;
-	}	
-	
-	@Override
-	/** 
-	 *  When swiping between pages, select the corresponding tab.
-	 *  When the tab is selected, switch to the corresponding page in the ViewPager.
-	 */
-	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-        
-	    	if ( tab != null) {
-	    		
-	    		// take current drawer into account: 
-	    		if (shownFragment == MODE.ANALYSIS) {
-	    			mViewPager.setCurrentItem(tab.getPosition());
-	    		}
-	    	}
+//			// add the fragment to the 'content_frame' FrameLayout
+			getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, selectedFragment).commit();
+			getSupportFragmentManager().executePendingTransactions();
+			
+			// update selected item and title, then close the drawer
+			this.mDrawerList.setItemChecked(position, true);
+			this.setTitle(this.mDrawerOptions[position]);
+		}
+			this.mDrawerLayout.closeDrawer(mDrawerList);
 	}
 
-	@Override
-	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void onTabReselected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-		
-	}	
-	
-	
 	/**
 	 * onCreate called when application is initially started. Sets drawer
 	 */
@@ -278,6 +109,8 @@ public class MainActivity extends FragmentActivity implements TabListener{
 		
 		L.v("MainActivity onCreate()");
 		setContentView(R.layout.activity_main);
+		
+		fragmentFolder = new FragmentFolder(); 
 
 		mTitle = mDrawerTitle = getTitle();
 		mDrawerOptions = getResources().getStringArray(R.array.drawer_options);
@@ -343,36 +176,6 @@ public class MainActivity extends FragmentActivity implements TabListener{
 
 //		gpsAlert();
 		
-		
-		// Action bar / tabs 
-		
-	    mViewPager = (ViewPager) findViewById(R.id.viewPager);
-
-	    // Specify that tabs should be displayed in the action bar.
-	    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-        // ViewPager and its adapters use support library
-        // fragments, so use getSupportFragmentManager.
-        mDemoCollectionPagerAdapter =
-                new DemoCollectionPagerAdapter(
-                		getSupportFragmentManager());
-        mViewPager.setAdapter(mDemoCollectionPagerAdapter);
-	    
-	   	    
-	    // respond to user swipes
-	    mViewPager.setOnPageChangeListener(
-	            new ViewPager.SimpleOnPageChangeListener() {
-	                @Override
-	                public void onPageSelected(int position) {
-	                    // When swiping between pages, select the corresponding tab.
-	                	if (shownFragment == MODE.ANALYSIS) {	                	
-	                		if (position < actionBar.getTabCount()-1) {
-	                			actionBar.setSelectedNavigationItem(position);
-	                		}
-	                	}
-	                }
-	            });	    
-	    
 	    getSupportFragmentManager().executePendingTransactions();
 		
 	}
@@ -413,7 +216,7 @@ public class MainActivity extends FragmentActivity implements TabListener{
 	}
 
 	/**
-	 * The click listner for ListView in the navigation drawer
+	 * The click listener for ListView in the navigation drawer
 	 * */
 	private class DrawerItemClickListener implements
 			ListView.OnItemClickListener {
@@ -433,21 +236,20 @@ public class MainActivity extends FragmentActivity implements TabListener{
 	 * ToDo: also select Dashboard drawer!!
 	 */
 	public final void onBackPressed() {
-		if (shownFragment.equals("BlankShown")) {
+		if (fragmentFolder.getCurrentDrawerMode() == MODE.DASHBOARD) {
 			// We're in the MAIN Fragment.
 			finish();
 		} else {
 			// We're somewhere else, reload the MAIN Fragment.
 
-			Fragment selectedFragment = new DashboardFragment();
+			Fragment selectedFragment =fragmentFolder.getDrawer(MODE.DASHBOARD);;
 			selectedFragment.setArguments(this.getIntent().getExtras());
 			Bundle args = new Bundle();
 			args.putInt(selectedFragment.toString(), 0);
 			selectedFragment.setArguments(args);
 
-			this.getSupportFragmentManager().beginTransaction()
+			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.content_frame, selectedFragment).commit();
-			shownFragment = MODE.DASHBOARD;
 		}
 	}
 	
@@ -536,6 +338,53 @@ public class MainActivity extends FragmentActivity implements TabListener{
 
 		}
 	}
+
+
+	@Override
+	protected void previous() {
+		
+		Fragment selectedFragment = fragmentFolder.getPreviousTab();
+		
+		if (selectedFragment != null) {
+			selectedFragment.setArguments(this.getIntent().getExtras());
+	
+			// add the fragment to the 'content_frame' FrameLayout
+			getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, selectedFragment).commit();
+			getSupportFragmentManager().executePendingTransactions();	
+		}
+				
+		
+//		if (shownFragment == MODE.EV_RECOMMENDATION) {
+//			
+//			Fragment selectedFragment = new EvRecommendationFragment();
+//			
+//			selectedFragment.setArguments(this.getIntent().getExtras());
+//
+//			// add the fragment to the 'content_frame' FrameLayout
+//			getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, selectedFragment).commit();
+//			getSupportFragmentManager().executePendingTransactions();	
+//			
+//		}		
+//		else if (shownFragment == MODE.ANALYSIS ) {
+//			tabSwiper.getNextTab(); 
+//		}
+		
+	}
+
+
+	@Override
+	protected void next() {
+			Fragment selectedFragment = fragmentFolder.getNextTab();
+			
+			if (selectedFragment != null) {
+				selectedFragment.setArguments(this.getIntent().getExtras());
+
+			// 	add the fragment to the 'content_frame' FrameLayout
+				getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, selectedFragment).commit();
+				getSupportFragmentManager().executePendingTransactions();
+			}
+			
+		}		
 
 	
 }
