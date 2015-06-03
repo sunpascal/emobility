@@ -36,7 +36,6 @@
     	<item name="android:textStyle"></item>
     	<item name="android:typeface">sans</item>
 	</style>
+	
         
-    
-
 </resources>
