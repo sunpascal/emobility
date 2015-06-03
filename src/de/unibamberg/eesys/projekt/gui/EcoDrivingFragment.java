@@ -46,7 +46,7 @@ import de.unibamberg.eesys.statistics.StatisticsException;
  */
 public class EcoDrivingFragment extends Fragment {
 
-	public static final String TAG = "StateOfChargeFragment";
+	public static final String TAG = "EcoDrivingFragment";
 	public static final String ARG_STATUS = "status";
 
 	public static final int BATTERY_SOCS = 3223478;
@@ -147,28 +147,7 @@ public class EcoDrivingFragment extends Fragment {
 	    listView.setAdapter(objAdapter);
 		
 		// END CODE FOR DRIVER'S LOG TABLE
-	    
-	    
-	    // START CODE FOR CONSUMPTION CHART // 
-	    
-		// gets the current context, this is used to show the Chart and
-		// Exceptionhandling.
-		ReportProvider reportProv = new ReportProvider(rootView.getContext());
-
-		// gets the Parent of the fragment, which will include the graph.
-		RelativeLayout parent = (RelativeLayout) footer.findViewById(R.id.soc);
-
-		// creates a new chart and adds it to the view.
-		this.mChart = new LineChart(getActivity());
-//		parent.addView(mChart);
-		mStatistic = new BatterySocsReport();
-
-		// starts an AsyncTask, to get the data from DB
-		mChartData = reportProv.execute(BATTERY_SOCS, 50);
-		mChart.setVisibility(View.VISIBLE);	    
-		
-		// END CODE FOR CONSUMPTION CHART 
-	    
+	        
 	    
 	    return rootView;	
 	    
@@ -202,76 +181,6 @@ public class EcoDrivingFragment extends Fragment {
 	}	
 	
 	
-	/**
-	 * @author Robert AsyncTask, which is used to get Reportdata from DB.
-	 *         <Input-Type, Update-Type, Return-Type>
-	 */
-	private class ReportProvider extends AsyncTask<Integer, Void, Object> {
-		private Context mContext;
-		private DBImplementation db;
-		Object DbReturnValue;
-
-		/**
-		 * @param context
-		 *            is used to get the DB-Reference, which is placed in
-		 *            Appcontext.
-		 */
-		public ReportProvider(Context context) {
-			mContext = context;
-			AppContext appContext = (AppContext) context
-					.getApplicationContext();
-			db = appContext.getDb();
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see android.os.AsyncTask#doInBackground(Params[])
-		 */
-		@Override
-		protected Object doInBackground(Integer... params) {
-			int methodParam = 0;
-			if (params.length > 1) {
-				methodParam = params[1];// number of values that will be shown.
-				
-			}
-			try {
-				System.out.println(BATTERY_SOCS);
-				DbReturnValue = db.getReport_BatterySOCs(methodParam, true);
-			} catch (DatabaseException e) {
-				Toast.makeText(mContext.getApplicationContext(),
-						e.getMessage(), Toast.LENGTH_SHORT).show();
-				e.printStackTrace();
-			}
-			return DbReturnValue;
-		}
-		
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-		 */
-		@Override
-		protected void onPostExecute(Object result) {
-			// this code is processed in the main Thread, it calls the Statistic
-			// class and returns the gathered data from DB
-			Log.v(TAG, "onPostExecute");
-			recivedData(DbReturnValue);
-		}
-	}
-	/**
-	 * @param DbReturnValue
-	 *            : gathered Reportdata from DB.
-	 *            this Method calls the Statistics class.
-	 */
-	public void recivedData(Object DbReturnValue) {
-		try {
-			mStatistic.drawGraph(DbReturnValue, mChart);
-		} catch (StatisticsException e) {
-			Toast.makeText(this.getActivity(), e.getMessage(),
-					Toast.LENGTH_SHORT).show();
-		}
-	}
 }	
 
 	

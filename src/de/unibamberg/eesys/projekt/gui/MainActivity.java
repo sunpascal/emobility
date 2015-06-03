@@ -292,8 +292,6 @@ public class MainActivity extends SwipeActivity {
 		appContext.updateGui();
 	}
 	
-
-	
 	
 	/**
 	 * Displays alert dialog if GPS is not enabled when app is started or
@@ -345,6 +343,7 @@ public class MainActivity extends SwipeActivity {
 		
 		Fragment selectedFragment = fragmentFolder.getPreviousTab();
 		
+		// getNextTab() returns null if there is no previous tab to swipe to!
 		if (selectedFragment != null) {
 			selectedFragment.setArguments(this.getIntent().getExtras());
 	
@@ -352,22 +351,6 @@ public class MainActivity extends SwipeActivity {
 			getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, selectedFragment).commit();
 			getSupportFragmentManager().executePendingTransactions();	
 		}
-				
-		
-//		if (shownFragment == MODE.EV_RECOMMENDATION) {
-//			
-//			Fragment selectedFragment = new EvRecommendationFragment();
-//			
-//			selectedFragment.setArguments(this.getIntent().getExtras());
-//
-//			// add the fragment to the 'content_frame' FrameLayout
-//			getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, selectedFragment).commit();
-//			getSupportFragmentManager().executePendingTransactions();	
-//			
-//		}		
-//		else if (shownFragment == MODE.ANALYSIS ) {
-//			tabSwiper.getNextTab(); 
-//		}
 		
 	}
 
@@ -376,6 +359,7 @@ public class MainActivity extends SwipeActivity {
 	protected void next() {
 			Fragment selectedFragment = fragmentFolder.getNextTab();
 			
+			// getNextTab() returns null if there are no more tabs to swipe to!
 			if (selectedFragment != null) {
 				selectedFragment.setArguments(this.getIntent().getExtras());
 

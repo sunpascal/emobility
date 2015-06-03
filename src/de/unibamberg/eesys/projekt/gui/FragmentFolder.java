@@ -24,6 +24,7 @@ public class FragmentFolder {
 		// Mode Dashboard
 		ArrayList<Fragment> dashboardFragments = new ArrayList();
 		dashboardFragments.add(new DashboardFragment());
+		dashboardFragments.add(new StatusFragment());			// alter Startbildschirm
 		drawers.put(MODE.DASHBOARD, dashboardFragments);
 		
 		// Mode EV Recommendation
@@ -34,12 +35,22 @@ public class FragmentFolder {
 		
 		// Mode Eco-driving
 		ArrayList<Fragment> ecodriving = new ArrayList();
+		ecodriving.add(new EcoDrivingFeedbackTeqniqueFragment());
 		ecodriving.add(new EcoDrivingFragment());
+		ecodriving.add(new EcoDrivingGoalFragment());
+		ecodriving.add(new AvgConsumptionFragment());
 		drawers.put(MODE.ECO_DRIVING, ecodriving);		
 		
 		// Mode Analysis		
 		ArrayList<Fragment> analysis = new ArrayList();
 		analysis.add(new AnalysisFragment());
+		analysis.add(new DriversLogFragment());
+//		analysis.add(new DriveDistancesFragment());  // identisch mit AnalysisFragment
+		analysis.add(new DrivePossibilityFragment());  // pie chart
+		analysis.add(new StateOfChargeFragment());		// batteriestand
+		
+		analysis.add(new EcoDrivingBatteryStateFragment());
+		analysis.add(new DriveGraphFragment());			// Karte mit allen Fahrten
 		drawers.put(MODE.ANALYSIS, analysis);		
 	}
 

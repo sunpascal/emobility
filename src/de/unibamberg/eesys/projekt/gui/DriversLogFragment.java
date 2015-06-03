@@ -74,7 +74,7 @@ public class DriversLogFragment extends Fragment {
 
 		/** Contains the listIndexName that is actually displayed. */
 		ArrayAdapter<DriveSequence> objAdapter = new ArrayAdapter<DriveSequence>(
-				this.getActivity(), android.R.layout.simple_list_item_1,
+				this.getActivity(), R.layout.list_item,
 				listDriveSequences);
 
 		L.d("listDriveSequences");

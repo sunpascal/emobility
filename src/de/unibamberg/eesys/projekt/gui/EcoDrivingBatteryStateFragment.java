@@ -55,7 +55,7 @@ public class EcoDrivingBatteryStateFragment extends android.support.v4.app.Fragm
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View rootView = inflater.inflate(R.layout.fragment_evrecommendation,
+		View rootView = inflater.inflate(R.layout.fragment_state_charge,
 				container, false);
 
 		// gets the current context, this is used to show the Chart and
