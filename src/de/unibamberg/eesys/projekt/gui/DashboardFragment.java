@@ -1,6 +1,7 @@
 package de.unibamberg.eesys.projekt.gui;
 
 import android.support.v4.app.Fragment;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.location.LocationProvider;
 import android.os.Bundle;
@@ -37,6 +38,8 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 	public String GPS_NO_SIGNAL_TEMPORARILY = "GPS has no signal (temporarily).";
 	public String GPS_DISABLED = "GPS is currently disabled in Android settings.";
 
+	private int threshholdGreenAcceleration = 20; // if current consumption is > 200 kWh, background should be red 
+	
 	AppContext appContext;
 
 	// TextViews of Status Fragment displayed in fragment_batterydisplay.xml
@@ -60,7 +63,7 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 	TextView txtDebug2;
 	TextView txtDebug3;
 	
-	private ScrollView scrollView1;
+	private View rootView;
 
 	/**
 	 * Fragment Class Constructor
@@ -76,14 +79,12 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 	 */
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_dashboard,
+		rootView = inflater.inflate(R.layout.fragment_dashboard,
 				container, false);
 
 		appContext = (AppContext) getActivity().getApplicationContext();
 		appContext.setOnUpdateListener(this);
 
-		scrollView1 = (ScrollView) rootView.findViewById(R.id.scrollView1);		
-		
 		// Setting TextViews (static TextViews)
 		txtAkkuState = (TextView) rootView.findViewById(R.id.textview_text_current_charginglvl);
 		txtCarState = (TextView) rootView.findViewById(R.id.textview_text_state);
@@ -193,7 +194,8 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 			txtTimeTo100Lbl.setVisibility(View.GONE);
 
 		} else if (carState == Ecar.CarState.CHARGING) {
-			// Todo: reset color to white
+			// reset background color to white
+			rootView.setBackgroundColor(getResources().getColor(R.color.color_white));	
 			
 			txtCurrentConsumption.setVisibility(View.GONE);
 //			txtCurrentSpeed.setVisibility(View.GONE);
@@ -206,7 +208,8 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 			txtTimeTo100Lbl.setVisibility(View.VISIBLE);
 
 		} else if (carState == Ecar.CarState.PARKING_NOT_CHARGING) {
-			// Todo: reset color to white
+			// reset background color to white
+			rootView.setBackgroundColor(getResources().getColor(R.color.color_white));
 			
 			txtCurrentConsumption.setVisibility(View.GONE);
 //			txtCurrentSpeed.setVisibility(View.GONE);
@@ -271,6 +274,9 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 	 *            new WayPoint
 	 */
 	private void refreshGui(WayPoint w) {
+		if (isAdded() == false)
+			return;
+		
 		showCarStateView(appContext.getEcar().getCarState());
 		
 		// checks that fragment is attached to the activity
@@ -278,12 +284,6 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 				|| getActivity().getApplicationContext() == null)
 			return;
 		
-		// Todo: change color to green yellow or white depending on acceleration 
-//		if (acceleration < 150) 
-//			// green
-//		else orange
-		scrollView1.setBackgroundColor(getResources().getColor(R.color.color_red));		
-
 		Ecar ecar = appContext.getEcar();
 		if (ecar != null & ecar.getBattery() != null) {
 			Double batteryLeft = ecar.getBatteryPercentLeft();
@@ -291,7 +291,7 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 			txtAkkuState.setText("" + batteryLeft);
 			// update progress bar
 			int i_progress = batteryLeft.intValue();
-			progressBar1.setProgress(i_progress);				
+			progressBar1.setProgress(i_progress);
 		}
 
 		// update everything not requiring a waypoint
@@ -316,37 +316,52 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 			return;
 
 		// update waypoint...
-		txtCurrentSpeed.setText(roundDouble(w.getVelocity() * 3.6) + " km/h");
+		txtCurrentSpeed.setText(appContext.round(w.getVelocity() * 3.6) + " km/h");
 
 		if (appContext.ecar.getCurrentTrip() != null) {
-			txtCoveredDistance.setText(roundDouble(appContext.ecar
+			txtCoveredDistance.setText(appContext.round(appContext.ecar
 					.getCurrentTrip().getCoveredDistance() / 1000) + " km");
 		}
 		String consumptionTxt = "0";
 		if (w.getDistance() != 0) {
-			consumptionTxt = AppContext.round(
-					(w.getEnergy() / w.getDistance()) * 100000, 5);
+			consumptionTxt = "" + Math.round(
+					// * 100'000 => consumption in kWh per 100 km
+					(w.getEnergy() / w.getDistance()) * 100000);
 		}
 		consumptionTxt = consumptionTxt + " kWh";
 		txtCurrentConsumption.setText(consumptionTxt);
 		
+		// Todo: change color to green yellow or white depending on acceleration 
+		double currentConsumption = 0; 
+		if (w.getDistance() != 0) 
+			currentConsumption = (w.getEnergy() / w.getDistance() * 100000); 		
+		if (currentConsumption > threshholdGreenAcceleration) 
+			rootView.setBackgroundColor(getResources().getColor(R.color.color_red));
+		else 
+			rootView.setBackgroundColor(getResources().getColor(R.color.color_green));			
+		
 		// also update consumption in top notification menu ("Runterziehmenü") 
 		appContext.showNotification(appContext.getEcar().getStateString(), consumptionTxt);		
 
+		if (ecar.getCurrentTrip() != null && ecar.getBattery() != null) {
+			double tripkWh = ecar.getCurrentTrip().getSocStart() - ecar.getBattery().getCurrentSoc();
+			txtDebug1.setText(appContext.round(tripkWh) + " kWh");
+		}
+		
 		String debugString = w.getUpdateType() + " "
-				+ round(w.getDistance(), 0) + "m "
-				+ round(w.getVelocity() * 3.6, 2) + "km/h "
-				+ round(w.getAcceleration(), 2) + "km/h/s "
-				+ round(w.getEnergy(), 4) + "kWh \n"
-				+ round(ecar.getBatteryPercentLeft(), 2) + "% "
+				+ appContext.round(w.getDistance(), 0) + "m "
+				+ appContext.round(w.getVelocity() * 3.6) + "km/h "
+				+ appContext.round(w.getAcceleration(), 2) + "km/h/s "
+				+ appContext.round(w.getEnergy()) + "kWh \n"
+				+ appContext.round(ecar.getBatteryPercentLeft()) + "% "
 				+ Math.round(ecar.getBattery().getCurrentSoc()) + "/"
 				+ ecar.getVehicleType().getBatteryCapacity() + "kWh \n"
 				+ w.getGeoCoordinate().toString() + " "
 				+ w.getFormattedActivity() + "\n" + ecar.getStateString() + "";
 		// L.v(debugString);
 
-		txtDebug1.setText(debugString);
-
+		txtDebug2.setText(debugString);
+		
 		String showDebugMessages = PreferenceManager
 				.getDefaultSharedPreferences(appContext).getString(
 						"testing.show_debug_messages", "disabled");
@@ -362,34 +377,6 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 		}
 
 	}
-
-	/**
-	 * Method to round calculated values from WayPoint like distance, velocity
-	 * etc. 1=> 10 2 => 100 3=> 1000 0 => 1
-	 * 
-	 * @param d
-	 *            = value to round
-	 * @param decimalPlaces
-	 *            to round to
-	 * @return rounded value
-	 */
-	private double round(double d, int decimalPlaces) {
-		int f = 10 ^ decimalPlaces;
-		return (double) Math.round(d * f) / f;
-	}
-
-	/**
-	 * Method to round calculated values from WayPoint like distance, velocity
-	 * etc. to display on main overview
-	 * 
-	 * @param d
-	 *            value to round
-	 * @return rounded value
-	 */
-	private double roundDouble(double d) {
-		return (double) Math.round(d * 100) / 100;
-	}
-
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {

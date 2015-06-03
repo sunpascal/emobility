@@ -428,20 +428,15 @@ public class AppContext extends Application {
 	    DecimalFormat dForm = new DecimalFormat(dfString);
 	    return dForm.format(d);
 	}
-
+	
 	/**
-	 * Use this to round a long to a nice number to be displayed in the GUI
-	 * 
-	 * @param l
-	 *            a long with lots of decimal places (Nachkommastellen).
-	 * @param decimalPlaces
-	 *            the number of decimal places (Nachkommastellen) that you need.
-	 * @return the nicely rounded number which can be shown in the GUI.
+	 * shorthand to round to 2 decimal places  
+	 * @param d
+	 * @return
 	 */
-	public static double round(long l, int decimalPlaces) {
-		int f = 10 ^ decimalPlaces;
-		return (double) Math.round(l * f) / f;
-	}
+	public static String round(double d) {
+	    return round(d, 2);
+	}	
 
 	/**
 	 * TimeTo100 is the duration needed until the vehicle's battery is fully
@@ -531,7 +526,7 @@ public class AppContext extends Application {
 		return currentGpsStatus;
 	}
 
-	// todo: kann wieder gelöscht werden, da Aufruf über getActivity() gelöst
+	// todo: kann wieder gelï¿½scht werden, da Aufruf ï¿½ber getActivity() gelï¿½st
 	public void showDrawer(int name) {
 		mainActivity.selectItem(name);
 		

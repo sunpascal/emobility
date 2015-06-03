@@ -45,8 +45,8 @@ public class FragmentFolder {
 		ArrayList<Fragment> analysis = new ArrayList();
 		analysis.add(new AnalysisFragment());
 		analysis.add(new DriversLogFragment());
-//		analysis.add(new DriveDistancesFragment());  // identisch mit AnalysisFragment
-		analysis.add(new DrivePossibilityFragment());  // pie chart
+//		analysis.add(new DriveDistancesFragment());  	// identisch mit AnalysisFragment
+		analysis.add(new DrivePossibilityFragment());  	// pie chart
 		analysis.add(new StateOfChargeFragment());		// batteriestand
 		
 		analysis.add(new EcoDrivingBatteryStateFragment());

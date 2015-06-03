@@ -41,8 +41,8 @@ public class Ecar {
 	 * duration in seconds that a car may be still, before trip ends used to
 	 * prevent short stops (e.g. traffic lights) to end trip "Ampeltimeout"
 	 */
-	// double MAX_VEHICLE_STILL_DURATION = 10; // 10 seconds
-	double MAX_VEHICLE_STILL_DURATION = 60 * 2; // 2 minutes
+	 double MAX_VEHICLE_STILL_DURATION = 3; // 3 seconds
+//	double MAX_VEHICLE_STILL_DURATION = 60 * 2; // 2 minutes
 
 	/*
 	 * CO2 emission for producing 1kWh of elecritity in Germany (2013)

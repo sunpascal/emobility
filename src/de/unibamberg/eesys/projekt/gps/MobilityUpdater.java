@@ -82,7 +82,8 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 	private static final long UPDATE_DISTANCE = 0;		// use 0 in order to detect when car has stopped
 	
 	//Verzögerung die gewartet wird, bis die neue Activity umgestellt wird
-	private static final long ACTIVITY_RECOGNITION_UPDATE_TIME = 1*1000;
+	// currently only every 10 minutes (de facto disabled), before: 1s 
+	private static final long ACTIVITY_RECOGNITION_UPDATE_TIME = 600*1000;		 
 //	private static final long ACTIVITY_RECOGNITION_UPDATE_TIME = 360000000;
 
 	private static final String PREF_TESTING_ACTIVITY = "testing.activity";

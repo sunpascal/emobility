@@ -27,7 +27,17 @@
 		<item>36</item>
 		<item>76</item>
 		<item>108</item>
+		<item>126</item>
+		<item>144</item>
+		<item>162</item>
 	</string-array>			
+	
+	<string-array name="pref_list_accelerations">
+	    <item>disabled</item>
+	    <item>5</item>
+	    <item>8</item>
+		<item>15</item>
+	</string-array>		
 	
 	<string-array name="pref_list_ignore_activity_recognition">
 	    <item>disabled</item>

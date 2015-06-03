@@ -27,16 +27,25 @@
 	</PreferenceCategory>
 	
 	<PreferenceCategory android:title="@string/pref_title_override" >
-		<ListPreference
-			android:entries="@array/pref_list_activities"
-			android:entryValues="@array/pref_list_activities"
-			android:key="testing.activity"
-			android:title="Activity" />
+	    
 		<ListPreference
 			android:entries="@array/pref_list_speeds"
 			android:entryValues="@array/pref_list_speeds"
 			android:key="testing.speed"
 			android:title="Speed" />
+		
+		<ListPreference
+			android:entries="@array/pref_list_accelerations"
+			android:entryValues="@array/pref_list_accelerations"
+			android:key="testing.acceleration"
+			android:title="Acceleration" />		
+			    
+		<ListPreference
+			android:entries="@array/pref_list_activities"
+			android:entryValues="@array/pref_list_activities"
+			android:key="testing.activity"
+			android:title="Activity" />
+
 		<ListPreference
 			android:entries="@array/pref_list_ignore_activity_recognition"
 			android:entryValues="@array/pref_list_ignore_activity_recognition"
