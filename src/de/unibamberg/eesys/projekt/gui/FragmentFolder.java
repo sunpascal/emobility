@@ -107,7 +107,7 @@ public class FragmentFolder {
 	 */
 	public Fragment getDrawer(MODE mode) {
 		
-		// if the fragment is already active, do not do anything 
+		// if the fragment is already active, do not do anything (prevent IllegalStateException)
 		if (mode.equals(currentDrawerMode))
 			return null; 
 		

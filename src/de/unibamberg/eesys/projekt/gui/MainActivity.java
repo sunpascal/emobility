@@ -345,7 +345,12 @@ public class MainActivity extends SwipeActivity {
 		
 		// getNextTab() returns null if there is no previous tab to swipe to!
 		if (selectedFragment != null) {
-			selectedFragment.setArguments(this.getIntent().getExtras());
+			try {
+				selectedFragment.setArguments(this.getIntent().getExtras());
+			}
+			catch (Exception e) {
+				Log.w("next tab: ", e.getMessage());
+			}
 	
 			// add the fragment to the 'content_frame' FrameLayout
 			getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, selectedFragment).commit();
@@ -361,7 +366,13 @@ public class MainActivity extends SwipeActivity {
 			
 			// getNextTab() returns null if there are no more tabs to swipe to!
 			if (selectedFragment != null) {
-				selectedFragment.setArguments(this.getIntent().getExtras());
+				try {
+					// ToDo: not entirely sure why this exception get thrown
+					selectedFragment.setArguments(this.getIntent().getExtras());
+				}
+				catch (Exception e) {
+					Log.w("next tab: ", e.getMessage());
+				}
 
 			// 	add the fragment to the 'content_frame' FrameLayout
 				getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, selectedFragment).commit();

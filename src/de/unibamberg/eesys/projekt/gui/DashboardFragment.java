@@ -1,6 +1,7 @@
 package de.unibamberg.eesys.projekt.gui;
 
 import android.support.v4.app.Fragment;
+import android.graphics.Color;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -12,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import de.unibamberg.eesys.projekt.AppContext;
 import de.unibamberg.eesys.projekt.L;
@@ -57,6 +59,8 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 	TextView txtDebug1;
 	TextView txtDebug2;
 	TextView txtDebug3;
+	
+	private ScrollView scrollView1;
 
 	/**
 	 * Fragment Class Constructor
@@ -78,43 +82,32 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 		appContext = (AppContext) getActivity().getApplicationContext();
 		appContext.setOnUpdateListener(this);
 
+		scrollView1 = (ScrollView) rootView.findViewById(R.id.scrollView1);		
+		
 		// Setting TextViews (static TextViews)
-		txtAkkuState = (TextView) rootView
-				.findViewById(R.id.textview_text_current_charginglvl);
-		txtCarState = (TextView) rootView
-				.findViewById(R.id.textview_text_state);
+		txtAkkuState = (TextView) rootView.findViewById(R.id.textview_text_current_charginglvl);
+		txtCarState = (TextView) rootView.findViewById(R.id.textview_text_state);
 
 		// Setting TextViews (dynamical TextViews)
 		// visible if CarState = driving
-		txtCoveredDistance = (TextView) rootView
-				.findViewById(R.id.textview_text_coveredDistance);
-		txtCoveredDistanceLbl = (TextView) rootView
-				.findViewById(R.id.textView_label_coveredDistance);
+		txtCoveredDistance = (TextView) rootView.findViewById(R.id.textview_text_coveredDistance);
+		txtCoveredDistanceLbl = (TextView) rootView.findViewById(R.id.textView_label_coveredDistance);
+		txtCurrentSpeed = (TextView) rootView.findViewById(R.id.textview_text_currentSpeed);
+		txtCurrentSpeedLbl = (TextView) rootView.findViewById(R.id.textView_label_currentSpeed);
 
-		txtCurrentSpeed = (TextView) rootView
-				.findViewById(R.id.textview_text_currentSpeed);
-		txtCurrentSpeedLbl = (TextView) rootView
-				.findViewById(R.id.textView_label_currentSpeed);
-
-		txtCurrentConsumption = (TextView) rootView
-				.findViewById(R.id.textview_text_currentConsumption);
+		txtCurrentConsumption = (TextView) rootView.findViewById(R.id.textview_text_currentConsumption);
 		
-		txtRemainingKmOnBattery = (TextView) rootView
-				.findViewById(R.id.textview_text_remainingTimeOnBattery);
-		txtRemainingKmOnBatteryLbl = (TextView) rootView
-				.findViewById(R.id.textView_label_remainingTimeOnBattery);
+		txtRemainingKmOnBattery = (TextView) rootView.findViewById(R.id.textview_text_remainingTimeOnBattery);
+		txtRemainingKmOnBatteryLbl = (TextView) rootView.findViewById(R.id.textView_label_remainingTimeOnBattery);
 
 		// visible if CarState = charging
-		txtTimeTo100 = (TextView) rootView
-				.findViewById(R.id.textview_text_timeTo100);
-		txtTimeTo100Lbl = (TextView) rootView
-				.findViewById(R.id.textView_label_timeTo100);
+		txtTimeTo100 = (TextView) rootView.findViewById(R.id.textview_text_timeTo100);
+		txtTimeTo100Lbl = (TextView) rootView.findViewById(R.id.textView_label_timeTo100);
 		
 		progressBar1 = (ProgressBar) rootView.findViewById(R.id.progressBar1);
 
 		// visible if GPS Disabled
-		txtGPSDisabled = (TextView) rootView
-				.findViewById(R.id.textview_text_GPSDisabled);
+		txtGPSDisabled = (TextView) rootView.findViewById(R.id.textview_text_GPSDisabled);
 
 		// debug TextViews
 		txtDebug1 = (TextView) rootView.findViewById(R.id.debug1);
@@ -200,6 +193,8 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 			txtTimeTo100Lbl.setVisibility(View.GONE);
 
 		} else if (carState == Ecar.CarState.CHARGING) {
+			// Todo: reset color to white
+			
 			txtCurrentConsumption.setVisibility(View.GONE);
 //			txtCurrentSpeed.setVisibility(View.GONE);
 //			txtCurrentSpeedLbl.setVisibility(View.GONE);
@@ -211,6 +206,8 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 			txtTimeTo100Lbl.setVisibility(View.VISIBLE);
 
 		} else if (carState == Ecar.CarState.PARKING_NOT_CHARGING) {
+			// Todo: reset color to white
+			
 			txtCurrentConsumption.setVisibility(View.GONE);
 //			txtCurrentSpeed.setVisibility(View.GONE);
 //			txtCurrentSpeedLbl.setVisibility(View.GONE);
@@ -275,10 +272,17 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 	 */
 	private void refreshGui(WayPoint w) {
 		showCarStateView(appContext.getEcar().getCarState());
-
+		
+		// checks that fragment is attached to the activity
 		if (getActivity() == null
 				|| getActivity().getApplicationContext() == null)
 			return;
+		
+		// Todo: change color to green yellow or white depending on acceleration 
+//		if (acceleration < 150) 
+//			// green
+//		else orange
+		scrollView1.setBackgroundColor(getResources().getColor(R.color.color_red));		
 
 		Ecar ecar = appContext.getEcar();
 		if (ecar != null & ecar.getBattery() != null) {

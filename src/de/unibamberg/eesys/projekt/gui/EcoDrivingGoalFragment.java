@@ -1,5 +1,8 @@
 package de.unibamberg.eesys.projekt.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.support.v4.app.Fragment;
 import android.app.ActionBar;
 import android.location.LocationProvider;
@@ -12,6 +15,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.NumberPicker;
+import android.widget.Spinner;
 import android.widget.TextView;
 import de.unibamberg.eesys.projekt.AppContext;
 import de.unibamberg.eesys.projekt.L;
@@ -42,10 +48,32 @@ public class EcoDrivingGoalFragment extends Fragment {
 	 */
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_blank,
+		View rootView = inflater.inflate(R.layout.fragment_ecodriving_goal,
 				container, false);
 
 		appContext = (AppContext) getActivity().getApplicationContext();
+		
+		// spinner reference: http://androidexample.com/Spinner_Basics_-_Android_Example/index.php?view=article_discription&aid=82&aaid=105
+		// Todo: Listener
+		Spinner spinner1 = (Spinner) rootView.findViewById(R.id.spinner1);
+        List<String> list = new ArrayList<String>();
+        list.add("100 kWh");
+        list.add("150 kWh");
+        list.add("200 kWh");
+        list.add("250 kWh");
+        
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                     (this.getActivity(), android.R.layout.simple_spinner_item,list);
+                      
+        dataAdapter.setDropDownViewResource
+                     (android.R.layout.simple_spinner_dropdown_item);
+                      
+        spinner1.setAdapter(dataAdapter);        
+		
+		NumberPicker np = (NumberPicker) rootView.findViewById(R.id.numberPicker1);
+		np.setMaxValue(300);
+		np.setMinValue(0);
+		np.setValue(200);
 		
 		return rootView;
 	}

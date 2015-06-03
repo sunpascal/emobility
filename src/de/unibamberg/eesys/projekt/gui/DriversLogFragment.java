@@ -116,7 +116,7 @@ public class DriversLogFragment extends Fragment {
 		driveGraphFragment.setArguments(args);
 
 		fragmentTransaction.replace(containerId, driveGraphFragment);
-		fragmentTransaction.addToBackStack(null);
+//		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 	}
 
