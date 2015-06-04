@@ -1,4 +1,4 @@
-package de.unibamberg.eesys.projekt.gui;
+	package de.unibamberg.eesys.projekt.gui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,13 +7,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 import de.unibamberg.eesys.projekt.AppContext;
 import de.unibamberg.eesys.projekt.L;
@@ -62,7 +67,6 @@ public class DriversLogFragment extends Fragment {
 		AppContext appContext = (AppContext) getActivity()
 				.getApplicationContext();
 		dBImplementation = new DBImplementation(appContext);
-		listView = (ListView) rootView.findViewById(R.id.listView);
 
 		List<DriveSequence> listDriveSequences = new ArrayList<DriveSequence>();
 		try {
@@ -71,26 +75,62 @@ public class DriversLogFragment extends Fragment {
 			Toast.makeText(appContext, "An unexpected error has occurred.", Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
+		
+		for (final DriveSequence d : listDriveSequences) {
+		
+			TableLayout tableLayout = (TableLayout) rootView.findViewById(R.id.tableLayout1);
+			TextView t1 = new TextView(rootView.getContext());
+			t1.setText(d.getTimeStartFormatted());
+			
+			TextView t3 = new TextView(rootView.getContext());
+			t3.setText(appContext.round(d.getCoveredDistance(), 0) + " km");
+			
+			TextView t4 = new TextView(rootView.getContext());
+			t4.setText(appContext.round(d.calcSumkWh()) + " kWh");
+			t4.setTextColor(Color.GREEN);			
+			
+			TableRow row = new TableRow(rootView.getContext()); 
+			row.addView(t1);
+			row.addView(t3);
+			row.addView(t4);
+			row.setPadding(0, 3, 0, 3);
+			
+			row.setOnClickListener(new OnClickListener() {
+	            @Override
+	             public void onClick(View v) {
+	            	loadDriveGraphFragment(d);
+	             }   
+			});
+			
+			tableLayout.addView(row);
+			
+		}
 
 		/** Contains the listIndexName that is actually displayed. */
-		ArrayAdapter<DriveSequence> objAdapter = new ArrayAdapter<DriveSequence>(
-				this.getActivity(), R.layout.list_item,
-				listDriveSequences);
+//		ArrayAdapter<DriveSequence> objAdapter = new ArrayAdapter<DriveSequence>(
+//				this.getActivity(), R.layout.list_item,
+//				listDriveSequences);
+//
+//		L.d("listDriveSequences");
 
-		L.d("listDriveSequences");
-
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				DriveSequence d = (DriveSequence) parent
-						.getItemAtPosition(position);
-				loadDriveGraphFragment(d);
-			}
-		});
-
-		listView.setAdapter(objAdapter);
-
+//		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//			@Override
+//			public void onItemClick(AdapterView<?> parent, View view,
+//					int position, long id) {
+//				DriveSequence d = (DriveSequence) parent
+//						.getItemAtPosition(position);
+//				loadDriveGraphFragment(d);
+//			}
+//		});
+//
+//		View header = getLayoutInflater(savedInstanceState).inflate(R.layout.header_critical_trips, null);
+//	    listView.addHeaderView(header);
+//		
+//		View footer = getLayoutInflater(savedInstanceState).inflate(R.layout.footer_critical_trips, null);
+//	    listView.addFooterView(footer);
+//	    
+//		listView.setAdapter(objAdapter);
+	    
 		return rootView;
 	}
 

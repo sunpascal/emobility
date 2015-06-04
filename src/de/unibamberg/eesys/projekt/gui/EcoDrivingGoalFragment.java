@@ -57,10 +57,11 @@ public class EcoDrivingGoalFragment extends Fragment {
 		// Todo: Listener
 		Spinner spinner1 = (Spinner) rootView.findViewById(R.id.spinner1);
         List<String> list = new ArrayList<String>();
-        list.add("100 kWh");
-        list.add("150 kWh");
-        list.add("200 kWh");
-        list.add("250 kWh");
+        list.add("10");
+        list.add("15");
+        list.add("20");
+        list.add("25");
+        list.add("30");
         
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
                      (this.getActivity(), android.R.layout.simple_spinner_item,list);
@@ -71,9 +72,9 @@ public class EcoDrivingGoalFragment extends Fragment {
         spinner1.setAdapter(dataAdapter);        
 		
 		NumberPicker np = (NumberPicker) rootView.findViewById(R.id.numberPicker1);
-		np.setMaxValue(300);
-		np.setMinValue(0);
-		np.setValue(200);
+		np.setMaxValue(30);
+		np.setMinValue(10);
+		np.setValue(20);
 		
 		return rootView;
 	}

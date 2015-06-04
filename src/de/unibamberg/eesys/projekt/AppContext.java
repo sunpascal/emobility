@@ -423,7 +423,10 @@ public class AppContext extends Application {
 	 */
 	public static String round(double d, int decimalPlaces) {
 		String dfString = new String(new char[decimalPlaces]).replace("\0", "#");
-		dfString = "#." + dfString;
+		if (decimalPlaces == 0)
+			dfString = "#";
+		else 
+			dfString = "#." + dfString;
 		
 	    DecimalFormat dForm = new DecimalFormat(dfString);
 	    return dForm.format(d);

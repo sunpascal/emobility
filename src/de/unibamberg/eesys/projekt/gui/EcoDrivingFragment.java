@@ -7,6 +7,7 @@ import java.util.List;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,10 +21,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.Chart;
@@ -99,15 +104,13 @@ public class EcoDrivingFragment extends Fragment {
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_ecodriving,
-				container, false);
+		rootView = inflater.inflate(R.layout.fragment_ecodriving, container, false);
 
 		appContext = (AppContext) getActivity().getApplicationContext();
 		
 		// CODE FOR DRIVER'S LOG TABLE // 
 		
 		dBImplementation = new DBImplementation(appContext);
-		listView = (ListView) rootView.findViewById(R.id.listView);
 
 		List<DriveSequence> listDriveSequences = new ArrayList<DriveSequence>();
 		try {
@@ -116,37 +119,46 @@ public class EcoDrivingFragment extends Fragment {
 			Toast.makeText(appContext, "An unexpected error has occurred.", Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
-
-		/** Contains the listIndexName that is actually displayed. */
-		ArrayAdapter<DriveSequence> objAdapter = new ArrayAdapter<DriveSequence>(
-				this.getActivity(), R.layout.list_item,
-				listDriveSequences);
 		
-
-		L.d("listDriveSequences");
-
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				DriveSequence d = (DriveSequence) parent
-						.getItemAtPosition(position);
-				loadDriveGraphFragment(d);
+		for (final DriveSequence d : listDriveSequences) {
+			
+			// Todo: calculate avergage consumption on trip basis, not vehicle basis
+			double kWhPerKm = appContext.getEcar().getVehicleType().getEnergyConsumption_perKM();
+			double kWhPer100Km = kWhPerKm * 100;
+		
+			TableLayout tableLayout = (TableLayout) rootView.findViewById(R.id.tableLayout1);
+			TextView t1 = new TextView(rootView.getContext());
+			t1.setText(d.getTimeStartFormatted());
+			
+			TextView t2 = new TextView(rootView.getContext());
+			t2.setText(appContext.round(kWhPer100Km) + " kWh");
+			
+			TextView t3 = new TextView(rootView.getContext());
+			if (kWhPer100Km > 20 )  { // todo: use personal goal
+				t3.setText("☹" + " kWh");
+				t3.setTextColor(Color.RED);
 			}
-		});
-
-		View header = getLayoutInflater(savedInstanceState).inflate(R.layout.header_ecodriving, null);
-	    listView.addHeaderView(header);
-		
-		View footer = getLayoutInflater(savedInstanceState).inflate(R.layout.footer_ecodriving, null);
-		ArrayList<View> subViews = new ArrayList<View>();
-		subViews.add(mChart);
-		footer.addChildrenForAccessibility(subViews);
-	    listView.addFooterView(footer);
-	    
-	    listView.setAdapter(objAdapter);
-		
-		// END CODE FOR DRIVER'S LOG TABLE
+			else {
+				t3.setText("☺");
+				t3.setTextColor(Color.GREEN);
+			}
+			
+			TableRow row = new TableRow(rootView.getContext()); 
+			row.addView(t1);
+			row.addView(t2);
+			row.addView(t3);			
+			row.setPadding(0, 3, 0, 3);
+			
+			row.setOnClickListener(new OnClickListener() {
+	            @Override
+	             public void onClick(View v) {
+	            	loadDriveGraphFragment(d);
+	             }   
+			});
+			
+			tableLayout.addView(row);
+			
+		}
 	        
 	    
 	    return rootView;	

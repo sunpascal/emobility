@@ -3,6 +3,7 @@ package de.unibamberg.eesys.projekt.businessobjects;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -88,6 +89,20 @@ public class DriveSequence extends Sequence {
 			return -1;
 		}
 
+	}
+	
+	public String getTimeStartFormatted() {
+		
+		long timeStart = getTimeStart();
+		
+		/** Stores the timestamp from the SQL database.*/
+		Timestamp timestamp = new Timestamp(timeStart);
+		Date date = new Date(timestamp.getTime());		
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.M HH:mm");
+		
+		/** Output of the formated date.*/
+		return  dateFormatter.format(date);		
+		
 	}
 	
 	/** 

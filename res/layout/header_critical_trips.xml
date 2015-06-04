@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	    android:id="@+id/whole"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical" >
+	
+	    <!--  driver's log table with eco-driving metrics -->
+	   <TextView
+	        android:id="@+id/textView3"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="The trips highlighted in red are critical due to high energy consumption. Consider using a different vehicle or means of transportation for these trips."
+			android:textStyle="bold" />
+	  </LinearLayout>

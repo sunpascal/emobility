@@ -1,64 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:paddingLeft="2dp"
-	android:paddingRight="2dp" >
-
-	<LinearLayout
-	    android:id="@+id/whole"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="vertical" >
-	
-	    <TextView
-	        android:id="@+id/textView1"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/technique_good" />
-	
-	    <ProgressBar
-	        android:id="@+id/progressBar1"
-	        style="@android:style/Widget.ProgressBar.Horizontal"
-	        android:layout_width="236dp"
-	        android:layout_height="38dp"
-	        android:layout_gravity="center"
-	        android:progress="80" />
-	
-	    <ProgressBar
-	        android:id="@+id/progressBar2"
-	        style="@android:style/Widget.ProgressBar.Horizontal"
-	        android:layout_width="236dp"
-	        android:layout_height="38dp"
-	        android:layout_gravity="center" 
-	        android:progress="70"/>
-	
-	    <ProgressBar
-	        android:id="@+id/progressBar3"
-	        style="@android:style/Widget.ProgressBar.Horizontal"
-	        android:layout_width="236dp"
-	        android:layout_height="38dp"
-	        android:layout_gravity="center" 
-	         android:progress="95"
-	        />
-	
-	    <TextView
-	        android:id="@+id/textView2"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/improve_on" 
-	        android:layout_gravity="clip_horizontal" />
-	
-	    <ProgressBar
-	        android:id="@+id/progressBar4"
-	        style="@android:style/Widget.ProgressBar.Horizontal"
-	        android:layout_width="236dp"
-	        android:layout_height="38dp"
-	        android:layout_gravity="center"
-	        android:progress="15" />  
-	
-	</LinearLayout>
-
-</ScrollView>
+       android:id="@+id/listViewDoingWell"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" 
+ />	   
