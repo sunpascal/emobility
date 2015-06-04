@@ -33,7 +33,7 @@ public class EcoDrivingGoalFragment extends Fragment {
 
 	AppContext appContext;
 
-
+ 
 	/**
 	 * Fragment Class Constructor
 	 */
