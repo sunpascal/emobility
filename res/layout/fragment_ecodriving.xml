@@ -6,6 +6,20 @@
 	android:layout_height="wrap_content"
 	android:paddingLeft="2dp"
 	android:paddingRight="2dp" >
+	
+<LinearLayout
+    android:id="@+id/whole"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+	
+	    <!--  driver's log table with eco-driving metrics -->
+	   <TextView
+	        android:id="@+id/textView3"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textStyle="bold"
+	        android:text="This table lists your consumption and personal range for each trip." />    
 
 	<TableLayout
 	    		android:id="@+id/tableLayout1"
@@ -17,4 +31,6 @@
 	                         
 	 </TableLayout>
 
+	</LinearLayout>  
+	
 </ScrollView>

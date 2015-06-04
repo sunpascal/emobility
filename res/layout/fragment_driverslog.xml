@@ -6,92 +6,29 @@
 	android:layout_height="wrap_content"
 	android:paddingLeft="2dp"
 	android:paddingRight="2dp" >
+	
+<LinearLayout
+    android:id="@+id/whole"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >    
+	
+	   <TextView
+	        android:id="@+id/textView3"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="The trips highlighted in red are critical due to high energy consumption. Consider using a different vehicle or means of transportation for these trips."
+			android:textStyle="bold" />
 
-<TableLayout
+		<TableLayout
     		android:id="@+id/tableLayout1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:shrinkColumns="*"  
             android:stretchColumns="*" 
             android:background="#ffffff">
- 
-    <!--      
-
-                        <TableRow
-                            android:id="@+id/tableRow1"
-                            android:layout_height="wrap_content"
-                            android:layout_width="match_parent">
-                            <TextView
-                                android:id="@+id/TextView04" android:text="Row 2 column 1"
-                                android:layout_weight="1" android:background="#dcdcdc"
-                                android:textColor="#000000"
-                                android:padding="20dip" android:gravity="center"/>
-                            <TextView
-                                android:id="@+id/TextView05" android:text="Row 2 column 2"
-                                android:layout_weight="1" android:background="#d3d3d3"
-                                android:textColor="#000000"
-                                android:padding="20dip" android:gravity="center"/>
-                            <TextView
-                                android:id="@+id/TextView06" android:text="Row 2 column 3"
-                                android:layout_weight="1" android:background="#cac9c9"
-                                android:textColor="#000000"
-                                android:padding="20dip" android:gravity="center"/>
-                        </TableRow>
-                        
-                        <TableRow
-                            android:id="@+id/tableRow2"
-                            android:layout_height="wrap_content"
-                            android:layout_width="match_parent">
-                            <TextView
-                                android:text="Row 2 column 1 srgsrzt ers rssr"
-                                android:layout_weight="1" android:background="#dcdcdc"
-                                android:textColor="#000000"
-                                android:padding="20dip" android:gravity="center"/>
-                            <TextView
-                                android:text="Row 2 column 2"
-                                android:layout_weight="1" android:background="#d3d3d3"
-                                android:textColor="#000000"
-                                android:padding="20dip" android:gravity="center"/>
-                            <TextView
-                                android:text="Row 2 column 3"
-                                android:layout_weight="1" android:background="#cac9c9"
-                                android:textColor="#000000"
-                                android:padding="20dip" android:gravity="center"/>
-                        </TableRow>
-                        
-                        <TableRow
-                            android:id="@+id/tableRow3"
-                            android:layout_height="wrap_content"
-                            android:layout_width="match_parent">
-                            <TextView
-                                android:text="Row 2 column 1"
-                                android:layout_weight="1" android:background="#dcdcdc"
-                                android:textColor="#000000"
-                                android:padding="20dip" android:gravity="center"/>
-                            <TextView
-                                android:text="Row 2 column 2"
-                                android:layout_weight="1" android:background="#d3d3d3"
-                                android:textColor="#000000"
-                                android:padding="20dip" android:gravity="center"/>
-                            <TextView
-                                android:text="Row 2 column 3"
-                                android:layout_weight="1" android:background="#cac9c9"
-                                android:textColor="#000000"
-                                android:padding="20dip" android:gravity="center"/>
-                        </TableRow>                        
-                         
-         -->                
-                         
       </TableLayout>
 
-<!-- 
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/listView"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-	>
-    
-</ListView>   -->
+ </LinearLayout>   
 
 </ScrollView>

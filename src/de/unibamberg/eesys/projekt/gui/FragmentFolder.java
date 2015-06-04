@@ -48,8 +48,7 @@ public class FragmentFolder {
 //		analysis.add(new DriveDistancesFragment());  	// identisch mit AnalysisFragment
 		analysis.add(new DrivePossibilityFragment());  	// pie chart
 		analysis.add(new StateOfChargeFragment());		// batteriestand
-		
-		analysis.add(new EcoDrivingBatteryStateFragment());
+//		analysis.add(new EcoDrivingBatteryStateFragment()); identisch mit StateOfChargeFragment()
 		analysis.add(new DriveGraphFragment());			// Karte mit allen Fahrten
 		drawers.put(MODE.ANALYSIS, analysis);		
 	}
