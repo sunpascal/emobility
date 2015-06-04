@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 AndroidManifest.xml
 =======
 # Built application files
@@ -28,5 +27,4 @@ proguard/
 
 # Log Files
 *.log
->>>>>>> branch 'master' of https://github.com/sunpascal/emobility.git
 /bin
