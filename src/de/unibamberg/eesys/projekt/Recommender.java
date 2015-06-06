@@ -18,8 +18,8 @@ public class Recommender {
 		} catch (DatabaseException e) {
 			e.printStackTrace();
 		}
-		vehicleList = (VehicleType[]) vehicles.toArray();
-		Arrays.sort(vehicleList);  // todo: nach was wird hier sortiert? ==> sollte nach battery size sein!
+		vehicleList = vehicles.toArray(new VehicleType[vehicles.size()]);
+		Arrays.sort(vehicleList);  
 
 		List<DriveSequence> tripsList = null;
 		try {
@@ -27,25 +27,31 @@ public class Recommender {
 		} catch (DatabaseException e) {
 			e.printStackTrace();
 		}
-		trips = (DriveSequence[]) tripsList.toArray();
-		Arrays.sort(trips);  // todo: sollte nach trip consumption sein!
+		trips = tripsList.toArray(new DriveSequence[tripsList.size()]);
+		Arrays.sort(trips);  
 		
 	}
 
-	public double calcBatterySize100PercentOfTrips() {
-		DriveSequence tripWithHighestConsumption = trips[trips.length];
+	public double calcBatterySize100PercentOfTrips() throws Exception {
+		if (trips == null) {
+			throw new Exception("Recommendation not possible because there are no trips");
+		}
+		DriveSequence tripWithHighestConsumption = trips[trips.length-1];
 		double consumptionOfLongestTrip = tripWithHighestConsumption.calcSumkWh();  
 		return consumptionOfLongestTrip;
 	}
 	
-	public double calcBatterySize80PercentOfTrips() {
-		int nthTrip =  Math.round(0.8f * trips.length);
-		DriveSequence tripWithHighestConsumption = trips[nthTrip];
+	public double calcBatterySize95PercentOfTrips() throws Exception {
+		if (trips == null) {
+			throw new Exception("Recommendation not possible because there are no trips");
+		}
+		int nthTrip =  Math.round(0.90f * trips.length);
+		DriveSequence tripWithHighestConsumption = trips[nthTrip-1];
 		double consumptionOfNthTrip = tripWithHighestConsumption.calcSumkWh();  
 		return consumptionOfNthTrip;		
 	}
 	
-	public VehicleType getRecommendation100PercentOfTrips() {
+	public VehicleType getRecommendation100PercentOfTrips() throws Exception {
 		double requiredBatterySize = calcBatterySize100PercentOfTrips();
 		
 		// check vehicle list for the first vehicle with given battery size
@@ -56,8 +62,8 @@ public class Recommender {
 		return null; 
 	}
 	
-	public VehicleType getRecommendation80PercentOfTrips() {
-		double requiredBatterySize = calcBatterySize80PercentOfTrips();
+	public VehicleType getRecommendation95PercentOfTrips() throws Exception {
+		double requiredBatterySize = calcBatterySize95PercentOfTrips();
 		
 		// check vehicle list for the first vehicle with given battery size
 		for (VehicleType v : vehicleList) {

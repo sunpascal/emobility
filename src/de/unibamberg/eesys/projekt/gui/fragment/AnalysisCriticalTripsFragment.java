@@ -29,9 +29,6 @@ import de.unibamberg.eesys.projekt.database.DatabaseException;
 
 public class AnalysisCriticalTripsFragment extends Fragment {
 
-	public static final String TAG = "DriversLogFragment";
-	public static final String ARG_STATUS = "status";
-
 	/** View that displays the fragment. */
 	private View rootView;
 	/** Instance of the SQL database. */

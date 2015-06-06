@@ -28,8 +28,7 @@ import de.unibamberg.eesys.projekt.database.DatabaseException;
  * @author Julia
  *
  */
-public class SettingsFragment extends PreferenceFragment implements
-		OnSharedPreferenceChangeListener {
+public class SettingsFragment extends PreferenceFragment  {
 
 	private DBImplementation db;
 	private AppContext appContext;
@@ -55,10 +54,38 @@ public class SettingsFragment extends PreferenceFragment implements
 		addPreferencesFromResource(R.xml.preferences);
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		prefs.registerOnSharedPreferenceChangeListener(this);
 
 		// Instantiate the listPreference and set eCar values
 		ListPreference listPreference = (ListPreference) findPreference("display.car_name");
+		listPreference
+				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+					@Override
+					public boolean onPreferenceChange(Preference preference,
+							Object newValue) {
+						// Called when the ecar model is changed by the user
+						if (preference.getKey().equals("display.car_name")) {
+							Ecar ecar = new Ecar(appContext);
+							for (int x = 0; x < entryVal.size(); x++) {
+								if (newValue.equals(entryVal.get(x))) {
+									VehicleType selectedType = vehicleTypes
+											.get(x);
+									ecar.setVehicleType(selectedType);
+									ecar.setName(selectedType.getName());
+									Battery battery = new Battery();
+									battery.setCurrentSoc(selectedType
+											.getBatteryCapacity());
+									battery.setCharging(false);
+									ecar.setBattery(battery);
+								}
+							}
+							appContext.setEcar(ecar);
+							return true;
+						} else
+							return true;
+					}
+				});		
+		
+		
 		try {
 			vehicleTypes = db.getVehicleTypes();
 		} catch (DatabaseException e) {
@@ -127,57 +154,7 @@ public class SettingsFragment extends PreferenceFragment implements
 				return true;
 			}
 		});
-
+		
 	}
 
-	@Override
-	/**
-	 * Called when the ecar model is changed by the user
-	 */
-	public void onSharedPreferenceChanged(SharedPreferences arg0, String key) {
-		ListPreference listPreference = (ListPreference) findPreference(key);
-		listPreference
-				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-					@Override
-					public boolean onPreferenceChange(Preference preference,
-							Object newValue) {
-						// only executed if user changed car type
-						if (preference.getKey().equals("display.car_name")) {
-							Ecar ecar = new Ecar(appContext);
-							for (int x = 0; x < entryVal.size(); x++) {
-								if (newValue.equals(entryVal.get(x))) {
-									VehicleType selectedType = vehicleTypes
-											.get(x);
-									ecar.setVehicleType(selectedType);
-									ecar.setName(selectedType.getName());
-									Battery battery = new Battery();
-									battery.setCurrentSoc(selectedType
-											.getBatteryCapacity());
-									battery.setCharging(false);
-									ecar.setBattery(battery);
-								}
-							}
-							appContext.setEcar(ecar);
-							return true;
-						} else
-							return true;
-					}
-				});
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		// Set up a listener whenever a key changes
-		getPreferenceScreen().getSharedPreferences()
-				.registerOnSharedPreferenceChangeListener(this);
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		// Unregister the listener whenever a key changes
-		getPreferenceScreen().getSharedPreferences()
-				.unregisterOnSharedPreferenceChangeListener(this);
-	}
 }

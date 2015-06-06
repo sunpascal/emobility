@@ -131,6 +131,28 @@ public class Table_VehicleType {
         args.put(Table_VehicleType.COLUMN_FRONT_AREA, 2.4492);
         cvBulk.add(args);
         
+//        ToDo: complete parameters
+		args = new ContentValues();
+        args.put(Table_VehicleType.COLUMN_NAME, "Tesla Model S (85 kWh)");
+        args.put(Table_VehicleType.COLUMN_DESCRIPTION, "");
+        args.put(Table_VehicleType.COLUMN_BATTERY_CAPACITY, 85);
+        args.put(Table_VehicleType.COLUMN_ENERGY_CONSUMPTION_PER_KM, 0.1258);
+        args.put(Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY, 0.2);
+        args.put(Table_VehicleType.COLUMN_MASS, 900);
+        args.put(Table_VehicleType.COLUMN_FRONT_AREA, 2.4492);
+        cvBulk.add(args);
+
+//      ToDo: complete parameters        
+		args = new ContentValues();
+        args.put(Table_VehicleType.COLUMN_NAME, "Tesla Model S (60 kWh)");
+        args.put(Table_VehicleType.COLUMN_DESCRIPTION, "");
+        args.put(Table_VehicleType.COLUMN_BATTERY_CAPACITY, 60);
+        args.put(Table_VehicleType.COLUMN_ENERGY_CONSUMPTION_PER_KM, 0.1258);
+        args.put(Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY, 0.2);
+        args.put(Table_VehicleType.COLUMN_MASS, 900);
+        args.put(Table_VehicleType.COLUMN_FRONT_AREA, 2.4492);
+        cvBulk.add(args);                
+        
 		db.beginTransaction();
 		
 		try {

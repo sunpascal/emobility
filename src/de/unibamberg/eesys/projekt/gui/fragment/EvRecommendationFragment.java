@@ -17,7 +17,9 @@ import android.widget.TextView;
 import de.unibamberg.eesys.projekt.AppContext;
 import de.unibamberg.eesys.projekt.L;
 import de.unibamberg.eesys.projekt.R;
+import de.unibamberg.eesys.projekt.Recommender;
 import de.unibamberg.eesys.projekt.businessobjects.Ecar;
+import de.unibamberg.eesys.projekt.businessobjects.VehicleType;
 import de.unibamberg.eesys.projekt.businessobjects.Ecar.CarState;
 import de.unibamberg.eesys.projekt.businessobjects.WayPoint;
 import de.unibamberg.eesys.projekt.gui.MainActivity;
@@ -31,11 +33,6 @@ import de.unibamberg.eesys.projekt.gui.MainActivity;
  */
 public class EvRecommendationFragment extends Fragment implements 
 		OnTouchListener, OnClickListener {
-	public static final String TAG = "StatusFragment";
-	public static final String ARG_STATUS = "status";
-	public String GPS_NO_SIGNAL = "GPS has no signal.";
-	public String GPS_NO_SIGNAL_TEMPORARILY = "GPS has no signal (temporarily).";
-	public String GPS_DISABLED = "GPS is currently disabled in Android settings.";
 
 	AppContext appContext;
 	View rootView;
@@ -58,6 +55,34 @@ public class EvRecommendationFragment extends Fragment implements
 				container, false);
 
 		appContext = (AppContext) getActivity().getApplicationContext();
+		
+		TextView txt_vehicle1 = (TextView) rootView.findViewById(R.id.vehicle1name);
+		TextView txt_vehicle2 = (TextView) rootView.findViewById(R.id.vehicle2name);
+		
+		Recommender recommender = new Recommender(appContext);
+		
+		VehicleType v1;
+		VehicleType v2;
+		try {
+			v1 = recommender.getRecommendation100PercentOfTrips();
+			v2 = recommender.getRecommendation95PercentOfTrips();
+			
+			if (v1 == null)		
+				txt_vehicle1.setText("No suitable vehicle found.");
+			else 
+				txt_vehicle1.setText(v1.getName() + ":" + v1.getBatteryCapacity() + "kWh");
+			
+			if (v2 == null)
+				txt_vehicle2.setText("No suitable vehicle found.");
+			else 
+				txt_vehicle2.setText(v2.getName() + ":" + v2.getBatteryCapacity() + "kWh");			
+		}
+		catch (Exception e) {
+			L.e(e.getMessage() + e.getCause());
+			e.printStackTrace();
+			txt_vehicle1.setText("!Not enough trips were captured to provide a recommendation");
+			txt_vehicle2.setText("!Not enough trips were captured to provide a recommendation");
+		}
 		
 		// set on click listener for link
 		

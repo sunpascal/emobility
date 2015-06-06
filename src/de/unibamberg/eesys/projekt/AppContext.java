@@ -127,6 +127,7 @@ public class AppContext extends Application {
 	private MobilityUpdater mobilityManager;
 	
 	private BackgroundService backgroundService;
+	private Recommender recommender;
 
 	public BackgroundService getBackgroundService() {
 		return backgroundService;
@@ -535,5 +536,10 @@ public class AppContext extends Application {
 		
 	}
 	
+	public Recommender getRecommender() {
+		if (recommender == null)
+			recommender = new Recommender(this); 
+		return recommender;
+	}
 	
 }
