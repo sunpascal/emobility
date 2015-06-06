@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="#FFCCAA"
     android:id="@+id/scrollView1"
     android:paddingLeft="2dp"
@@ -26,11 +26,11 @@
 		        android:id="@+id/progressBar1"
 		        style="@android:style/Widget.ProgressBar.Horizontal"
 		        android:layout_width="0dp"
-		        android:layout_height="38dp"
+		        android:layout_height="match_parent"
 		        android:layout_gravity="center_vertical"
 		        android:layout_weight="2.08"
-		        android:paddingTop="3dp"
 		        android:max="100"
+		        android:paddingRight="3dp"
 		        android:progress="34" />
 
 		    <!-- 0% + 136km layout vertical -->
@@ -40,43 +40,26 @@
 		        android:layout_height="match_parent"
 		        android:orientation="vertical" >
 
-		        <!-- "0" + "%" layout vertical -->
-
-		        <LinearLayout
-		            android:layout_width="wrap_content"
-		            android:layout_height="match_parent"
-		            android:orientation="horizontal" >
+					<!-- "25%" --> 
 
 		            <TextView
 		                android:id="@+id/textview_text_current_charginglvl"
-		                android:layout_width="46dp"
+		                android:layout_width="match_parent"
 		                android:layout_height="wrap_content"
-		                android:layout_gravity="center_vertical"
-		                android:layout_marginLeft="5dp"
+		                android:layout_gravity="right"
 		                android:text="0"
 		                android:textSize="@dimen/activity_horizontal_margin"
 		                tools:ignore="HardcodedText" />
 
-		            <TextView
-		                android:id="@+id/textview_label_current_charginglvl"
-		                android:layout_width="41dp"
-		                android:layout_height="wrap_content"
-		                android:layout_gravity="center_vertical"
-		                android:layout_marginLeft="5dp"
-		                android:text="%"
-		                android:textSize="@dimen/activity_horizontal_margin"
-		                tools:ignore="HardcodedText" />
-		        </LinearLayout>
+		            <!-- "36 km" --> 
+			        <TextView
+			            android:id="@+id/textview_text_remainingKmOnBattery"
+			            android:layout_width="match_parent"
+			            android:layout_height="wrap_content"
+			            android:layout_gravity="right"
+			            android:text="0 km"
+			            tools:ignore="HardcodedText" />
 
-		        <TextView
-		            android:id="@+id/textview_text_remainingTimeOnBattery"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_gravity="center_vertical"
-		            android:paddingBottom="10dp"
-		            android:paddingLeft="15dp"
-		            android:text="0 km"
-		            tools:ignore="HardcodedText" />
 		    </LinearLayout>
 
 		    <!-- END progess bar + text layout horizontal -->
@@ -87,119 +70,152 @@
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:layout_gravity="center_horizontal"
-		    android:layout_marginLeft="5dp"
 		    android:text="@string/zerokWh"
 		    android:textSize="35pt"
 		    tools:ignore="HardcodedText" />
-
-		<TextView
-			android:id="@+id/textview_label_state"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/state"
-			android:textStyle="bold" 
-			android:visibility="invisible" />
 
 		<TextView
 			android:id="@+id/textview_text_state"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:paddingBottom="10dp"
-			android:paddingLeft="15dp" />
+			android:text="Parking"
+			android:textStyle="italic"
+			/>
 
 		<!-- TextViews visible when Car State = driving -->
 
-		<TextView
-		    android:id="@+id/textView_label_currentSpeed"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:text="@string/currentSpeed"
-		    android:textStyle="bold"
-		    android:visibility="invisible" />
+		<TableLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+		    
+		    <TableRow
+		        android:id="@+id/tableRow2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" >
 
-		<TextView
-			android:id="@+id/textview_text_currentSpeed"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:paddingBottom="10dp"
-			android:paddingLeft="15dp" />
-
-		<TextView
-		    android:id="@+id/textView_label_remainingTimeOnBattery"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:text="@string/remainingTimeOnBattery"
-		    android:textStyle="bold"
-		    android:visibility="invisible" />
-
-		<TextView
-		    android:id="@+id/textView_label_coveredDistance"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:text="@string/coveredDistance"
-		    android:textStyle="bold"
-		    android:visibility="invisible" />
-
-		<TextView
-			android:id="@+id/textview_text_coveredDistance"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:paddingBottom="10dp"
-			android:paddingLeft="15dp" />
-
-		<TextView
-		    android:id="@+id/textView_label_timeTo100"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:text="@string/timeTo100"
-		    android:textStyle="bold" />
-
-
-
-		<!-- Test TextViews -->
-		<TextView
-			android:id="@+id/textView_label_speedApiTest"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/speedApiTest"
-			android:textStyle="bold"
-			android:visibility="gone" />
-
-		<TextView
-			android:id="@+id/textview_text_speedApiTest"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:paddingBottom="10dp"
-			android:paddingLeft="15dp"
-			android:visibility="gone" />
-
-		<TextView
-			android:id="@+id/textView_label_location"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/currentLocation"
-			android:textStyle="bold"
-			android:visibility="gone" />
-
-		<TextView
-			android:id="@+id/textview_text_location"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:paddingBottom="10dp"
-			android:paddingLeft="15dp"
-			android:visibility="gone" />
+				<TextView
+				    android:id="@+id/textView_label_coveredDistance"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="@string/coveredDistance"
+				    android:textStyle="bold"
+				    android:visibility="invisible" />
 		
-		<!-- TextViews visible when Car State = charching -->
+				<TextView
+					android:id="@+id/textview_text_coveredDistance"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:paddingBottom="10dp"
+					android:paddingLeft="15dp" />		        			
+		        
+		    </TableRow>		    
+		    
+		    <TableRow
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" >
+
+				<TextView
+				    android:id="@+id/textView_label_tripCons"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="@string/tripCons"
+				    android:textStyle="bold"/>
+		
+				<TextView
+					android:id="@+id/textview_text_tripCons"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:paddingBottom="10dp"
+					android:paddingLeft="15dp" />		        			
+		        
+		    </TableRow>			    
+		    
+		    <TableRow
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" >		    
+
+		    		<TextView
+				    android:id="@+id/textView_label_timeTo100"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="@string/timeTo100"
+				    android:textStyle="bold" />
+
+					<TextView
+						android:id="@+id/textview_text_timeTo100"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:paddingBottom="10dp"
+						android:paddingLeft="15dp" />
+					
+			</TableRow>
+		
+		    <TableRow
+		        android:id="@+id/tableRow1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" >
+		        
+				<TextView
+				    android:id="@+id/textView_label_currentSpeed"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="@string/currentSpeed"
+				    android:textStyle="bold"
+				    android:visibility="invisible" />
+		
+				<TextView
+					android:id="@+id/textview_text_currentSpeed"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:paddingBottom="10dp"
+					android:paddingLeft="15dp" 
+					android:visibility="invisible"
+					android:text="0 km/h"
+					/>		        
+		        
+		    </TableRow>
+
+
+		    <TableRow
+		        android:id="@+id/tableRow3"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" >
+
+				<TextView
+					android:id="@+id/textView_label_location"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/currentLocation"
+					android:textStyle="bold"
+					android:visibility="gone" 
+					/>
+		
+				<TextView
+					android:id="@+id/textview_text_location"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:paddingBottom="10dp"
+					android:paddingLeft="15dp"
+					android:visibility="gone"
+					android:text="textview_text_location"
+					 />		        				
+		        
+		    </TableRow>
+
+
+		</TableLayout>
+
 
 		<TextView
-			android:id="@+id/textview_text_timeTo100"
+			android:id="@+id/textview_text_GPSDisabled"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:paddingBottom="10dp"
-			android:paddingLeft="15dp" />
-		
+			android:text="@string/gpsDisabled"
+			android:textColor="#d32424"
+			android:textStyle="bold" />		
 
-		
 		<!-- TextViews to debug -->
 		<TextView
 			android:id="@+id/debug1"
@@ -209,18 +225,10 @@
 			/>
 
 		<TextView
-			android:id="@+id/textview_text_GPSDisabled"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:paddingBottom="10dp"
-			android:text="@string/gpsDisabled"
-			android:textColor="#d32424"
-			android:textStyle="bold" />
-
-		<TextView
 			android:id="@+id/debug2"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:text="debug2"
 			/>
 		
 		<TextView
@@ -228,8 +236,6 @@
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    />
-		
-	<!-- TextView visible when GPS Disabled -->
 		
 	</LinearLayout>
 

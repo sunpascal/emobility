@@ -1,4 +1,4 @@
-package de.unibamberg.eesys.projekt.gui;
+package de.unibamberg.eesys.projekt.gui.fragment;
 
 import android.support.v4.app.Fragment;
 import android.content.Context;
@@ -11,14 +11,14 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.charts.LineChart;
 
 import de.unibamberg.eesys.projekt.AppContext;
 import de.unibamberg.eesys.projekt.R;
 import de.unibamberg.eesys.projekt.database.DBImplementation;
 import de.unibamberg.eesys.projekt.database.DatabaseException;
-import de.unibamberg.eesys.statistics.DriveDistancesReport;
+import de.unibamberg.eesys.statistics.BatterySocsReport;
 import de.unibamberg.eesys.statistics.Statistic;
 import de.unibamberg.eesys.statistics.StatisticsException;
 
@@ -27,15 +27,12 @@ import de.unibamberg.eesys.statistics.StatisticsException;
  * @author Robert
  * 
  */
-public class DriveDistancesFragment extends Fragment {
-	public static final String TAG = "DriveDistancesFragment";
+public class AnalysisBatteryLevelFragment extends Fragment {
+
+	public static final String TAG = "StateOfChargeFragment";
 	public static final String ARG_STATUS = "status";
 
-	/**
-	 * Was used for a generic approach, in which all graphs are used in a single
-	 * fragment, this wasn´t possible cause of GUI problems.
-	 */
-	public static final int DRIVE_DISTANCES = 2837492;
+	public static final int BATTERY_SOCS = 3223478;
 
 	@SuppressWarnings("rawtypes")
 	// is needed for generic approach in Statistics Workspace
@@ -43,7 +40,7 @@ public class DriveDistancesFragment extends Fragment {
 	Object mChartData;
 	Statistic mStatistic;
 
-	public DriveDistancesFragment() {
+	public AnalysisBatteryLevelFragment() {
 	}
 
 	/*
@@ -56,7 +53,7 @@ public class DriveDistancesFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View rootView = inflater.inflate(R.layout.fragment_drive_distances,
+		View rootView = inflater.inflate(R.layout.fragment_state_charge,
 				container, false);
 
 		// gets the current context, this is used to show the Chart and
@@ -65,15 +62,15 @@ public class DriveDistancesFragment extends Fragment {
 
 		// gets the Parent of the fragment, which will include the graph.
 		RelativeLayout parent = (RelativeLayout) rootView
-				.findViewById(R.id.drvDistances);
+				.findViewById(R.id.soc);
 
 		// creates a new chart and adds it to the view.
-		this.mChart = new BarChart(getActivity());
+		this.mChart = new LineChart(getActivity());
 		parent.addView(mChart);
+		mStatistic = new BatterySocsReport();
 
-		mStatistic = new DriveDistancesReport();
-
-		mChartData = reportProv.execute(DRIVE_DISTANCES);
+		// starts an AsyncTask, to get the data from DB
+		mChartData = reportProv.execute(BATTERY_SOCS, 50);
 		mChart.setVisibility(View.VISIBLE);
 		return rootView;
 	}
@@ -106,12 +103,14 @@ public class DriveDistancesFragment extends Fragment {
 		 */
 		@Override
 		protected Object doInBackground(Integer... params) {
-			// this method is processed in a async Task and calls the needed
-			// report in DB.
-			// in case of an exception it shows the message in a toast
+			int methodParam = 0;
+			if (params.length > 1) {
+				methodParam = params[1];// number of values that will be shown.
+				
+			}
 			try {
-				System.out.println(DRIVE_DISTANCES);
-				DbReturnValue = db.getReport_DriveSeqDistances(true);
+				System.out.println(BATTERY_SOCS);
+				DbReturnValue = db.getReport_BatterySOCs(methodParam, true);
 			} catch (DatabaseException e) {
 				Toast.makeText(mContext.getApplicationContext(),
 						e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -119,7 +118,7 @@ public class DriveDistancesFragment extends Fragment {
 			}
 			return DbReturnValue;
 		}
-
+		
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -133,11 +132,9 @@ public class DriveDistancesFragment extends Fragment {
 			recivedData(DbReturnValue);
 		}
 	}
-
 	/**
 	 * @param DbReturnValue
 	 *            : gathered Reportdata from DB.
-	 * 
 	 *            this Method calls the Statistics class.
 	 */
 	public void recivedData(Object DbReturnValue) {

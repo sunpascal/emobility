@@ -1,4 +1,4 @@
-package de.unibamberg.eesys.projekt.gui;
+package de.unibamberg.eesys.projekt.gui.fragment;
 
 import android.support.v4.app.Fragment;
 import android.content.res.Resources;
@@ -14,7 +14,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import de.unibamberg.eesys.projekt.AppContext;
 import de.unibamberg.eesys.projekt.L;
@@ -22,6 +21,7 @@ import de.unibamberg.eesys.projekt.R;
 import de.unibamberg.eesys.projekt.businessobjects.Ecar;
 import de.unibamberg.eesys.projekt.businessobjects.Ecar.CarState;
 import de.unibamberg.eesys.projekt.businessobjects.WayPoint;
+import de.unibamberg.eesys.projekt.gui.GuiUpdateInterface;
 
 /**
  * Fragment for Main Overview with battery display View Overview in three
@@ -34,36 +34,40 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 		OnTouchListener, OnClickListener {
 	public static final String TAG = "StatusFragment";
 	public static final String ARG_STATUS = "status";
-	public String GPS_NO_SIGNAL = "GPS has no signal.";
-	public String GPS_NO_SIGNAL_TEMPORARILY = "GPS has no signal (temporarily).";
-	public String GPS_DISABLED = "GPS is currently disabled in Android settings.";
 
 	private int threshholdGreenAcceleration = 20; // if current consumption is > 200 kWh, background should be red 
 	
-	AppContext appContext;
+	private AppContext appContext;
+	private View rootView;	
 
-	// TextViews of Status Fragment displayed in fragment_batterydisplay.xml
-	TextView txtAkkuState;
-	TextView txtCarState;
-	TextView txtCurrentSpeed;
-	TextView txtCurrentSpeedLbl;
-	TextView txtCurrentConsumption;
-	TextView txtCoveredDistance;
-	TextView txtCoveredDistanceLbl;
-	TextView txtRemainingKmOnBatteryLbl;
-	TextView txtRemainingKmOnBattery;
-	TextView txtTimeTo100;
-	TextView txtTimeTo100Lbl;
-	TextView txtGPSDisabled;
+	// fragment GUI elements 
+	private ProgressBar progressBar1;
 	
-	ProgressBar progressBar1;
+	private TextView txtAkkuState;
+	private TextView txtCarState;
+	private TextView txtCurrentSpeed;
+	private TextView txtCurrentSpeedLbl;
+	private TextView txtCurrentConsumption;
+	private TextView txtCurrentConsumptionLbl;
+	private TextView txtCoveredDistance;
+	private TextView txtCoveredDistanceLbl;
+	private TextView txtRemainingKmOnBattery;
+	private TextView txtTimeTo100;
+	private TextView txtTimeTo100Lbl;
+	private TextView txtGPSDisabled;
+	private TextView txtTripCons; 
+	private TextView txt_tripConsLbl;   // todo: rename Lbl
 
 	// Debug TextViews only Visible in Debug Mode not visible to user
-	TextView txtDebug1;
-	TextView txtDebug2;
-	TextView txtDebug3;
+	private TextView txtDebug1;
+	private TextView txtDebug2;
+	private TextView txtDebug3;
 	
-	private View rootView;
+	// string constants
+	public String GPS_NO_SIGNAL = "GPS has no signal.";
+	public String GPS_NO_SIGNAL_TEMPORARILY = "GPS has no signal (temporarily).";
+	public String GPS_DISABLED = "GPS is currently disabled in Android settings.";	
+
 
 	/**
 	 * Fragment Class Constructor
@@ -95,12 +99,14 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 		txtCoveredDistanceLbl = (TextView) rootView.findViewById(R.id.textView_label_coveredDistance);
 		txtCurrentSpeed = (TextView) rootView.findViewById(R.id.textview_text_currentSpeed);
 		txtCurrentSpeedLbl = (TextView) rootView.findViewById(R.id.textView_label_currentSpeed);
-
 		txtCurrentConsumption = (TextView) rootView.findViewById(R.id.textview_text_currentConsumption);
+		txtCurrentConsumptionLbl = (TextView) rootView.findViewById(R.id.textView_label_tripCons);
 		
-		txtRemainingKmOnBattery = (TextView) rootView.findViewById(R.id.textview_text_remainingTimeOnBattery);
-		txtRemainingKmOnBatteryLbl = (TextView) rootView.findViewById(R.id.textView_label_remainingTimeOnBattery);
+		txtRemainingKmOnBattery = (TextView) rootView.findViewById(R.id.textview_text_remainingKmOnBattery);
 
+		txtTripCons = (TextView) rootView.findViewById(R.id.textview_text_tripCons);
+		txt_tripConsLbl = (TextView) rootView.findViewById(R.id.textView_label_tripCons);
+		
 		// visible if CarState = charging
 		txtTimeTo100 = (TextView) rootView.findViewById(R.id.textview_text_timeTo100);
 		txtTimeTo100Lbl = (TextView) rootView.findViewById(R.id.textView_label_timeTo100);
@@ -184,12 +190,12 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 	private void showCarStateView(CarState carState) {
 		if (carState == Ecar.CarState.DRIVING) {
 			txtCurrentConsumption.setVisibility(View.VISIBLE);
-//			txtCurrentSpeed.setVisibility(View.VISIBLE);
-//			txtCurrentSpeedLbl.setVisibility(View.VISIBLE);
 			txtCoveredDistance.setVisibility(View.VISIBLE);
 			txtCoveredDistanceLbl.setVisibility(View.VISIBLE);
-			txtRemainingKmOnBattery.setVisibility(View.VISIBLE);
-//			txtRemainingKmOnBatteryLbl.setVisibility(View.VISIBLE);  // always hide label for remaining km
+			txtTripCons.setVisibility(View.VISIBLE);
+			txt_tripConsLbl.setVisibility(View.VISIBLE);
+			txtCurrentConsumption.setVisibility(View.VISIBLE);
+			txtCurrentConsumptionLbl.setVisibility(View.VISIBLE);			
 			txtTimeTo100.setVisibility(View.GONE);
 			txtTimeTo100Lbl.setVisibility(View.GONE);
 
@@ -198,12 +204,12 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 			rootView.setBackgroundColor(getResources().getColor(R.color.color_white));	
 			
 			txtCurrentConsumption.setVisibility(View.GONE);
-//			txtCurrentSpeed.setVisibility(View.GONE);
-//			txtCurrentSpeedLbl.setVisibility(View.GONE);
 			txtCoveredDistance.setVisibility(View.GONE);
 			txtCoveredDistanceLbl.setVisibility(View.GONE);
-			txtRemainingKmOnBattery.setVisibility(View.VISIBLE);
-//			txtRemainingKmOnBatteryLbl.setVisibility(View.VISIBLE);  // always hide label for remaining km
+			txtTripCons.setVisibility(View.GONE);
+			txt_tripConsLbl.setVisibility(View.GONE);
+			txtCurrentConsumption.setVisibility(View.GONE);
+			txtCurrentConsumptionLbl.setVisibility(View.GONE);
 			txtTimeTo100.setVisibility(View.VISIBLE);
 			txtTimeTo100Lbl.setVisibility(View.VISIBLE);
 
@@ -212,14 +218,14 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 			rootView.setBackgroundColor(getResources().getColor(R.color.color_white));
 			
 			txtCurrentConsumption.setVisibility(View.GONE);
-//			txtCurrentSpeed.setVisibility(View.GONE);
-//			txtCurrentSpeedLbl.setVisibility(View.GONE);
 			txtCoveredDistance.setVisibility(View.GONE);
 			txtCoveredDistanceLbl.setVisibility(View.GONE);
-			txtRemainingKmOnBattery.setVisibility(View.GONE);
-//			txtRemainingKmOnBatteryLbl.setVisibility(View.GONE);
 			txtTimeTo100.setVisibility(View.GONE);
 			txtTimeTo100Lbl.setVisibility(View.GONE);
+			txtTripCons.setVisibility(View.GONE);
+			txt_tripConsLbl.setVisibility(View.GONE);
+			txtCurrentConsumption.setVisibility(View.GONE);
+			txtCurrentConsumptionLbl.setVisibility(View.GONE);			
 		}
 
 		txtDebug1.setVisibility(View.VISIBLE);
@@ -288,7 +294,7 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 		if (ecar != null & ecar.getBattery() != null) {
 			Double batteryLeft = ecar.getBatteryPercentLeft();
 			// update percentage ("50%") 
-			txtAkkuState.setText("" + batteryLeft);
+			txtAkkuState.setText("" + batteryLeft + "%");
 			// update progress bar
 			int i_progress = batteryLeft.intValue();
 			progressBar1.setProgress(i_progress);
@@ -316,25 +322,21 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 			return;
 
 		// update waypoint...
-		txtCurrentSpeed.setText(appContext.round(w.getVelocity() * 3.6) + " km/h");
+		txtCurrentSpeed.setText(appContext.round(w.getVelocityinKmh()) + " km/h");
 
 		if (appContext.ecar.getCurrentTrip() != null) {
-			txtCoveredDistance.setText(appContext.round(appContext.ecar
-					.getCurrentTrip().getCoveredDistance() / 1000) + " km");
+			txtCoveredDistance.setText(
+					appContext.round(appContext.ecar.getCurrentTrip().getCoveredDistanceInKm()) + " km");
 		}
 		String consumptionTxt = "0";
 		if (w.getDistance() != 0) {
-			consumptionTxt = "" + Math.round(
-					// * 100'000 => consumption in kWh per 100 km
-					(w.getEnergy() / w.getDistance()) * 100000);
+			consumptionTxt = "" + Math.round(w.calcConsumptionPer100km());
 		}
 		consumptionTxt = consumptionTxt + " kWh";
 		txtCurrentConsumption.setText(consumptionTxt);
 		
 		// Todo: change color to green yellow or white depending on acceleration 
-		double currentConsumption = 0; 
-		if (w.getDistance() != 0) 
-			currentConsumption = (w.getEnergy() / w.getDistance() * 100000); 		
+		double currentConsumption = w.calcConsumptionPer100km(); 
 		if (currentConsumption > threshholdGreenAcceleration) 
 			rootView.setBackgroundColor(getResources().getColor(R.color.color_red));
 		else 
@@ -345,14 +347,16 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 
 		if (ecar.getCurrentTrip() != null && ecar.getBattery() != null) {
 			double tripkWh = ecar.getCurrentTrip().getSocStart() - ecar.getBattery().getCurrentSoc();
-			txtDebug1.setText(appContext.round(tripkWh) + " kWh");
+			txtTripCons.setText(appContext.round(tripkWh) + " kWh");
 		}
+		
+		txtDebug1.setText(appContext.round(w.getVelocityinKmh(), 0) + " km/h");		
 		
 		String debugString = w.getUpdateType() + " "
 				+ appContext.round(w.getDistance(), 0) + "m "
-				+ appContext.round(w.getVelocity() * 3.6) + "km/h "
+				+ appContext.round(w.getVelocityinKmh()) + "km/h "
 				+ appContext.round(w.getAcceleration(), 2) + "km/h/s "
-				+ appContext.round(w.getEnergy()) + "kWh \n"
+				+ appContext.round(w.getEnergyInKWh()) + "kWh \n"
 				+ appContext.round(ecar.getBatteryPercentLeft()) + "% "
 				+ Math.round(ecar.getBattery().getCurrentSoc()) + "/"
 				+ ecar.getVehicleType().getBatteryCapacity() + "kWh \n"
@@ -365,7 +369,8 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface,
 		String showDebugMessages = PreferenceManager
 				.getDefaultSharedPreferences(appContext).getString(
 						"testing.show_debug_messages", "disabled");
-		// only show green debug messages if option is activated in app settings
+		
+		// only show  debug messages if option is activated in app settings
 		if (showDebugMessages.equals("show")) {
 			txtDebug1.setVisibility(View.VISIBLE);
 			txtDebug2.setVisibility(View.VISIBLE);

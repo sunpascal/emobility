@@ -19,12 +19,13 @@ public class HlpEnergyConsumptionModel implements InterfaceEnergyConsumption {
 		return consumedEnergy;
 	}
 	/**
-	 * calculates the consumed energy
+	 * calculates the consumed energy in kWh
 	 * @param duration
 	 * @param startVelocity
 	 * @param endVelocity
 	 * @param distance
 	 * @param vehicleType
+	 * @return energy in kWh
 	 * 
 	 */
 	public double consumeEnergy(double duration, double startVelocity,

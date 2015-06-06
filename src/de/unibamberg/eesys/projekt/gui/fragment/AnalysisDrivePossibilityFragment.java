@@ -1,4 +1,4 @@
-package de.unibamberg.eesys.projekt.gui;
+package de.unibamberg.eesys.projekt.gui.fragment;
 
 import android.support.v4.app.Fragment;
 import android.content.Context;
@@ -11,14 +11,14 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.charts.PieChart;
 
 import de.unibamberg.eesys.projekt.AppContext;
 import de.unibamberg.eesys.projekt.R;
 import de.unibamberg.eesys.projekt.database.DBImplementation;
 import de.unibamberg.eesys.projekt.database.DatabaseException;
-import de.unibamberg.eesys.statistics.AverageConsumptionReport;
+import de.unibamberg.eesys.statistics.DriversequenceFeasibilityReport;
 import de.unibamberg.eesys.statistics.Statistic;
 import de.unibamberg.eesys.statistics.StatisticsException;
 
@@ -27,11 +27,11 @@ import de.unibamberg.eesys.statistics.StatisticsException;
  * @author Robert
  * 
  */
-public class AvgConsumptionFragment extends Fragment {
-	public static final String TAG = "AvgConsumptionFragment";
+public class AnalysisDrivePossibilityFragment extends Fragment {
+	public static final String TAG = "DrivePossibilityFragment";
 	public static final String ARG_STATUS = "status";
 
-	public static final int AVERAGE_CONSUMPTION = 7474747;
+	public static final int DRIVESEQUENCE_FEASIBILITY = 234234;
 
 	@SuppressWarnings("rawtypes")
 	// is needed for generic approach in Statistics Workspace
@@ -39,7 +39,7 @@ public class AvgConsumptionFragment extends Fragment {
 	Object mChartData;
 	Statistic mStatistic;
 
-	public AvgConsumptionFragment() {
+	public AnalysisDrivePossibilityFragment() {
 	}
 
 	/*
@@ -52,7 +52,7 @@ public class AvgConsumptionFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View rootView = inflater.inflate(R.layout.fragment_avg_consumption,
+		View rootView = inflater.inflate(R.layout.fragment_drive_possibility,
 				container, false);
 
 		// gets the current context, this is used to show the Chart and
@@ -61,15 +61,16 @@ public class AvgConsumptionFragment extends Fragment {
 
 		// gets the Parent of the fragment, which will include the graph.
 		RelativeLayout parent = (RelativeLayout) rootView
-				.findViewById(R.id.avgConsumption);
+				.findViewById(R.id.drvPossibility);
 
 		// creates a new chart and adds it to the view.
-		this.mChart = new BarChart(getActivity());
+		this.mChart = new PieChart(getActivity());
 		parent.addView(mChart);
-		mStatistic = new AverageConsumptionReport();
+
+		mStatistic = new DriversequenceFeasibilityReport();
 
 		// starts an AsyncTask, to get the data from DB
-		mChartData = reportProv.execute(AVERAGE_CONSUMPTION);
+		mChartData = reportProv.execute(DRIVESEQUENCE_FEASIBILITY);
 		mChart.setVisibility(View.VISIBLE);
 		return rootView;
 	}
@@ -106,15 +107,16 @@ public class AvgConsumptionFragment extends Fragment {
 			// report in DB.
 			// in case of an exception it shows the message in a toast
 			try {
-				DbReturnValue = db.getReport_AverageConsumption(true);
+				System.out.println(DRIVESEQUENCE_FEASIBILITY);
+				DbReturnValue = db.getReport_DriveSeqFeasibility(true);
 			} catch (DatabaseException e) {
+				// TODO check exception handling
 				Toast.makeText(mContext.getApplicationContext(),
 						e.getMessage(), Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			}
 			return DbReturnValue;
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -128,10 +130,11 @@ public class AvgConsumptionFragment extends Fragment {
 			recivedData(DbReturnValue);
 		}
 	}
-
+	
 	/**
 	 * @param DbReturnValue
 	 *            : gathered Reportdata from DB.
+	 * 
 	 *            this Method calls the Statistics class.
 	 */
 	public void recivedData(Object DbReturnValue) {

@@ -4,7 +4,7 @@ package de.unibamberg.eesys.projekt.businessobjects;
  * @author r
  *	Represents an ECartype, it is the central place for ECartype specific information. 
  */
-public class VehicleType {
+public class VehicleType implements Comparable {
 	private long id;
 	private String name;
 	private String description;
@@ -172,6 +172,15 @@ public class VehicleType {
 	public String toString() {
 		// the to Stringmethod of the vehicletype returns the current name.
 		return name;
+	}
+
+	@Override
+	public int compareTo(Object another) {
+		if (batteryCapacity > ((VehicleType) another).getBatteryCapacity())
+			return 1;
+		else if (batteryCapacity < ((VehicleType) another).getBatteryCapacity())
+			return -1; 
+		else return 0;
 	}
 
 }

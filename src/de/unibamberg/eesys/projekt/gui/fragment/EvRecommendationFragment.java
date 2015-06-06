@@ -1,4 +1,4 @@
-package de.unibamberg.eesys.projekt.gui;
+package de.unibamberg.eesys.projekt.gui.fragment;
 
 import android.content.Context;
 import android.location.LocationProvider;
@@ -20,6 +20,7 @@ import de.unibamberg.eesys.projekt.R;
 import de.unibamberg.eesys.projekt.businessobjects.Ecar;
 import de.unibamberg.eesys.projekt.businessobjects.Ecar.CarState;
 import de.unibamberg.eesys.projekt.businessobjects.WayPoint;
+import de.unibamberg.eesys.projekt.gui.MainActivity;
 
 /**
  * Fragment for Main Overview with battery display View Overview in three
@@ -28,7 +29,7 @@ import de.unibamberg.eesys.projekt.businessobjects.WayPoint;
  * @author Julia
  *
  */
-public class EvRecommendationFragment1 extends Fragment implements 
+public class EvRecommendationFragment extends Fragment implements 
 		OnTouchListener, OnClickListener {
 	public static final String TAG = "StatusFragment";
 	public static final String ARG_STATUS = "status";
@@ -42,7 +43,7 @@ public class EvRecommendationFragment1 extends Fragment implements
 	/**
 	 * Fragment Class Constructor
 	 */
-	public EvRecommendationFragment1() {
+	public EvRecommendationFragment() {
 		// Empty constructor required for fragment subclasses
 	}
 
@@ -53,7 +54,7 @@ public class EvRecommendationFragment1 extends Fragment implements
 	 */
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_evrecommendation1,
+		rootView = inflater.inflate(R.layout.fragment_evrecommendation,
 				container, false);
 
 		appContext = (AppContext) getActivity().getApplicationContext();
@@ -64,9 +65,9 @@ public class EvRecommendationFragment1 extends Fragment implements
 		link1.setOnClickListener( new View.OnClickListener() {
 		    @Override
 		    public void onClick(View v) {
-		    	// open fragment drawer Eco-Driving 
+		    	// open fragment drawer analysis and show Table + graph of critical trips, 3 = third item in drawer menu 
 		    	MainActivity mA = (MainActivity) getActivity();
-		    	mA.selectItem(2);
+		    	mA.selectItem(3);
 		    }
 		});		
 		

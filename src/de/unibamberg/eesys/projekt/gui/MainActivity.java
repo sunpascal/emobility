@@ -30,6 +30,7 @@ import android.widget.Toast;
 import de.unibamberg.eesys.projekt.AppContext;
 import de.unibamberg.eesys.projekt.L;
 import de.unibamberg.eesys.projekt.R;
+import de.unibamberg.eesys.projekt.gui.fragment.DashboardFragment;
 
 /**
  * Handles the Drawer Handles the Fragments based on the main activity from the

@@ -3,18 +3,19 @@
 
     <string name="app_name">SimEcar</string>
     <string name="action_settings">Settings</string>
-    <string name="activity_cs_title">Add Charging Station</string>
-    <string name="activity_about_title">About SimECar</string>
+    <string name="activity_cs_title">Add charging station</string>
+    <string name="activity_about_title">About</string>
     <string name="activity_satistic_title">Statistics overview</string>
     <string name="warning_APIVersion">This feature is only visible for Android 4.2 Jelly Bean MR1 (API 17) or higher.</string>
-    <string name="coveredDistance">Trip distance (km):</string>
-    <string name="currentSpeed">Current speed (km/h):</string>
-    <string name="speedApiTest">API Test Speed (km/h):</string>
+	<string name="tripCons">Trip consumption:</string>    
+    <string name="coveredDistance">Trip distance:</string>
+    <string name="currentSpeed">Current speed:</string>
+    <string name="speedApiTest">API Test Speed:</string>
     <string name="timeTo100">Time to 100%:</string>
-    <string name="remainingTimeOnBattery">Remaining distance on battery:</string>
+    <string name="remainingKmOnBattery">Remaining distance on battery:</string>
     <string name="currentLocation">Location:</string>
-    <string name="currentConsumption">Energy Consumption (kWh):</string>
-    <string name="time">time</string>
+    <string name="currentConsumption">Energy consumption:</string>
+    <string name="time">Time</string>
     <string name="state">State:</string>
     <string name="gpsDisabled"></string>
     <string name="menu_preferences">Settings</string>

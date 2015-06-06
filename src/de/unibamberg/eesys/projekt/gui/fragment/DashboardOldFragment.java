@@ -1,4 +1,4 @@
-package de.unibamberg.eesys.projekt.gui;
+package de.unibamberg.eesys.projekt.gui.fragment;
 
 import android.support.v4.app.Fragment;
 import android.app.ActionBar;
@@ -19,6 +19,7 @@ import de.unibamberg.eesys.projekt.R;
 import de.unibamberg.eesys.projekt.businessobjects.Ecar;
 import de.unibamberg.eesys.projekt.businessobjects.Ecar.CarState;
 import de.unibamberg.eesys.projekt.businessobjects.WayPoint;
+import de.unibamberg.eesys.projekt.gui.GuiUpdateInterface;
 
 /**
  * Fragment for Main Overview with battery display View Overview in three
@@ -27,7 +28,7 @@ import de.unibamberg.eesys.projekt.businessobjects.WayPoint;
  * @author Julia
  *
  */
-public class StatusFragment extends Fragment implements GuiUpdateInterface,
+public class DashboardOldFragment extends Fragment implements GuiUpdateInterface,
 		OnTouchListener, OnClickListener {
 	public static final String TAG = "StatusFragment";
 	public static final String ARG_STATUS = "status";
@@ -60,7 +61,7 @@ public class StatusFragment extends Fragment implements GuiUpdateInterface,
 	/**
 	 * Fragment Class Constructor
 	 */
-	public StatusFragment() {
+	public DashboardOldFragment() {
 		// Empty constructor required for fragment subclasses
 	}
 
@@ -71,7 +72,7 @@ public class StatusFragment extends Fragment implements GuiUpdateInterface,
 	 */
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_batterydisplay,
+		View rootView = inflater.inflate(R.layout.fragment_status,
 				container, false);
 
 		appContext = (AppContext) getActivity().getApplicationContext();
@@ -106,9 +107,9 @@ public class StatusFragment extends Fragment implements GuiUpdateInterface,
 				.findViewById(R.id.textView_label_currentConsumption);
 
 		txtRemainingKmOnBattery = (TextView) rootView
-				.findViewById(R.id.textview_text_remainingTimeOnBattery);
+				.findViewById(R.id.textview_text_remainingKmOnBattery);
 		txtRemainingKmOnBatteryLbl = (TextView) rootView
-				.findViewById(R.id.textView_label_remainingTimeOnBattery);
+				.findViewById(R.id.textView_label_remainingKmOnBattery);
 
 		// visible if CarState = charging
 		txtTimeTo100 = (TextView) rootView
@@ -319,12 +320,12 @@ public class StatusFragment extends Fragment implements GuiUpdateInterface,
 
 		if (appContext.ecar.getCurrentTrip() != null) {
 			txtCoveredDistance.setText(appContext.round(appContext.ecar
-					.getCurrentTrip().getCoveredDistance() / 1000) + " km");
+					.getCurrentTrip().getCoveredDistanceInMeters() / 1000) + " km");
 		}
 		String consumptionTxt = "0 kWh";
 		if (w.getDistance() != 0) {
 			consumptionTxt = AppContext.round(
-					(w.getEnergy() / w.getDistance()) * 100000, 5) + " kWh";
+					(w.getEnergyInKWh() / w.getDistance()) * 100000, 5) + " kWh";
 		}
 		txtCurrentConsumption.setText(consumptionTxt);
 		
@@ -335,7 +336,7 @@ public class StatusFragment extends Fragment implements GuiUpdateInterface,
 				+ appContext.round(w.getDistance(), 0) + "m "
 				+ appContext.round(w.getVelocity() * 3.6, 2) + "km/h "
 				+ appContext.round(w.getAcceleration(), 2) + "km/h/s "
-				+ appContext.round(w.getEnergy(), 2) + "kWh \n"
+				+ appContext.round(w.getEnergyInKWh(), 2) + "kWh \n"
 				+ appContext.round(ecar.getBatteryPercentLeft(), 2) + "% "
 				+ Math.round(ecar.getBattery().getCurrentSoc()) + "/"
 				+ ecar.getVehicleType().getBatteryCapacity() + "kWh \n"

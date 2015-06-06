@@ -405,7 +405,7 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 				" " + AppContext.round(waypoint.getVelocity()*3.6, 2) + "km/h " +
 				" " + AppContext.round(waypoint.getAcceleration()*3.6, 2) + "km/h/s " + 
 				" " + AppContext.round(waypoint.getDistance(), 2) + "m " +
-				AppContext.round(waypoint.getEnergy(), 2) + "kWh");		
+				AppContext.round(waypoint.getEnergyInKWh(), 2) + "kWh");		
 	}
 
 	/**

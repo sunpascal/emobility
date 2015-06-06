@@ -1,4 +1,4 @@
-package de.unibamberg.eesys.projekt.gui;
+package de.unibamberg.eesys.projekt.gui.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +32,7 @@ import de.unibamberg.eesys.projekt.businessobjects.DriveSequence;
 import de.unibamberg.eesys.projekt.businessobjects.EcoDrivingProgress;
 import de.unibamberg.eesys.projekt.database.DBImplementation;
 import de.unibamberg.eesys.projekt.database.DatabaseException;
+import de.unibamberg.eesys.projekt.gui.EcoDrivingTechniqueAdapter;
 import de.unibamberg.eesys.statistics.BatterySocsReport;
 import de.unibamberg.eesys.statistics.Statistic;
 import de.unibamberg.eesys.statistics.StatisticsException;

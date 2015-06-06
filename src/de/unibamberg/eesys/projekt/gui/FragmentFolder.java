@@ -10,6 +10,19 @@ import java.util.TreeMap;
 import com.google.android.gms.wallet.wobs.c;
 
 import de.unibamberg.eesys.projekt.gui.MainActivity.MODE;
+import de.unibamberg.eesys.projekt.gui.fragment.AnalysisBatteryLevelFragment;
+import de.unibamberg.eesys.projekt.gui.fragment.AnalysisCriticalTripsFragment;
+import de.unibamberg.eesys.projekt.gui.fragment.AnalysisDrivePossibilityFragment;
+import de.unibamberg.eesys.projekt.gui.fragment.AnalysisTripDistanceFragment;
+import de.unibamberg.eesys.projekt.gui.fragment.AnalysisTripMapFragment;
+import de.unibamberg.eesys.projekt.gui.fragment.DashboardFragment;
+import de.unibamberg.eesys.projekt.gui.fragment.DashboardOldFragment;
+import de.unibamberg.eesys.projekt.gui.fragment.EcoDrivingAvgConsumptionFragment;
+import de.unibamberg.eesys.projekt.gui.fragment.EcoDrivingFeedbackTeqniqueFragment;
+import de.unibamberg.eesys.projekt.gui.fragment.EcoDrivingGoalFragment;
+import de.unibamberg.eesys.projekt.gui.fragment.EcoDrivingTableFragment;
+import de.unibamberg.eesys.projekt.gui.fragment.EvRecommendationFragment;
+import de.unibamberg.eesys.projekt.gui.fragment.EvRecommendationFragment1;
 import android.support.v4.app.Fragment;
 
 public class FragmentFolder {
@@ -24,7 +37,7 @@ public class FragmentFolder {
 		// Mode Dashboard
 		ArrayList<Fragment> dashboardFragments = new ArrayList();
 		dashboardFragments.add(new DashboardFragment());
-		dashboardFragments.add(new StatusFragment());			// alter Startbildschirm
+		dashboardFragments.add(new DashboardOldFragment());			// alter Startbildschirm
 		drawers.put(MODE.DASHBOARD, dashboardFragments);
 		
 		// Mode EV Recommendation
@@ -36,20 +49,18 @@ public class FragmentFolder {
 		// Mode Eco-driving
 		ArrayList<Fragment> ecodriving = new ArrayList();
 		ecodriving.add(new EcoDrivingFeedbackTeqniqueFragment());
-		ecodriving.add(new EcoDrivingFragment());
+		ecodriving.add(new EcoDrivingTableFragment());
 		ecodriving.add(new EcoDrivingGoalFragment());
-		ecodriving.add(new AvgConsumptionFragment());
+		ecodriving.add(new EcoDrivingAvgConsumptionFragment());
 		drawers.put(MODE.ECO_DRIVING, ecodriving);		
 		
 		// Mode Analysis		
 		ArrayList<Fragment> analysis = new ArrayList();
-		analysis.add(new AnalysisFragment());
-		analysis.add(new DriversLogFragment());
-//		analysis.add(new DriveDistancesFragment());  	// identisch mit AnalysisFragment
-		analysis.add(new DrivePossibilityFragment());  	// pie chart
-		analysis.add(new StateOfChargeFragment());		// batteriestand
-//		analysis.add(new EcoDrivingBatteryStateFragment()); identisch mit StateOfChargeFragment()
-		analysis.add(new DriveGraphFragment());			// Karte mit allen Fahrten
+		analysis.add(new AnalysisCriticalTripsFragment());
+		analysis.add(new AnalysisTripDistanceFragment());
+		analysis.add(new AnalysisDrivePossibilityFragment());  	// pie chart
+		analysis.add(new AnalysisBatteryLevelFragment());		// batteriestand
+		analysis.add(new AnalysisTripMapFragment());			// Karte mit allen Fahrten
 		drawers.put(MODE.ANALYSIS, analysis);		
 	}
 

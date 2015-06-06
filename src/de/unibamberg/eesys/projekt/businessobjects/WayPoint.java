@@ -24,12 +24,12 @@ public class WayPoint implements Parcelable {
 	double acceleration = 0;
 	long timestamp;
 
-	private float distance = 0;
+	private float distance = 0;  	// in meters
 	private double velocity = 0.0;
 	private int activityType = -2;
 	private int activityConfidence = -2;
 
-	private double energy = 0;
+	private double energy = 0;  	// in kW
 	private UpdateType updateType = UpdateType.NOT_SET;
 
 	public static enum UpdateType {
@@ -116,11 +116,16 @@ public class WayPoint implements Parcelable {
 	/**
 	 * Returns the current velocity of the WayPoint
 	 * 
-	 * @return velocity
+	 * @return velocity in m/s
 	 */
 	public double getVelocity() {
 		return velocity;
 	}
+	
+	public double getVelocityinKmh() {
+		return velocity * 3.6;
+	}
+	
 
 	/**
 	 * Sets the current velocity of the WayPoint
@@ -324,11 +329,11 @@ public class WayPoint implements Parcelable {
 	};
 
 	/**
-	 * Returns the needed energy to since the last WayPoint.
+	 * Returns the consume energy in kWhto since the last WayPoint.
 	 * 
 	 * @return
 	 */
-	public double getEnergy() {
+	public double getEnergyInKWh() {
 		return energy;
 	}
 
@@ -360,4 +365,19 @@ public class WayPoint implements Parcelable {
 	public void setUpdateType(UpdateType updateType) {
 		this.updateType = updateType;
 	}
+
+	/** 
+	 * calculates the consumption in kWh per km
+	 */
+	public double calcConsumptionPerKm() {
+		return energy / (distance * 1000) ;
+	}
+	
+	/** 
+	 * calculates the consumption in kWh per 100 km
+	 * @return
+	 */
+	public double calcConsumptionPer100km() {
+		return calcConsumptionPerKm() * 100;
+	}	
 }

@@ -398,7 +398,7 @@ public class Ecar {
 		currentTrip.setActive(false);
 
 		double sumCO2 = currentTrip.calcSumCO2(GRAM_CO2_PER_KWH,
-				currentTrip.getCoveredDistance());
+				currentTrip.getCoveredDistanceInMeters());
 		currentTrip.setSumCO2(sumCO2);
 
 		// actually store trip
@@ -414,7 +414,7 @@ public class Ecar {
 		L.i("Ending trip: "
 				+ appContext.getFormattedDateTime(currentTrip.getTimeStop())
 				+ " "
-				+ AppContext.round(currentTrip.getCoveredDistance() / 1000, 2)
+				+ AppContext.round(currentTrip.getCoveredDistanceInMeters() / 1000, 2)
 				+ "km");
 	}
 
@@ -602,13 +602,13 @@ public class Ecar {
 			// merely the acitivity changed
 			if (w.getUpdateType() == WayPoint.UpdateType.GPS) {
 				double currentSOC = getBattery().getCurrentSoc();
-				getBattery().setCurrentSoc(currentSOC - w.getEnergy());
+				getBattery().setCurrentSoc(currentSOC - w.getEnergyInKWh());
 
 				// update covered distance (cumulated distance of this trip so
 				// far)
 				getCurrentTrip()
 						.setCoveredDistance(
-								getCurrentTrip().getCoveredDistance()
+								getCurrentTrip().getCoveredDistanceInMeters()
 										+ w.getDistance());
 			}
 

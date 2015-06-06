@@ -1,4 +1,4 @@
-	package de.unibamberg.eesys.projekt.gui;
+	package de.unibamberg.eesys.projekt.gui.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ import de.unibamberg.eesys.projekt.businessobjects.DriveSequence;
 import de.unibamberg.eesys.projekt.database.DBImplementation;
 import de.unibamberg.eesys.projekt.database.DatabaseException;
 
-public class DriversLogFragment extends Fragment {
+public class AnalysisCriticalTripsFragment extends Fragment {
 
 	public static final String TAG = "DriversLogFragment";
 	public static final String ARG_STATUS = "status";
@@ -35,6 +35,9 @@ public class DriversLogFragment extends Fragment {
 	/** View that displays the fragment. */
 	private View rootView;
 	/** Instance of the SQL database. */
+	
+	private TableLayout tableLayout;
+	
 	private DBImplementation dBImplementation;
 	/** Displays an list */
 	private ListView listView;
@@ -43,7 +46,7 @@ public class DriversLogFragment extends Fragment {
 	/** Is needed for handling the fragment lifecycle. */
 	private FragmentTransaction fragmentTransaction;
 	/** Fragment for displaying a drive sequence. */
-	private DriveGraphFragment driveGraphFragment;
+	private AnalysisTripMapFragment driveGraphFragment;
 	/** Id of the select ListViewItem. */
 	private int containerId;
 	/** Position of the List Element. */
@@ -55,7 +58,7 @@ public class DriversLogFragment extends Fragment {
 	 * @author Matthias
 	 * 
 	 * */
-	public DriversLogFragment() {
+	public AnalysisCriticalTripsFragment() {
 	}
 
 	@Override
@@ -63,9 +66,13 @@ public class DriversLogFragment extends Fragment {
 			Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_driverslog, container,
 				false);
-
-		AppContext appContext = (AppContext) getActivity()
-				.getApplicationContext();
+		AppContext appContext = (AppContext) getActivity().getApplicationContext();
+		
+		tableLayout = (TableLayout) rootView.findViewById(R.id.tableLayout1);
+		
+		// header row
+		addHeaderRow();
+		
 		dBImplementation = new DBImplementation(appContext);
 
 		List<DriveSequence> listDriveSequences = new ArrayList<DriveSequence>();
@@ -78,12 +85,11 @@ public class DriversLogFragment extends Fragment {
 		
 		for (final DriveSequence d : listDriveSequences) {
 		
-			TableLayout tableLayout = (TableLayout) rootView.findViewById(R.id.tableLayout1);
 			TextView t1 = new TextView(rootView.getContext());
 			t1.setText(d.getTimeStartFormatted());
 			
 			TextView t3 = new TextView(rootView.getContext());
-			t3.setText(appContext.round(d.getCoveredDistance(), 0) + " km");
+			t3.setText(appContext.round(d.getCoveredDistanceInKm(), 0) + " km");
 			
 			TextView t4 = new TextView(rootView.getContext());
 			t4.setText(appContext.round(d.calcSumkWh()) + " kWh");
@@ -105,34 +111,26 @@ public class DriversLogFragment extends Fragment {
 			tableLayout.addView(row);
 			
 		}
-
-		/** Contains the listIndexName that is actually displayed. */
-//		ArrayAdapter<DriveSequence> objAdapter = new ArrayAdapter<DriveSequence>(
-//				this.getActivity(), R.layout.list_item,
-//				listDriveSequences);
-//
-//		L.d("listDriveSequences");
-
-//		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//			@Override
-//			public void onItemClick(AdapterView<?> parent, View view,
-//					int position, long id) {
-//				DriveSequence d = (DriveSequence) parent
-//						.getItemAtPosition(position);
-//				loadDriveGraphFragment(d);
-//			}
-//		});
-//
-//		View header = getLayoutInflater(savedInstanceState).inflate(R.layout.header_critical_trips, null);
-//	    listView.addHeaderView(header);
-//		
-//		View footer = getLayoutInflater(savedInstanceState).inflate(R.layout.footer_critical_trips, null);
-//	    listView.addFooterView(footer);
-//	    
-//		listView.setAdapter(objAdapter);
 	    
 		return rootView;
 	}
+	
+	private void addHeaderRow() {
+		TableRow headerRow = new TableRow(rootView.getContext());
+		TextView t1 = new TextView(rootView.getContext());
+		t1.setText("Date");
+		TextView t2 = new TextView(rootView.getContext());
+		t2.setText("Distance");
+		TextView t3 = new TextView(rootView.getContext());
+		t3.setText("Energy");
+		
+		headerRow.addView(t1);
+		headerRow.addView(t2);
+		headerRow.addView(t3);			
+		headerRow.setPadding(0, 3, 0, 3);	
+		
+		tableLayout.addView(headerRow);
+	}	
 
 	/**
 	 * This method loads an specific DriveGraphFragment that is filled with an
@@ -146,7 +144,7 @@ public class DriversLogFragment extends Fragment {
 
 		fragmentManager = getFragmentManager();
 		fragmentTransaction = fragmentManager.beginTransaction();
-		driveGraphFragment = new DriveGraphFragment(ds);
+		driveGraphFragment = new AnalysisTripMapFragment(ds);
 		containerId = ((ViewGroup) getView().getParent()).getId();
 
 		driveGraphFragment.setArguments(getActivity().getIntent().getExtras());
@@ -159,6 +157,7 @@ public class DriversLogFragment extends Fragment {
 //		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 	}
+	
 
 	@Override
 	public void onDestroyView() {

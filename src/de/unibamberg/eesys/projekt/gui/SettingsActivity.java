@@ -1,5 +1,6 @@
 package de.unibamberg.eesys.projekt.gui;
 
+import de.unibamberg.eesys.projekt.gui.fragment.SettingsFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;

@@ -1,4 +1,4 @@
-package de.unibamberg.eesys.projekt.gui;
+package de.unibamberg.eesys.projekt.gui.fragment;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -49,15 +49,11 @@ import de.unibamberg.eesys.statistics.StatisticsException;
  * @author Robert
  * 
  */
-public class EcoDrivingFragment extends Fragment {
+public class EcoDrivingTableFragment extends Fragment {
 
-	public static final String TAG = "EcoDrivingFragment";
-	public static final String ARG_STATUS = "status";
-
-	public static final int BATTERY_SOCS = 3223478;
-	
 	AppContext appContext;
 	private FragmentActivity myContext;
+	private TableLayout tableLayout;
 	
 	/** View that displays the fragment. */
 	private View rootView;
@@ -75,7 +71,7 @@ public class EcoDrivingFragment extends Fragment {
 	private FragmentTransaction fragmentTransaction;
 	/** Fragment for displaying a drive sequence. */
 	
-	private DriveGraphFragment driveGraphFragment;
+	private AnalysisTripMapFragment driveGraphFragment;
 	
 	/** Id of the select ListViewItem. */
 	private int containerId;
@@ -83,16 +79,7 @@ public class EcoDrivingFragment extends Fragment {
 	/** Position of the List Element. */
 	int position;		
 	
-	
-	
-	/** needed for consumption chart  */
-	@SuppressWarnings("rawtypes")
-	// is needed for generic approach in Statistics Workspace
-	Chart mChart;
-	Object mChartData;
-	Statistic mStatistic;	
-	
-	public EcoDrivingFragment() {
+	public EcoDrivingTableFragment() {
 	}
 	
 	@Override
@@ -105,13 +92,22 @@ public class EcoDrivingFragment extends Fragment {
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
 			Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_ecodriving, container, false);
-
 		appContext = (AppContext) getActivity().getApplicationContext();
 		
-		// CODE FOR DRIVER'S LOG TABLE // 
+		// CODE FOR DRIVER'S LOG TABLE //
+		tableLayout = (TableLayout) rootView.findViewById(R.id.tableLayout1);
+		tableLayout.setColumnShrinkable(1, false);
+		tableLayout.setColumnShrinkable(2, true);
+		
+		tableLayout.setColumnStretchable(0, true);
+		
+		// header row
+		addHeaderRow();
+		
+		// main data
 		
 		dBImplementation = new DBImplementation(appContext);
-
+		
 		List<DriveSequence> listDriveSequences = new ArrayList<DriveSequence>();
 		try {
 			listDriveSequences = dBImplementation.getDriveSequences(true);
@@ -122,31 +118,33 @@ public class EcoDrivingFragment extends Fragment {
 		
 		for (final DriveSequence d : listDriveSequences) {
 			
-			// Todo: calculate avergage consumption on trip basis, not vehicle basis
-			double kWhPerKm = appContext.getEcar().getVehicleType().getEnergyConsumption_perKM();
-			double kWhPer100Km = kWhPerKm * 100;
+			double kWhPer100Km = d.calcAveragekWhPer100Km();
 		
-			TableLayout tableLayout = (TableLayout) rootView.findViewById(R.id.tableLayout1);
 			TextView t1 = new TextView(rootView.getContext());
 			t1.setText(d.getTimeStartFormatted());
 			
 			TextView t2 = new TextView(rootView.getContext());
-			t2.setText(appContext.round(kWhPer100Km) + " kWh");
+			t2.setText(AppContext.round(kWhPer100Km, 0) + " kWh");
 			
 			TextView t3 = new TextView(rootView.getContext());
+			// todo: this use current ecar type... 
+			t3.setText(Math.round(d.calcPersonalRange(appContext.getEcar().getVehicleType().getBatteryCapacity())) + " km");
+			
+			TextView t4 = new TextView(rootView.getContext());
 			if (kWhPer100Km > 20 )  { // todo: use personal goal
-				t3.setText("☹" + " kWh");
-				t3.setTextColor(Color.RED);
+				t4.setText("☹");
+				t4.setTextColor(Color.RED);
 			}
 			else {
-				t3.setText("☺");
-				t3.setTextColor(Color.GREEN);
+				t4.setText("☺");
+				t4.setTextColor(Color.GREEN);
 			}
 			
 			TableRow row = new TableRow(rootView.getContext()); 
 			row.addView(t1);
 			row.addView(t2);
-			row.addView(t3);			
+			row.addView(t3);
+			row.addView(t4);	
 			row.setPadding(0, 3, 0, 3);
 			
 			row.setOnClickListener(new OnClickListener() {
@@ -157,14 +155,33 @@ public class EcoDrivingFragment extends Fragment {
 			});
 			
 			tableLayout.addView(row);
-			
 		}
-	        
 	    
 	    return rootView;	
 	    
 	}
 	
+
+	private void addHeaderRow() {
+		TableRow headerRow = new TableRow(rootView.getContext());
+		TextView t1 = new TextView(rootView.getContext());
+		t1.setText("Date");
+		TextView t2 = new TextView(rootView.getContext());
+		t2.setText("Consumption ");				// todo:  "(per 100km)"
+		TextView t3 = new TextView(rootView.getContext());
+		t3.setText("Personal Range");		
+		TextView t4 = new TextView(rootView.getContext());
+		t4.setText("");
+		
+		headerRow.addView(t1);
+		headerRow.addView(t2);
+		headerRow.addView(t3);
+		headerRow.addView(t4);	
+		headerRow.setPadding(0, 3, 0, 3);	
+		headerRow.setShowDividers(1);
+		
+		tableLayout.addView(headerRow);
+	}
 
 	/**
 	 * This method loads an specific DriveGraphFragment that is filled with an
@@ -178,7 +195,7 @@ public class EcoDrivingFragment extends Fragment {
 
 		fragmentManager = getFragmentManager();
 		fragmentTransaction = fragmentManager.beginTransaction();
-		driveGraphFragment = new DriveGraphFragment(ds);
+		driveGraphFragment = new AnalysisTripMapFragment(ds);
 		containerId = ((ViewGroup) getView().getParent()).getId();
 
 		driveGraphFragment.setArguments(getActivity().getIntent().getExtras());

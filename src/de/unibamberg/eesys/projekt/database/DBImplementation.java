@@ -280,7 +280,7 @@ public class DBImplementation implements DatabaseInterface {
 					driveSequence.getTimeStart(),
 					driveSequence.getTimeStop(),
 					active,
-					driveSequence.getCoveredDistance(),
+					driveSequence.getCoveredDistanceInMeters(),
 					driveSequence.getSumCO2()
 					);
 			
@@ -296,7 +296,7 @@ public class DBImplementation implements DatabaseInterface {
 					driveSequence.getTimeStart(),
 					driveSequence.getTimeStop(),
 					active,
-					driveSequence.getCoveredDistance(),
+					driveSequence.getCoveredDistanceInMeters(),
 					driveSequence.getSumCO2()
 					);
 		}

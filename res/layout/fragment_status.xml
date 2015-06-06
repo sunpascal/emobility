@@ -3,8 +3,8 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:paddingLeft="16dp"
-	android:paddingRight="16dp" >
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp" >
 
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -17,7 +17,7 @@
 			android:gravity="center_horizontal"
 			android:orientation="horizontal" >
 
-			<!-- Always visible TextViews: Charching Level & Car State -->
+			<!-- Always visible TextViews: Charging Level & Car State -->
 			<TextView
 				android:id="@+id/textview_text_current_charginglvl"
 				android:layout_width="wrap_content"
@@ -95,14 +95,14 @@
 			android:paddingLeft="15dp" />
 		
 		<TextView
-			android:id="@+id/textView_label_remainingTimeOnBattery"
+			android:id="@+id/textView_label_remainingKmOnBattery"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="@string/remainingTimeOnBattery"
+			android:text="@string/remainingKmOnBattery"
 			android:textStyle="bold" />
 
 		<TextView
-			android:id="@+id/textview_text_remainingTimeOnBattery"
+			android:id="@+id/textview_text_remainingKmOnBattery"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:paddingBottom="10dp"
