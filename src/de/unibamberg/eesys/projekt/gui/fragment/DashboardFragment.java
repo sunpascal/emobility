@@ -34,7 +34,7 @@ import de.unibamberg.eesys.projekt.gui.GuiUpdateInterface;
  * different versions according to the car state (driving, charging, parking)
  * 
  */
-public class DashboardFragement extends Fragment implements GuiUpdateInterface {
+public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 	public static final String TAG = "StatusFragment";
 	public static final String ARG_STATUS = "status";
 
@@ -78,7 +78,7 @@ public class DashboardFragement extends Fragment implements GuiUpdateInterface {
 	/**
 	 * Fragment Class Constructor
 	 */
-	public DashboardFragement() {
+	public DashboardFragment() {
 		// Empty constructor required for fragment subclasses
 	}
 
