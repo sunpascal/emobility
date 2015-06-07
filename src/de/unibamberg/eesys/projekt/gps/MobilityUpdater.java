@@ -26,6 +26,7 @@ import com.google.android.gms.location.DetectedActivity;
 import de.unibamberg.eesys.projekt.AppContext;
 import de.unibamberg.eesys.projekt.HlpEnergyConsumptionModel;
 import de.unibamberg.eesys.projekt.L;
+import de.unibamberg.eesys.projekt.Params;
 import de.unibamberg.eesys.projekt.businessobjects.Ecar.CarState;
 import de.unibamberg.eesys.projekt.businessobjects.GeoCoordinate;
 import de.unibamberg.eesys.projekt.businessobjects.WayPoint;
@@ -123,7 +124,7 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 		// GPS_UPDATE_TIME, UPDATE_DISTANCE, mlocListener);
 
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-				AppContext.GPS_UPDATE_TIME, UPDATE_DISTANCE, mlocListener);
+				Params.GPS_UPDATE_TIME, UPDATE_DISTANCE, mlocListener);
 
 		appContext = (AppContext) a.getApplicationContext();
 		consumptionModel = appContext.getConsumptionModel();
@@ -234,7 +235,7 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 		PendingIntent callbackIntent = PendingIntent.getService(mContext, 5,
 				intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		mActivityRecognitionClient.requestActivityUpdates(
-				AppContext.ACTIVITY_RECOGNITION_UPDATE_TIME, callbackIntent);
+				Params.ACTIVITY_RECOGNITION_UPDATE_TIME, callbackIntent);
 		appContext.setPlayServicesAvailable(true);
 		L.v("Connected to Google Play Services and waiting for activity recognition updates.");
 	}

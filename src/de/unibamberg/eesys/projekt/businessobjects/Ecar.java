@@ -9,6 +9,7 @@ import com.google.android.gms.location.DetectedActivity;
 
 import de.unibamberg.eesys.projekt.AppContext;
 import de.unibamberg.eesys.projekt.L;
+import de.unibamberg.eesys.projekt.Params;
 import de.unibamberg.eesys.projekt.businessobjects.Sequence.SequenceType;
 import de.unibamberg.eesys.projekt.database.DatabaseException;
 
@@ -449,14 +450,14 @@ public class Ecar {
 			// exceeded
 			else if (durationSinceLastMovementExceeded() == true) {
 				timeLastMovement = -1; // reset counter for next time
-				L.d("Vehicle stop time exceeds " + AppContext.MAX_VEHICLE_STILL_DURATION
+				L.d("Vehicle stop time exceeds " + Params.MAX_VEHICLE_STILL_DURATION
 						+ "s + ("
 						+ (System.currentTimeMillis() - timeLastMovement)
 						/ 1000 + "s). Ending trip.");
 				Toast.makeText(
 						appContext.getApplicationContext(),
 						"Vehicle stop time exceeds "
-								+ AppContext.MAX_VEHICLE_STILL_DURATION
+								+ Params.MAX_VEHICLE_STILL_DURATION
 								+ "s. Ending trip.", Toast.LENGTH_SHORT).show();
 				endTrip();
 
@@ -634,7 +635,7 @@ public class Ecar {
 	public boolean isVehicleMoving(WayPoint w) {
 
 		if (appContext.ignoreActivityRecognition())
-			return (w.getVelocity()) > AppContext.MIN_SPEED_FOR_MOVING;
+			return (w.getVelocity()) > Params.MIN_SPEED_FOR_MOVING;
 		else
 			return (w.getActivityType() == DetectedActivity.IN_VEHICLE
 					||
@@ -646,7 +647,7 @@ public class Ecar {
 					|| w.getActivityType() == DetectedActivity.ON_FOOT
 					|| w.getActivityType() == DetectedActivity.RUNNING || w
 					.getActivityType() == DetectedActivity.WALKING)
-					&& (w.getVelocity()) > AppContext.MIN_SPEED_FOR_MOVING;
+					&& (w.getVelocity()) > Params.MIN_SPEED_FOR_MOVING;
 	}
 
 	/**
@@ -664,7 +665,7 @@ public class Ecar {
 
 		double msStandstillDuration = System.currentTimeMillis()
 				- timeLastMovement;
-		if (msStandstillDuration > (AppContext.MAX_VEHICLE_STILL_DURATION * 1000))
+		if (msStandstillDuration > (Params.MAX_VEHICLE_STILL_DURATION * 1000))
 			return true;
 		else
 			return false;
@@ -681,10 +682,10 @@ public class Ecar {
 
 		if (appContext.ignoreActivityRecognition())
 			// only use velocity to decide
-			return w.getVelocity() < AppContext.MIN_SPEED_FOR_MOVING;
+			return w.getVelocity() < Params.MIN_SPEED_FOR_MOVING;
 		else
 			// take activity recognition into account as well
-			return (w.getVelocity() < AppContext.MIN_SPEED_FOR_MOVING
+			return (w.getVelocity() < Params.MIN_SPEED_FOR_MOVING
 					&& (w.getActivityType()) == DetectedActivity.STILL
 					|| w.getActivityType() == DetectedActivity.UNKNOWN || w
 						.getActivityType() == DetectedActivity.TILTING);
