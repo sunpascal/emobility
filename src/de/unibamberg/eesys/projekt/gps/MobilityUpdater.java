@@ -73,19 +73,11 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 	// 			...   70m at 50 km/h
 	//			...   27m at 20 km/h
 	
-	// idea: use dynamic interval depending on speed of last waypoint
-	private static final long GPS_UPDATE_TIME = 1*1000;
-	
 	/**
 	 * minimum distance between two points for a GPS point to be counter
 	 */
 	private static final long UPDATE_DISTANCE = 0;		// use 0 in order to detect when car has stopped
 	
-	//Verzögerung die gewartet wird, bis die neue Activity umgestellt wird
-	// currently only every 10 minutes (de facto disabled), before: 1s 
-	private static final long ACTIVITY_RECOGNITION_UPDATE_TIME = 600*1000;		 
-//	private static final long ACTIVITY_RECOGNITION_UPDATE_TIME = 360000000;
-
 	private static final String PREF_TESTING_ACTIVITY = "testing.activity";
 	private static final String PREF_TESTING_SPEED = "testing.speed";
 
@@ -131,7 +123,7 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 		// GPS_UPDATE_TIME, UPDATE_DISTANCE, mlocListener);
 
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-				GPS_UPDATE_TIME, UPDATE_DISTANCE, mlocListener);
+				AppContext.GPS_UPDATE_TIME, UPDATE_DISTANCE, mlocListener);
 
 		appContext = (AppContext) a.getApplicationContext();
 		consumptionModel = appContext.getConsumptionModel();
@@ -242,7 +234,7 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 		PendingIntent callbackIntent = PendingIntent.getService(mContext, 5,
 				intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		mActivityRecognitionClient.requestActivityUpdates(
-				ACTIVITY_RECOGNITION_UPDATE_TIME, callbackIntent);
+				AppContext.ACTIVITY_RECOGNITION_UPDATE_TIME, callbackIntent);
 		appContext.setPlayServicesAvailable(true);
 		L.v("Connected to Google Play Services and waiting for activity recognition updates.");
 	}

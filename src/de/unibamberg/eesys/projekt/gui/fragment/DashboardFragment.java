@@ -39,9 +39,6 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 	public static final String TAG = "StatusFragment";
 	public static final String ARG_STATUS = "status";
 
-	private static final int threshholdGreenAcceleration = 20; // if current consumption is > 200 kWh, background should be red 
-	private static final int NUMBER_OF_CHARGE_STATIONS_TO_SHOW = 3; 
-	
 	private AppContext appContext;
 	private View rootView;	
 
@@ -346,7 +343,7 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 		txtCurrentConsumption.setText(consumptionTxt);
 		
 		double currentConsumption = w.calcConsumptionPer100km(); 
-		if (currentConsumption > threshholdGreenAcceleration) 
+		if (currentConsumption > AppContext.THRESSHOLD_ACCELERATION_FOR_GREEN_BACKGROUND) 
 			rootView.setBackgroundColor(getResources().getColor(R.color.color_red));
 		else 
 			rootView.setBackgroundColor(getResources().getColor(R.color.color_green));			
@@ -402,7 +399,7 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 		tableChargeStations.removeAllViews();		
 		
 //		only show NUMBER_OF_CHARGE_STATIONS_TO_SHOW closest charge stations
-		for (int i=0; i<NUMBER_OF_CHARGE_STATIONS_TO_SHOW; i++) {
+		for (int i=0; i<AppContext.NUMBER_OF_CHARGE_STATIONS_TO_SHOW; i++) {
 			ChargingStation cs = nearbyCS.get(i);
 			
 			TextView t1 = new TextView(rootView.getContext());

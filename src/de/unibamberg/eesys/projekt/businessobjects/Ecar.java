@@ -30,19 +30,10 @@ public class Ecar {
 																// in DB
 	double startChargeTime = 0; // do not persist in DB
 
-	int MIN_SPEED_FOR_MOVING = 3; // 3m/s = 10.8 km/h
-
 	/**
 	 * time when car entered a stand still
 	 */
 	double timeLastMovement = -1; // do not persist in DB
-
-	/**
-	 * duration in seconds that a car may be still, before trip ends used to
-	 * prevent short stops (e.g. traffic lights) to end trip "Ampeltimeout"
-	 */
-	 double MAX_VEHICLE_STILL_DURATION = 3; // 3 seconds
-//	double MAX_VEHICLE_STILL_DURATION = 60 * 2; // 2 minutes
 
 	/*
 	 * CO2 emission for producing 1kWh of elecritity in Germany (2013)
@@ -458,14 +449,14 @@ public class Ecar {
 			// exceeded
 			else if (durationSinceLastMovementExceeded() == true) {
 				timeLastMovement = -1; // reset counter for next time
-				L.d("Vehicle stop time exceeds " + MAX_VEHICLE_STILL_DURATION
+				L.d("Vehicle stop time exceeds " + AppContext.MAX_VEHICLE_STILL_DURATION
 						+ "s + ("
 						+ (System.currentTimeMillis() - timeLastMovement)
 						/ 1000 + "s). Ending trip.");
 				Toast.makeText(
 						appContext.getApplicationContext(),
 						"Vehicle stop time exceeds "
-								+ MAX_VEHICLE_STILL_DURATION
+								+ AppContext.MAX_VEHICLE_STILL_DURATION
 								+ "s. Ending trip.", Toast.LENGTH_SHORT).show();
 				endTrip();
 
@@ -643,7 +634,7 @@ public class Ecar {
 	public boolean isVehicleMoving(WayPoint w) {
 
 		if (appContext.ignoreActivityRecognition())
-			return (w.getVelocity()) > MIN_SPEED_FOR_MOVING;
+			return (w.getVelocity()) > AppContext.MIN_SPEED_FOR_MOVING;
 		else
 			return (w.getActivityType() == DetectedActivity.IN_VEHICLE
 					||
@@ -655,7 +646,7 @@ public class Ecar {
 					|| w.getActivityType() == DetectedActivity.ON_FOOT
 					|| w.getActivityType() == DetectedActivity.RUNNING || w
 					.getActivityType() == DetectedActivity.WALKING)
-					&& (w.getVelocity()) > MIN_SPEED_FOR_MOVING;
+					&& (w.getVelocity()) > AppContext.MIN_SPEED_FOR_MOVING;
 	}
 
 	/**
@@ -673,7 +664,7 @@ public class Ecar {
 
 		double msStandstillDuration = System.currentTimeMillis()
 				- timeLastMovement;
-		if (msStandstillDuration > (MAX_VEHICLE_STILL_DURATION * 1000))
+		if (msStandstillDuration > (AppContext.MAX_VEHICLE_STILL_DURATION * 1000))
 			return true;
 		else
 			return false;
@@ -690,10 +681,10 @@ public class Ecar {
 
 		if (appContext.ignoreActivityRecognition())
 			// only use velocity to decide
-			return w.getVelocity() < MIN_SPEED_FOR_MOVING;
+			return w.getVelocity() < AppContext.MIN_SPEED_FOR_MOVING;
 		else
 			// take activity recognition into account as well
-			return (w.getVelocity() < MIN_SPEED_FOR_MOVING
+			return (w.getVelocity() < AppContext.MIN_SPEED_FOR_MOVING
 					&& (w.getActivityType()) == DetectedActivity.STILL
 					|| w.getActivityType() == DetectedActivity.UNKNOWN || w
 						.getActivityType() == DetectedActivity.TILTING);
