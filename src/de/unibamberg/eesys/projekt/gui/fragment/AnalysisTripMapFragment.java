@@ -45,6 +45,12 @@ import de.unibamberg.eesys.projekt.database.DatabaseException;
  */
 public class AnalysisTripMapFragment extends Fragment {
 
+	/* 
+	 * the how many-th waypoint should be plotted on the map 
+	 * mapping every waypoint recorded is likely to overload the device
+	 * 10 = every 10th waypoint
+	 */
+	private final static int DRAW_NTH_WAYPOINT = 10; 
 	private static GoogleMap map;
 	public static SupportMapFragment mapFragment;
 	private static FragmentTransaction fragmentTransaction;
@@ -322,8 +328,8 @@ public class AnalysisTripMapFragment extends Fragment {
 			int i = 0;
 			for (WayPoint wp : wayPoints) {
 				i++;
-				// for performance reasons, do not draw EVERY waypoint on graph
-				if (i % 20 == 0) {
+				// for performance reasons, do not draw EVERY waypoint on graph, but every 10th
+				if (i % DRAW_NTH_WAYPOINT == 0) {
 					latitude = wp.getGeoCoordinate().getLatitude();
 					longitude = wp.getGeoCoordinate().getLongitude();
 

@@ -78,7 +78,7 @@ public class ChargingStationActivity extends Activity implements
 		spinner = (Spinner) findViewById(R.id.chargingTypes_Spinner);
 		spinner.setOnItemSelectedListener(this);
 
-		// get List of Charching Types to fill the spinner
+		// get List of Charging Types to fill the spinner
 		List<ChargingType> chargingTypes = new ArrayList<ChargingType>();
 		try {
 			chargingTypes = db.getChargingTypes();
@@ -106,9 +106,6 @@ public class ChargingStationActivity extends Activity implements
 		// Apply the adapter to the spinner
 		spinner.setAdapter(dataAdapter);
 
-		// /* Use the LocationManager class to obtain GPS locations */
-		// this.mContext = a;
-
 		// Set the button and click Listener
 		final Button button = (Button) findViewById(R.id.cs_save);
 		button.setOnClickListener(new OnClickListener() {
@@ -125,25 +122,37 @@ public class ChargingStationActivity extends Activity implements
 
 				ChargingStation chargingStation = new ChargingStation();
 				chargingStation.setName(mEdit.getText().toString());
+				
+				// attempt to set GPS coordinates 
 				int gpsStatus = appContext.getCurrentGpsStatus();
-				if(gpsStatus != 2){
-					Toast.makeText(context, "GPS not available. Charging station cannot be created!",
-							Toast.LENGTH_LONG).show();
+				GeoCoordinate geoCoordinate = appContext.getCurrentPosition();
+				if(geoCoordinate.getLatitude() == 0 && geoCoordinate.getLongitude() == 0 && geoCoordinate.getAltitude() == 0){
+					Toast.makeText(context, "GPS singal not available. Charging station cannot be created!",
+							Toast.LENGTH_SHORT).show();
 				}
 				else{
-					GeoCoordinate geoCoordinate = appContext.getCurrentPosition();
 					chargingStation.setGeoCoordinate(geoCoordinate);
-					Toast.makeText(context, "Charging station created!",
-							Toast.LENGTH_LONG).show();
-			}
-
-				if (selectedType != null) {
-					chargingStation.setChargingType(selectedType);
-				} else {
-					Toast.makeText(context,
-							"Please select a charging station type!",
-							Toast.LENGTH_LONG).show();
-
+					
+					// charging type
+					if (selectedType != null) {
+						chargingStation.setChargingType(selectedType);
+						
+						// GPS coordinates + charging type ok => store in DB
+						try {
+							appContext.getDb().storeChargingStation(chargingStation);
+						} catch (DatabaseException e) {
+							Toast.makeText(context, "Charging station could not be stored in database.",
+									Toast.LENGTH_SHORT).show();
+							e.printStackTrace();
+						}
+						Toast.makeText(context, "Charging station created!",Toast.LENGTH_SHORT).show();
+						
+						finish();
+					} else {
+						Toast.makeText(context,
+								"Please select a charging station type!",
+								Toast.LENGTH_SHORT).show();
+					}					
 				}
 
 			}
@@ -170,8 +179,6 @@ public class ChargingStationActivity extends Activity implements
 		this.selectedType = (ChargingType) ((Spinner) findViewById(R.id.chargingTypes_Spinner))
 				.getSelectedItem();
 
-		Toast.makeText(parent.getContext(), "You selected: " + selected,
-				Toast.LENGTH_LONG).show();
 	}
 
 	/**
@@ -183,7 +190,7 @@ public class ChargingStationActivity extends Activity implements
 	@Override
 	public void onNothingSelected(AdapterView<?> parent) {
 		Toast.makeText(parent.getContext(),
-				"Please select a charching station type!", Toast.LENGTH_LONG)
+				"Please select a charging station type!", Toast.LENGTH_SHORT)
 				.show();
 
 	}

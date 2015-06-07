@@ -1,5 +1,7 @@
 package de.unibamberg.eesys.projekt.businessobjects;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.location.Location;
@@ -14,13 +16,44 @@ import de.unibamberg.eesys.projekt.L;
  * @version 1.0
  *
  */
-public class ChargingStation {
+public class ChargingStation implements Comparable {
 	long id;
 	ChargingType chargingType;
 	GeoCoordinate geoCoordinate;
 	String name;
 	String description;
-	private final static double MIN_DISTANCE_TO_CHARGESTATION = 30;
+	
+	/** distance from current position
+	 *  updated when checking for nearby charging stations 
+	 * 
+	 */
+	double distance;	// not persisted
+	
+	
+	/** returns distance in meters **/
+	public double getDistance() {
+		return distance;
+	}
+	
+	public double getDistanceInKm() {
+		return distance / 1000;
+	}	
+
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
+
+	/**
+	 * defines how close the car has to be to a charge stations in order to begin charging,
+	 * in meters 
+	 */
+	private final static double MIN_DISTANCE_TO_CHARGESTATION_FOR_CHARGING = 30;
+	
+	/**
+	 * defines the radius of which nearby charge stations are displayed,
+	 * in meters 
+	 */	
+	private final static double MIN_DISTANCE_TO_CHARGESTATION_FOR_DISPLAYING = 2000000;
 
 	private double chargedEnergy; // in kWh
 
@@ -142,6 +175,43 @@ public class ChargingStation {
 	public String toString() {
 		return geoCoordinate.toString() + " | " + name + " | " + description;
 	}
+	
+	
+	/**
+	 * returns a list of nearby charging stations 
+	 * the minimum distance is fixed in MIN_DISTANCE_TO_CHARGESTATION_FOR_DISPLAYING
+	 * If the charging station is not farther away than the minDistance (constant)
+	 * it will be returned.
+	 * 
+	 * @param w (WayPoint)
+	 * @param allChargingStations (List of ChargingStations)
+	 * @return list of nearby charging charging stations
+	 *         will return an empty list if there are not charging stations nearby 
+	 */
+	public static List<ChargingStation> getNearbyChargeStations(WayPoint w,
+			List<ChargingStation> allChargingStations) {
+		ChargingStation result = null;
+
+		double minDistance = MIN_DISTANCE_TO_CHARGESTATION_FOR_DISPLAYING; 
+		
+		List<ChargingStation> nearbyChargingStations = new ArrayList<ChargingStation>();
+		for (ChargingStation c : allChargingStations) {
+			float[] distance = new float[3];
+			Location.distanceBetween(w.getGeoCoordinate().getLatitude(), w
+					.getGeoCoordinate().getLongitude(), c.getGeoCoordinate()
+					.getLatitude(), c.getGeoCoordinate().getLongitude(),
+					distance);
+			if (distance[0] <= minDistance) {
+				// if the distance is less than minimum, add to list of nearby charge stations
+				c.setDistance(distance[0]);
+				nearbyChargingStations.add(c);
+			}
+		}
+		
+		// sort list to show nearest charging stations first
+		Collections.sort(nearbyChargingStations);
+		return nearbyChargingStations;
+	}	
 
 	/**
 	 * Checks if there is a charging station that is close to the provided WayPoint.
@@ -157,17 +227,14 @@ public class ChargingStation {
 			List<ChargingStation> chargingStations) {
 		ChargingStation result = null;
 
-		double minDistance = MIN_DISTANCE_TO_CHARGESTATION; // distance that a
-															// charge station
-															// has to be
+		// distance that a charge station has to be to start charging
+		double minDistance = MIN_DISTANCE_TO_CHARGESTATION_FOR_CHARGING; 
 		for (ChargingStation c : chargingStations) {
-//			L.v(c.getGeoCoordinate().toString());
 			float[] distance = new float[3];
 			Location.distanceBetween(w.getGeoCoordinate().getLatitude(), w
 					.getGeoCoordinate().getLongitude(), c.getGeoCoordinate()
 					.getLatitude(), c.getGeoCoordinate().getLongitude(),
 					distance);
-//			L.v("distance from charge station: " + distance[0]);
 			if (distance[0] <= minDistance) {
 				return c;
 				// will stop if a charge station is found that is < e.g 15
@@ -177,5 +244,18 @@ public class ChargingStation {
 		}
 		return result; // will return null if no charge station was closer than
 						// min distance
+	}
+
+	@Override
+	/** allow sorting charge stations by distance
+	 * works only if distance has been set! => getNearbyChargeStations()
+	 */
+		public int compareTo(Object another) {
+		
+			if (distance > ((ChargingStation) another).getDistance())
+				return 1;
+			else if (distance < ((ChargingStation) another).getDistance())
+				return -1; 
+			else return 0;
 	}
 }

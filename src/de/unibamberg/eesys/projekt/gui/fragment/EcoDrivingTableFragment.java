@@ -3,11 +3,14 @@ package de.unibamberg.eesys.projekt.gui.fragment;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -106,11 +109,9 @@ public class EcoDrivingTableFragment extends Fragment {
 		
 		// main data
 		
-		dBImplementation = new DBImplementation(appContext);
-		
 		List<DriveSequence> listDriveSequences = new ArrayList<DriveSequence>();
 		try {
-			listDriveSequences = dBImplementation.getDriveSequences(true);
+			listDriveSequences = appContext.getDb().getDriveSequences(true);
 		} catch (DatabaseException e) {
 			Toast.makeText(appContext, "An unexpected error has occurred.", Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
@@ -132,7 +133,7 @@ public class EcoDrivingTableFragment extends Fragment {
 			
 			TextView t4 = new TextView(rootView.getContext());
 			if (kWhPer100Km > 20 )  { // todo: use personal goal
-				t4.setText("☹");
+				t4.setText(":(");		// ☹
 				t4.setTextColor(Color.RED);
 			}
 			else {

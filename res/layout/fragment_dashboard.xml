@@ -15,7 +15,7 @@
 	    android:layout_height="wrap_content"
 	    android:orientation="vertical" >
 
-	    <!-- progess bar + text layout horizontal -->
+	    <!-- progress bar + text layout horizontal -->
 
 		<LinearLayout
 		    android:layout_width="fill_parent"
@@ -205,6 +205,14 @@
 
 
 		</TableLayout>
+		
+		<TableLayout
+		    		android:id="@+id/tableChargeStations"
+		            android:layout_width="match_parent"
+		            android:layout_height="match_parent"
+		            android:background="#ffffff">
+		                         
+		 </TableLayout>		
 
 
 		<TextView
@@ -215,6 +223,13 @@
 			android:text="@string/gpsDisabled"
 			android:textColor="#d32424"
 			android:textStyle="bold" />		
+			
+		<TableLayout
+			android:id="@+id/tableChargeStations"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+
+		</TableLayout>				
 
 		<!-- TextViews to debug -->
 		<TextView

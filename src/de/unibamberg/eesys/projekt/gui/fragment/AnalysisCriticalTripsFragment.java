@@ -23,7 +23,9 @@ import android.widget.Toast;
 import de.unibamberg.eesys.projekt.AppContext;
 import de.unibamberg.eesys.projekt.L;
 import de.unibamberg.eesys.projekt.R;
+import de.unibamberg.eesys.projekt.Recommender;
 import de.unibamberg.eesys.projekt.businessobjects.DriveSequence;
+import de.unibamberg.eesys.projekt.businessobjects.VehicleType;
 import de.unibamberg.eesys.projekt.database.DBImplementation;
 import de.unibamberg.eesys.projekt.database.DatabaseException;
 
@@ -70,6 +72,20 @@ public class AnalysisCriticalTripsFragment extends Fragment {
 		// header row
 		addHeaderRow();
 		
+		// the current recommendation will be used when listing critical trips
+		// in case there is not recommendation available (e.g. no car fits), fallback to currently selected car
+		double batteryCapacity;
+		VehicleType recommendedCar;
+		Recommender recommender = new Recommender(appContext);
+		try {
+			recommendedCar = recommender.getRecommendation95PercentOfTrips();
+			batteryCapacity = recommendedCar.getBatteryCapacity();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			L.e("Recommendation not available. Using currently selected car as benchmark.");
+			batteryCapacity = appContext.ecar.getVehicleType().getBatteryCapacity();
+		}
+		
 		dBImplementation = new DBImplementation(appContext);
 
 		List<DriveSequence> listDriveSequences = new ArrayList<DriveSequence>();
@@ -85,17 +101,22 @@ public class AnalysisCriticalTripsFragment extends Fragment {
 			TextView t1 = new TextView(rootView.getContext());
 			t1.setText(d.getTimeStartFormatted());
 			
-			TextView t3 = new TextView(rootView.getContext());
-			t3.setText(appContext.round(d.getCoveredDistanceInKm(), 0) + " km");
+			TextView t2 = new TextView(rootView.getContext());
+			t2.setText(appContext.round(d.getCoveredDistanceInKm(), 0) + " km");
 			
-			TextView t4 = new TextView(rootView.getContext());
-			t4.setText(appContext.round(d.calcSumkWh()) + " kWh");
-			t4.setTextColor(Color.GREEN);			
+			TextView t3 = new TextView(rootView.getContext());
+			t3.setText(appContext.round(d.calcSumkWh()) + " kWh");
+			
+			if (d.calcSumkWh() > batteryCapacity) {
+				t1.setTextColor(Color.RED);
+				t2.setTextColor(Color.RED);
+				t3.setTextColor(Color.RED);
+			}
 			
 			TableRow row = new TableRow(rootView.getContext()); 
 			row.addView(t1);
+			row.addView(t2);
 			row.addView(t3);
-			row.addView(t4);
 			row.setPadding(0, 3, 0, 3);
 			
 			row.setOnClickListener(new OnClickListener() {
