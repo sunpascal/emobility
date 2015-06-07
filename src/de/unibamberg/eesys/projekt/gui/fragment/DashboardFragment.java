@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -400,14 +401,19 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 		
 		tableChargeStations.removeAllViews();		
 		
-//		ToDo: limit to NUMBER_OF_CHARGE_STATIONS_TO_SHOW
-		for (int i=0; i<3; i++) {
+//		only show NUMBER_OF_CHARGE_STATIONS_TO_SHOW closest charge stations
+		for (int i=0; i<NUMBER_OF_CHARGE_STATIONS_TO_SHOW; i++) {
 			ChargingStation cs = nearbyCS.get(i);
 			
 			TextView t1 = new TextView(rootView.getContext());
-			t1.setText(cs.getName());
+			String descr = cs.getDescription();
+			// truncate long charging station descriptions
+//			if (descr.length() > 30)
+//				descr = descr.substring(0, 30);
+			t1.setText(descr);
 			
 			TextView t2 = new TextView(rootView.getContext());
+			t2.setGravity(Gravity.RIGHT);
 			t2.setText(AppContext.round(cs.getDistanceInKm(), 2) + " km");
 			
 			TableRow row = new TableRow(rootView.getContext()); 
@@ -430,7 +436,8 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 			});
 			
 			tableChargeStations.addView(row);	
-			tableChargeStations.setColumnShrinkable(1, true);
+			tableChargeStations.setColumnShrinkable(0, true);
+			tableChargeStations.setColumnStretchable(0, true);
 		}
 	}
 	

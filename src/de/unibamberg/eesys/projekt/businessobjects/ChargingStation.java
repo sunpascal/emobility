@@ -194,6 +194,8 @@ public class ChargingStation implements Comparable {
 
 		double minDistance = MIN_DISTANCE_TO_CHARGESTATION_FOR_DISPLAYING; 
 		
+		// ToDo: If full list of 5000 charge station is to be loaded, this has to be solved with much 
+		// better performance, e.g. sorted list and limiting frequency of checking, not loading full list, etc
 		List<ChargingStation> nearbyChargingStations = new ArrayList<ChargingStation>();
 		for (ChargingStation c : allChargingStations) {
 			float[] distance = new float[3];

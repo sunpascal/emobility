@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import de.unibamberg.eesys.projekt.AppContext;
@@ -116,72 +117,65 @@ public class Table_ChargingStation {
 		args = new ContentValues();
         args.put(Table_ChargingStation.COLUMN_CHARGING_TYPE_ID, 2);
         args.put(Table_ChargingStation.COLUMN_GEO_ID, 1);
-        args.put(Table_ChargingStation.COLUMN_NAME, "Uni Bamberg - Public Charging 22kWh");
-        args.put(Table_ChargingStation.COLUMN_DESCRIPTION, "Fiktive Ladestation Uni Bamberg");
+        args.put(Table_ChargingStation.COLUMN_NAME, "Uni Bamberg 22 kWh");
+        args.put(Table_ChargingStation.COLUMN_DESCRIPTION, "Uni Bamberg 22 kWh");
         cvBulk.add(args);
-        
-		args = new ContentValues();
-        args.put(Table_ChargingStation.COLUMN_CHARGING_TYPE_ID, 2);
-        args.put(Table_ChargingStation.COLUMN_GEO_ID, 2);
-        args.put(Table_ChargingStation.COLUMN_NAME, "RWE Effizienz GmbH");
-        args.put(Table_ChargingStation.COLUMN_DESCRIPTION, "RWE E-Mobility Hotline - 96050 Bamberg Geisfelder Straße 4");
-        cvBulk.add(args);        
-        
+         
 		args = new ContentValues();
         args.put(Table_ChargingStation.COLUMN_CHARGING_TYPE_ID, 2);
         args.put(Table_ChargingStation.COLUMN_GEO_ID, 3);
-        args.put(Table_ChargingStation.COLUMN_NAME, "Stadtwerke - Public Charging 22kWh");
-        args.put(Table_ChargingStation.COLUMN_DESCRIPTION, "In genymotion \bamberg stadtwerke\" suchen");
+        args.put(Table_ChargingStation.COLUMN_NAME, "\"Bamberg Stadtwerke\" 22 kWh");
+        args.put(Table_ChargingStation.COLUMN_DESCRIPTION, " \"Bamberg Stadtwerke\" 22 kWh");
         cvBulk.add(args);        
         
 		args = new ContentValues();
         args.put(Table_ChargingStation.COLUMN_CHARGING_TYPE_ID, 3);
         args.put(Table_ChargingStation.COLUMN_GEO_ID, 4);
-        args.put(Table_ChargingStation.COLUMN_NAME, "Bamberg Erba - Tesla 120kWh");
-        args.put(Table_ChargingStation.COLUMN_DESCRIPTION, "Fiktive Supercharging Ladestation Uni Bamberg: in genymotion nach \"bamberg erba\" suchen");
+        args.put(Table_ChargingStation.COLUMN_NAME, "\"Bamberg Erba\" 120kWh");
+        args.put(Table_ChargingStation.COLUMN_DESCRIPTION, "\"Bamberg Erba\" 120kW");
         cvBulk.add(args);    
         
 		args = new ContentValues();
         args.put(Table_ChargingStation.COLUMN_CHARGING_TYPE_ID, 4);
         args.put(Table_ChargingStation.COLUMN_GEO_ID, 5);
-        args.put(Table_ChargingStation.COLUMN_NAME, "Bamberg Hafen - Tesla 600kWh");
-        args.put(Table_ChargingStation.COLUMN_DESCRIPTION, "Fiktive 600kWh Ladestation: in genymotion nach \"bamberg hafen\" suchen");
+        args.put(Table_ChargingStation.COLUMN_NAME, "\"Bamberg Hafen\" 600kWh");
+        args.put(Table_ChargingStation.COLUMN_DESCRIPTION, "\"Bamberg Hafen\" 600kWh" );
         cvBulk.add(args);         
         
 		args = new ContentValues();
         args.put(Table_ChargingStation.COLUMN_CHARGING_TYPE_ID, 1);
         args.put(Table_ChargingStation.COLUMN_GEO_ID, 6);
-        args.put(Table_ChargingStation.COLUMN_NAME, "Bamberg Haus - Home Charging 3.5kWh");
-        args.put(Table_ChargingStation.COLUMN_DESCRIPTION, "Fiktive Ladestation: in genymotion nach \"bamberg haus\" suchen");
+        args.put(Table_ChargingStation.COLUMN_NAME, "\"Bamberg Haus\" 3.5kWh");
+        args.put(Table_ChargingStation.COLUMN_DESCRIPTION, "\"Bamberg Haus\" 3.5kWh");
         cvBulk.add(args);                  
 
 
-//        import prepared but not used at the moment
-//		for (ChargingStation c : chargeStations) {
-//			args = new ContentValues();
-//
-//			args.put(Table_ChargingStation.COLUMN_NAME, c.getName());
-//			args.put(Table_ChargingStation.COLUMN_DESCRIPTION,
-//					c.getDescription());
-//
-//			DBAdapter_GeoCoordinate dbGeo = new DBAdapter_GeoCoordinate(db);
-//			long geoId = dbGeo.createGeoCoordinate(c.getGeoCoordinate()
-//					.getLatitude(), c.getGeoCoordinate().getLongitude(), 0);
-//			args.put(Table_ChargingStation.COLUMN_GEO_ID, geoId);
-//
-//			DBAdapter_ChargingType dbChargingType = new DBAdapter_ChargingType(
-//					db);
-//			Cursor cChargingType = dbChargingType.getAllChargingTypes();
-//
-//			if (cChargingType != null) {
-//				if (cChargingType.moveToFirst()) {
-//					args.put(Table_ChargingStation.COLUMN_CHARGING_TYPE_ID,
-//							cChargingType.getLong(0));
-//				}
-//			}
-//
-//			cvBulk.add(args);
-//		}
+        // import charging stations
+		for (ChargingStation c : chargeStations) {
+			args = new ContentValues();
+
+			args.put(Table_ChargingStation.COLUMN_NAME, c.getName());
+			args.put(Table_ChargingStation.COLUMN_DESCRIPTION,
+					c.getDescription());
+
+			DBAdapter_GeoCoordinate dbGeo = new DBAdapter_GeoCoordinate(db);
+			long geoId = dbGeo.createGeoCoordinate(c.getGeoCoordinate()
+					.getLatitude(), c.getGeoCoordinate().getLongitude(), 0);
+			args.put(Table_ChargingStation.COLUMN_GEO_ID, geoId);
+
+			DBAdapter_ChargingType dbChargingType = new DBAdapter_ChargingType(
+					db);
+			Cursor cChargingType = dbChargingType.getAllChargingTypes();
+
+			if (cChargingType != null) {
+				if (cChargingType.moveToFirst()) {
+					args.put(Table_ChargingStation.COLUMN_CHARGING_TYPE_ID,
+							cChargingType.getLong(0));
+				}
+			}
+
+			cvBulk.add(args);
+		}
         
 		db.beginTransaction();
 		
@@ -227,35 +221,42 @@ public class Table_ChargingStation {
 				// read every line of the file into the line-variable, on line
 				// at the time
 				while ((line = buffreader.readLine()) != null) {
+					// split by commas 
 					String[] commas = line.split(",");
 					if (commas.length >= 3) {
 						L.v(commas[0] + "|" + commas[1] + "|" + commas[2]);
-						GeoCoordinate coord = new GeoCoordinate(
-								Double.parseDouble(commas[0]),
-								Double.parseDouble(commas[1]));
-						L.v(coord.getLatitude() + "," + coord.getLongitude());
-						ChargingStation cs = new ChargingStation();
-						cs.setGeoCoordinate(coord);
+						try {
+							GeoCoordinate coord = new GeoCoordinate(
+							// first to columns contain coordinates
+							Double.parseDouble(commas[0]),
+							Double.parseDouble(commas[1]));
+							L.v(coord.getLatitude() + "," + coord.getLongitude());
+							
+							ChargingStation cs = new ChargingStation();
+							cs.setGeoCoordinate(coord);
 
-						String[] minus = commas[2].split("-");
-						cs.setName(minus[0]);
-						cs.setDescription(minus[1]);
+							// third column contains name and description/address, these are separated by " - "
+							int lastHyphenPos = commas[2].lastIndexOf(" - ");
+							cs.setName(commas[2].substring(0, lastHyphenPos));
+							cs.setDescription(commas[2].substring(lastHyphenPos+3));
 
-						ChargingType ct = new ChargingType();
-						ct.setName("");
-						ct.setDescription("");
-						ct.setChargingPower(16 * 240);
-						cs.setChargingType(ct);
+							ChargingType ct = new ChargingType();
+							ct.setName("");
+							ct.setDescription("");
+							ct.setChargingPower(16 * 240);
+							cs.setChargingType(ct);
 
-						result.add(cs);
+							result.add(cs);							
+						}
+						catch (NumberFormatException e) {
+							// log if the myfilename.txt does not exist
+							Log.e("--", "Could not parse values from csv: " + e.getMessage());
+						}
 					}
 				}
 			}
 			// close the file 
 			instream.close();
-		} catch (NumberFormatException e) {
-			// log if the myfilename.txt does not exist
-			Log.e("--", "Could not parse values from csv: " + e.getMessage());
 		} catch (java.io.FileNotFoundException e) {
 			// log if the myfilename.txt does not exist
 			Log.e("--", "File not found." + e.getMessage());
