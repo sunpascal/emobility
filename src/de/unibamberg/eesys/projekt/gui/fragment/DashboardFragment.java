@@ -408,7 +408,7 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 			t1.setText(cs.getName());
 			
 			TextView t2 = new TextView(rootView.getContext());
-			t2.setText(AppContext.round(cs.getDistance(), 2) + " km");
+			t2.setText(AppContext.round(cs.getDistanceInKm(), 2) + " km");
 			
 			TableRow row = new TableRow(rootView.getContext()); 
 			row.addView(t1);
