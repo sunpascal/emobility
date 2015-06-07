@@ -200,7 +200,14 @@ public class Table_ChargingStation {
 
 	/**
 	 * Method to load a predefined set of charging stations.
-	 * CSV import of a ressource file.
+	 * 
+	 * File source:  https://e-tankstellen-finder.com/de/de/services/export
+	 * 	  
+	 * To update download current version of file and out it in /assets/etankstellen.csv
+	 * 
+	 * Format of charge stations in the file is: 
+	 * "49.889829,10.91386,RWE Effizienz GmbH  RWE E-Mobility Hotline - 96050 Bamberg Geisfelder Straße 4" 
+	 * 
 	 * 
 	 * @return ArrayList of ChargingStation
 	 */
