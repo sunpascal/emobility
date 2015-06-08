@@ -7,6 +7,11 @@ import de.unibamberg.eesys.projekt.businessobjects.DriveSequence;
 import de.unibamberg.eesys.projekt.businessobjects.VehicleType;
 import de.unibamberg.eesys.projekt.database.DatabaseException;
 
+/** Analysis trip data to provide electric vehicle recommendation
+ * 
+ * @author Pascal
+ *
+ */
 public class Recommender {
 	private VehicleType[] vehicleList;
 	private DriveSequence[] trips;

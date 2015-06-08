@@ -1,6 +1,6 @@
 package de.unibamberg.eesys.projekt.businessobjects;
 
-public class EcoDrivingProgress {
+public class EcoDrivingScore implements Comparable {
 	
 	public String getTechniqueName() {
 		return techniqueName;
@@ -30,18 +30,31 @@ public class EcoDrivingProgress {
 	private String dividingText = "";
 	private int progress;
 	
-	public EcoDrivingProgress(String techniqueName, int progress, String dividingText) {
+	public EcoDrivingScore(String techniqueName, int progress, String dividingText) {
 		this.techniqueName = techniqueName;
 		this.dividingText = dividingText;
 		this.progress = progress;
 	}	
 	
-	public EcoDrivingProgress(String techniqueName, int progress) {
+	public EcoDrivingScore(String techniqueName, int progress) {
 		this.techniqueName = techniqueName;
 		this.dividingText = dividingText;
 		this.progress = progress;
-	}		
-	
+	}
+
+	@Override
+	/** allow sorting by progress 
+	 * 
+	 * Array will be sorted in DESCENDING order 
+	 */
+		public int compareTo(Object another) {
+		
+			if (progress < ((EcoDrivingScore) another).getProgress())
+				return 1;
+			else if (progress > ((EcoDrivingScore) another).getProgress())
+				return -1; 
+			else return 0;
+	}	
 	
 
 }

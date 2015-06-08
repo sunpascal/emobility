@@ -27,9 +27,10 @@ import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 
 import de.unibamberg.eesys.projekt.AppContext;
+import de.unibamberg.eesys.projekt.EcoDrivingScoreCalculator;
 import de.unibamberg.eesys.projekt.R;
 import de.unibamberg.eesys.projekt.businessobjects.DriveSequence;
-import de.unibamberg.eesys.projekt.businessobjects.EcoDrivingProgress;
+import de.unibamberg.eesys.projekt.businessobjects.EcoDrivingScore;
 import de.unibamberg.eesys.projekt.database.DBImplementation;
 import de.unibamberg.eesys.projekt.database.DatabaseException;
 import de.unibamberg.eesys.projekt.gui.EcoDrivingTechniqueAdapter;
@@ -66,11 +67,10 @@ public class EcoDrivingFeedbackTeqniqueFragment extends android.support.v4.app.F
 		
 	    ListView listView = (ListView) rootView.findViewById(R.id.listViewDoingWell);
 	    
-	    EcoDrivingProgress[] values = new EcoDrivingProgress[] { 
-	    	    		new EcoDrivingProgress("Constant speed", 90, "Your are doing well: "),
-	    	    		new EcoDrivingProgress("Moderate acceleration", 80),
-	    	    		new EcoDrivingProgress("Avoiding high speeds", 66),
-	    	    		new EcoDrivingProgress("Anticipating stops", 30, "Your could improve on: ")    };
+	    EcoDrivingScoreCalculator scoreCalculator = new EcoDrivingScoreCalculator(appContext); 
+	    scoreCalculator.calculateScores();
+	    
+	    EcoDrivingScore[] values = scoreCalculator.getScores();
 	    EcoDrivingTechniqueAdapter adapter = new EcoDrivingTechniqueAdapter(appContext, values);
 	    listView.setAdapter(adapter);
 	    

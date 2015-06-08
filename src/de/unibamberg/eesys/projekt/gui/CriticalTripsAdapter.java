@@ -1,7 +1,7 @@
 package de.unibamberg.eesys.projekt.gui;
 
 import de.unibamberg.eesys.projekt.R;
-import de.unibamberg.eesys.projekt.businessobjects.EcoDrivingProgress;
+import de.unibamberg.eesys.projekt.businessobjects.EcoDrivingScore;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +11,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class CriticalTripsAdapter extends ArrayAdapter<EcoDrivingProgress> {
+public class CriticalTripsAdapter extends ArrayAdapter<EcoDrivingScore> {
   private final Context context;
-  private final EcoDrivingProgress[] values;
+  private final EcoDrivingScore[] values;
 
-  public CriticalTripsAdapter(Context context, EcoDrivingProgress[] values2) {
+  public CriticalTripsAdapter(Context context, EcoDrivingScore[] values2) {
     super(context, -1, values2);
     this.context = context;
     this.values = values2;
