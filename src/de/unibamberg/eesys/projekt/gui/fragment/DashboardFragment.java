@@ -397,8 +397,13 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 		List<ChargingStation> allChargingStations = appContext.getChargeStations();
 		List<ChargingStation> nearbyCS = ChargingStation.getNearbyChargeStations(w, allChargingStations);
 		
-		tableChargeStations.removeAllViews();		
+		tableChargeStations.removeAllViews();	
 		
+		if (nearbyCS.size() == 0) {
+			L.e("No nearby charge stations loaded.");
+			return; 
+		}
+			
 //		only show NUMBER_OF_CHARGE_STATIONS_TO_SHOW closest charge stations
 		for (int i=0; i<Params.NUMBER_OF_CHARGE_STATIONS_TO_SHOW; i++) {
 			ChargingStation cs = nearbyCS.get(i);

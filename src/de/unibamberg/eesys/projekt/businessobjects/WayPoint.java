@@ -370,7 +370,7 @@ public class WayPoint implements Parcelable {
 	 * calculates the consumption in kWh per km
 	 */
 	public double calcConsumptionPerKm() {
-		return energy / (distance * 1000) ;
+		return energy / (distance / 1000) ;
 	}
 	
 	/** 

@@ -23,7 +23,7 @@ public class Params {
 			 * duration in seconds that a car may be still, before trip ends used to
 			 * prevent short stops (e.g. traffic lights) to end trip "Ampeltimeout"
 			 */
-		//	public double MAX_VEHICLE_STILL_DURATION = 3; // 3 seconds
-			public static double MAX_VEHICLE_STILL_DURATION = 60 * 2; // 2 minutes	
+		public static double MAX_VEHICLE_STILL_DURATION = 3; // 3 seconds
+//		public static double MAX_VEHICLE_STILL_DURATION = 60 * 2; // 2 minutes	
 
 }
