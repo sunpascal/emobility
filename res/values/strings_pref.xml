@@ -34,8 +34,13 @@
 	
 	<string-array name="pref_list_accelerations">
 	    <item>disabled</item>
+	    <item>-15</item>
+	    <item>-8</item>
+	    <item>-5</item>
+	    <item>0</item>
 	    <item>5</item>
 	    <item>8</item>
+	    <item>10</item>	    
 		<item>15</item>
 	</string-array>		
 	

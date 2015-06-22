@@ -5,7 +5,7 @@ import de.unibamberg.eesys.projekt.businessobjects.VehicleType;
 
 /**
  * Class Calculates the amount of energy, which would be used for an driven track.
- * @author Matthias
+ * @author Pascal, Matthias
  *
  */
 public class HlpEnergyConsumptionModel implements InterfaceEnergyConsumption {
@@ -30,19 +30,18 @@ public class HlpEnergyConsumptionModel implements InterfaceEnergyConsumption {
 	 */
 	public double consumeEnergy(double duration, double startVelocity,
 			double endVelocity, double distance, double acceleration,
-			double altitudeDiffInMeters, VehicleType vehicleType) {
+			double hightDelta, VehicleType vehicleType) {
 		/**
 		 * Calculates the amount of energy, which would be used for an driven
 		 * track.
 		 * 
-		 * @author Matthias
 		 * @pre double Variables distance and duration must be set before in
 		 *      GeoCoordinates
 		 * @post A double value is returned to the Ecar
 		 */
 
 		// Log Messages for GPS simulation:
-		Log.i("cm", "\n Duration: " + duration + " " + "\n startVelocity: "
+		L.v("\n Duration: " + duration + " " + "\n startVelocity: "
 				+ startVelocity + " " + "\n endVelocity: " + endVelocity + " "
 				+ "\n distance: " + distance + " " + "\n acceleration: "
 				+ acceleration + " " + "\n ............................");
@@ -60,9 +59,29 @@ public class HlpEnergyConsumptionModel implements InterfaceEnergyConsumption {
 		double forceAcceleration = (vehicleType.getMass() * 1.05) * acceleration;
 
 		//Formula Fhc
-		double hillClimbingForce = vehicleType.getMass()
+		double hillClimbingForce;
+/*		Das ist Quatsch - statt sin() muss einfach die Höhe verwendet werden!!
+ 		* 	double hillClimbingForce = vehicleType.getMass()
 				* gravitationalAcceleration
 				* (Math.sin((100 * altitudeDiffInMeters / distance) / 100));
+		*/
+		// Berechnung der Energie beim Bergauffahren benötigt Steigungswinkel α
+		// GPS liefert Höhe (h) und Distanz (d) seit letztem Puntk 
+		// =>  tan α = h/d
+		// =>   α = tan-1 a (h/d)
+		// todo: muss 
+		if (distance == 0) {
+			L.e("hillClimbingForce konnte nicht berechnet werden, da distance=0");
+			hillClimbingForce = 0; 
+		}
+		else { 
+//			=> ToDo: was if driving downhill? 
+//			double steigungswinkel = Math.toDegrees(Math.atan(hightDelta / distance));
+			hillClimbingForce = vehicleType.getMass()
+				* gravitationalAcceleration
+				* (hightDelta/distance);    // höhenunterschied pro Meter!
+			L.i("hillClimbingForce=" + hillClimbingForce + ", hillClimbingForce=" + hillClimbingForce);
+		}
 
 		double recuperation;
 		
@@ -74,7 +93,7 @@ public class HlpEnergyConsumptionModel implements InterfaceEnergyConsumption {
 					+ forceRollingResistance + hillClimbingForce);
 
 			consumedEnergy = (recuperation * distance) / constante;
-			Log.i("cm", "\n consumed Energy: " + consumedEnergy);
+			L.v("\n consumed Energy: " + consumedEnergy);
 			return consumedEnergy;
 		} else {
 		// Adds energy if car drives
@@ -86,7 +105,7 @@ public class HlpEnergyConsumptionModel implements InterfaceEnergyConsumption {
 			
 			consumedEnergy = ((totalTractiveEffort) * (distance)) / constante;
 			
-			Log.i("cm", "\n consumed Energy: " + consumedEnergy);
+			L.v("\n consumed Energy: " + consumedEnergy);
 			return consumedEnergy;
 		}
 	}

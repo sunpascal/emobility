@@ -37,8 +37,8 @@
 		<ListPreference
 			android:entries="@array/pref_list_accelerations"
 			android:entryValues="@array/pref_list_accelerations"
-			android:key="testing.acceleration"
-			android:title="Acceleration" />		
+			android:key="testing.height"
+			android:title="Height difference" />		
 			    
 		<ListPreference
 			android:entries="@array/pref_list_activities"

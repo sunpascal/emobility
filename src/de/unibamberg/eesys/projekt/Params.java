@@ -1,11 +1,16 @@
 package de.unibamberg.eesys.projekt;
 
+import android.preference.PreferenceManager;
+
 /** 
  * contains parameters used for fine tuning app behavior and overriding certain aspects while debugging
  * @author Pascal
  *
  */
 public class Params {
+	
+	private AppContext appContext; 
+	private static final String PREF_TESTING_HEIGHT_DELTA = "testing.height";
 
 	// Dashboard 
 	public static final int THRESSHOLD_ACCELERATION_FOR_GREEN_BACKGROUND = 20; // if current consumption is > 200 kWh, background should be red 
@@ -26,4 +31,38 @@ public class Params {
 		public static double MAX_VEHICLE_STILL_DURATION = 3; // 3 seconds
 //		public static double MAX_VEHICLE_STILL_DURATION = 60 * 2; // 2 minutes	
 
+
+public Params(AppContext appContext) {
+	this.appContext = appContext;
 }
+
+
+public boolean isFakeHeightSet() {
+	String testingHeight = PreferenceManager.getDefaultSharedPreferences(
+			appContext).getString(PREF_TESTING_HEIGHT_DELTA, "disabled");
+	if (testingHeight.equals("disabled"))
+		return false;
+		else return true;
+}
+
+//... height difference - override data with debug values specified in preferences
+public double getFakeHeight() {
+	double altitudeDiffInMeters = 0; 
+	
+	// ... height difference - override data with debug values specified in preferences
+	String testingHeight = PreferenceManager.getDefaultSharedPreferences(
+			appContext).getString(PREF_TESTING_HEIGHT_DELTA, "disabled");
+	if (!testingHeight.equals("disabled")) {
+		try {
+			altitudeDiffInMeters = Float.parseFloat(testingHeight);
+		}
+		catch (NumberFormatException e) {
+			L.e("Testing height: invalid value.");
+			e.printStackTrace();
+		}
+	}
+	return altitudeDiffInMeters;
+	}
+
+}
+

@@ -49,6 +49,7 @@ import de.unibamberg.eesys.projekt.gui.MainActivity;
 public class AppContext extends Application {
 	private static final String TAG = "AppContext";
 	private MainActivity mainActivity; 
+	private Params params; 
 	
 	public MainActivity getMainActivity() {
 		return mainActivity;
@@ -211,6 +212,7 @@ public class AppContext extends Application {
 	}
 
 	public AppContext() {
+		params = new Params(this);
 		
 	}
 
@@ -540,6 +542,10 @@ public class AppContext extends Application {
 		if (recommender == null)
 			recommender = new Recommender(this); 
 		return recommender;
+	}
+
+	public Params getParams() {
+		return params;
 	}
 	
 }

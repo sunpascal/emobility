@@ -362,7 +362,7 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 		txtDebug1.setText(appContext.round(w.getVelocityinKmh(), 0) + " km/h");		
 		
 		String debugString = w.getUpdateType() + " "
-				+ appContext.round(w.getDistance(), 0) + "m "
+				+ appContext.round(w.getDistance(), 4) + "m "
 				+ appContext.round(w.getVelocityinKmh()) + "km/h "
 				+ appContext.round(w.getAcceleration(), 2) + "km/h/s "
 				+ appContext.round(w.getEnergyInKWh()) + "kWh \n"

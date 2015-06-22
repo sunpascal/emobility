@@ -59,13 +59,13 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 	double longitude;
 	protected LocationManager locationManager;
 	public Location previousLocation;
-	public double startVelocity = 0d;
-	public double startAltitude = 0d;
+	public double prevLocationVelocity = 0d;
+	public double prevLocationAltitude = -999d;
 	double energy = 0;
 	boolean gpsDisabled = false;
 
 	public long lastLocationTime;
-	float distanceCumulated = 0.0f;
+	double distanceCumulated = 0.0f;
 	
 	// update GPS every GPS_UPDATE_TIME seconds
 	// must be 1s reflect
@@ -275,7 +275,6 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 		// ... speed
 		String testingSpeed = PreferenceManager.getDefaultSharedPreferences(
 				appContext).getString(PREF_TESTING_SPEED, "disabled");
-
 		if (!testingSpeed.equals("disabled")) {
 			float v_kmh = Float.parseFloat(testingSpeed);
 			newLocation.setSpeed((float) (v_kmh / 3.6));
@@ -297,9 +296,9 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 			L.v("Skipped one location update since velocity was not available.");
 			return; 
 		}
-		double endVelocity = 0.0;
-		double endAltitude = 0; 
-		float distanceDelta = 0.0f;
+		double thisLocationVelocity = 0.0;
+		double thisLocationAltitude = 0; 
+		double distanceDelta = 0.0f;
 		double altitudeDiffInMeters = 0.0f;
 		float timeStampDiffInSeconds = 0.0f;
 		double Acceleration = 0.0;
@@ -309,20 +308,22 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 			previousLocation = currentLocation;
 		} else {
 			// two or more coordinates captured
-			distanceDelta = calcDistance(previousLocation, currentLocation);
+						
+			double hightDelta = getAltitudeDiff(previousLocation, currentLocation); 
+			L.d("getAltitudeDiff: " + hightDelta + "m");
+			distanceDelta = calcGroundDistance(previousLocation, currentLocation, hightDelta);
+			
 			distanceCumulated = distanceCumulated + distanceDelta;
 
 			// use speed supplied by GPS sensor
-			endVelocity = currentLocation.getSpeed();
+			thisLocationVelocity = currentLocation.getSpeed();
 
 			timeStampDiffInSeconds = calcTimeStampDiff(previousLocation, currentLocation);
 			
-			altitudeDiffInMeters = endAltitude - startAltitude;
-
-			if (startVelocity == 0) {
+			if (prevLocationVelocity == 0) {
 				Acceleration = 0;
 			} else {
-				Acceleration = calcAcceleration(startVelocity, endVelocity,
+				Acceleration = calcAcceleration(prevLocationVelocity, thisLocationVelocity,
 						timeStampDiffInSeconds);
 			}
 
@@ -335,19 +336,19 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 				energy = 0;
 			} else {
 				energy = consumptionModel.consumeEnergy(timeStampDiffInSeconds, 
-														startVelocity,
-														endVelocity, 
+														prevLocationVelocity,
+														thisLocationVelocity, 
 														distanceDelta, 
 														Acceleration, 
-														altitudeDiffInMeters,
+														hightDelta,
 														appContext.getEcar().getCurrentTrip().getVehicleType());
 			}
 
 			L.v(
 					distanceDelta + "m " + timeStampDiffInSeconds + "s "
-					+ AppContext.round(startVelocity * 3.6, 1)
+					+ AppContext.round(prevLocationVelocity * 3.6, 1)
 					+ "km/h (startVelocity) "
-					+ AppContext.round(endVelocity * 3.6, 1)
+					+ AppContext.round(thisLocationVelocity * 3.6, 1)
 					+ "km/h (endVelocity)  "
 					+ AppContext.round(Acceleration * 3.6, 1) + "km/h/s "
 					+ AppContext.round(energy, 2) + "kWh "
@@ -357,17 +358,14 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 				L.v(appContext.getEcar().getCurrentTrip().getVehicleType().getName() + 
 						" " + appContext.getEcar().getCurrentTrip().getVehicleType().getId());
 
-			startVelocity = endVelocity;
-			startAltitude = endAltitude; 
-
+			prevLocationVelocity = thisLocationVelocity;
 			previousLocation = currentLocation;
-
 		}
 
-		waypoint.setDistance(distanceDelta);
+		waypoint.setDistance((float) distanceDelta);
 		waypoint.setAcceleration(Acceleration);
 
-		waypoint.setVelocity(startVelocity);
+		waypoint.setVelocity(prevLocationVelocity);
 
 		GeoCoordinate geo = new GeoCoordinate(currentLocation.getLongitude(),
 				currentLocation.getLatitude(), currentLocation.getAltitude());
@@ -376,6 +374,39 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 		waypoint.setEnergy(energy);
 
 		sendUpdateToListeners();
+	}
+
+	/** 
+	 * corrects distance to reflect actual distance driven 
+	 * if the car drives up a slope from A to B, the distance is not equal to 
+	 * the GPS difference of these to points, but has to be adjusted based on the height
+	 * @param previousLocation
+	 * @param currentLocation
+	 * @param altitudeDiffinMeters
+	 * @return
+	 */
+	private double calcGroundDistance(Location previousLocation,
+			Location currentLocation, double altitudeDiffinMeters) {
+		double d = calcDistance(previousLocation, currentLocation);
+		if (d == 0)
+			return 0;
+		double groundDistance = Math.sqrt( altitudeDiffinMeters*altitudeDiffinMeters + d*d);
+		return groundDistance; 
+	}
+
+	private double getAltitudeDiff(Location loc1, Location loc2) {
+		double altitudeDiffInMeters; 
+		
+		// use override values if they are set
+		if (appContext.getParams().isFakeHeightSet())
+			return appContext.getParams().getFakeHeight();
+		
+		// if not, use real values
+		if (loc1.hasAltitude() && loc2.hasAltitude())
+			altitudeDiffInMeters = loc2.getAltitude() - loc1.getAltitude();
+			else altitudeDiffInMeters = 0; 
+
+		return altitudeDiffInMeters;
 	}
 
 	/**
