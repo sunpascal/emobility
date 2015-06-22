@@ -34,6 +34,10 @@ public class EcoDrivingScoreCalculator {
 	private int score_avoiding_high_speeds;		// based on average speed: ToDo: wie nur top Geschwindigkeiten berücksichtigen? (sollte nicht durch häufig Stau/Stadtfahren verringert werden)
 	private int score_anticipating_stops;		// based on average negative acceleration
 
+	protected static enum ROAD_TYPE {
+		CITY, COUNTRY, MOTORWAY, IGNORE
+	};	
+	
 	private List<WayPoint> waypoints;
 	
 	public EcoDrivingScoreCalculator(AppContext appContext) {

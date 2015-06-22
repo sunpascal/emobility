@@ -56,18 +56,9 @@ public class EcoDrivingFeedbackTeqniqueFragment extends android.support.v4.app.F
 	 * trip for which to display feedback
 	 * if null, use last trip
 	 */
-	DriveSequence trip; 
+	DriveSequence trip = null; 
 	
 	public EcoDrivingFeedbackTeqniqueFragment() {
-		List<DriveSequence> trips;
-		try {
-			trips = appContext.getDb().getDriveSequences(true);
-			// use last trip
-			this.trip = trips.get(trips.size()-1);
-		} catch (DatabaseException e) {
-			Toast.makeText(appContext, "Could not load trips.", Toast.LENGTH_SHORT);
-			e.printStackTrace();
-		}
 
 	}
 	
@@ -82,6 +73,18 @@ public class EcoDrivingFeedbackTeqniqueFragment extends android.support.v4.app.F
 				container, false);
 
 		appContext = (AppContext) getActivity().getApplicationContext();
+		
+		if (trip == null) {
+			List<DriveSequence> trips;
+			try {
+				trips = appContext.getDb().getDriveSequences(true);
+				// use last trip
+				this.trip = trips.get(trips.size()-1);
+			} catch (DatabaseException e) {
+				Toast.makeText(appContext, "Could not load trips.", Toast.LENGTH_SHORT);
+				e.printStackTrace();
+			}
+		}
 		
 	    ListView listView = (ListView) rootView.findViewById(R.id.listViewDoingWell);
 	    
