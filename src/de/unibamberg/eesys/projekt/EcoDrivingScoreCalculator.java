@@ -55,48 +55,64 @@ public class EcoDrivingScoreCalculator {
 				Toast.makeText(appContext, "Could not load trip waypoints.", Toast.LENGTH_SHORT);
 				e.printStackTrace();
 			}
+			
+			if (trip.hasEcoDrivingStatistics() == false)
+				trip.calcEcoDrivingStatistics();
 		
 			for (EcoDrivingScore score : scores ) {
 				
 				if (score.getTechniqueName().equals("Avoiding high speeds")) {
 					// high speed is based on average (top) speed
 					
-					// toDo: differentiate by road type!
+					// ToDo: take into account other road types!
 					
-					double sumVelocity = 0;  
-					for (WayPoint w : trip.getWayPoints()) {
-						sumVelocity += w.getVelocity();
-					}
-					double avgVelocity = sumVelocity / trip.getWayPoints().size();
-					L.d("avgVelocity: " + avgVelocity); 
-					
+					double avgVelocityHighway = trip.avgVelocityHighway();
 					int avgVelocityBad = 160; 
 					int avgVelocityOk = 110; 
 					
 					// calculate speed relative to intervall
-					int relativeSpeed = (int) ( (avgVelocityBad - avgVelocity)   / (avgVelocityBad - avgVelocityOk) ) * 100; 
+					int relativeSpeed = (int) ( (avgVelocityBad - avgVelocityHighway)   / (avgVelocityBad - avgVelocityOk) ) * 100; 
 					score.setProgress(make100PercentIntervall((relativeSpeed)));
 						
 				}
-			}
-//				score.setProgress(50);	
-			
-			for (EcoDrivingScore score : scores ) {
 				
-				if (score.getTechniqueName().equals("Avoiding high speeds"))
-					for (WayPoint w : trip.getWayPoints()) {
-						w.getVelocity();
-						
-//						ToDo ... 
-					}
-				}			
-			// Constant speed:
-			// todo: if trip does not have mean variance in speed...					
-//			if (trip.getMeanVarianceInSpeed == null) ...
+				else if (score.getTechniqueName().equals("Constant speed")) {
+					
+					// currently only motorway
+					
+					double userValue = trip.getAvgVarianceVelocityHighway();
+					int limitBad = 20; 
+					int limitOk = 5;	
+					int relativeSpeed = (int) ( (limitBad - userValue)   / (limitBad - limitOk) ) * 100; 
+					score.setProgress(make100PercentIntervall((relativeSpeed)));					
+					
+				}	
 			
-			// calculate mean variance in speed
+				else if (score.getTechniqueName().equals("Moderate acceleration")) {
 				
-		
+				// currently only motorway
+				
+				double userValue = trip.getAvgPosAcceleration();
+				int limitBad = 20; 
+				int limitOk = 5;	
+				int relativeSpeed = (int) ( (limitBad - userValue)   / (limitBad - limitOk) ) * 100; 
+				score.setProgress(make100PercentIntervall((relativeSpeed)));						
+				
+				}
+				
+				else if (score.getTechniqueName().equals("Anticipating stops")) {
+					
+				// currently only motorway
+				
+				double userValue = trip.getAvgNegAcceleration();
+				int limitBad = 20; 
+				int limitOk = 5;	
+				int relativeSpeed = (int) ( (limitBad - userValue)   / (limitBad - limitOk) ) * 100; 
+				score.setProgress(make100PercentIntervall((relativeSpeed)));					
+				
+				}				
+			}				
+			
 	}
 	
 
@@ -128,5 +144,6 @@ public class EcoDrivingScoreCalculator {
 			return 100;
 		else return progress;
 	}	
+	
 	
 }

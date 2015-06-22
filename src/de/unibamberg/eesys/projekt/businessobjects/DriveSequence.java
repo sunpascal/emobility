@@ -21,6 +21,55 @@ public class DriveSequence extends Sequence implements Comparable {
 	private double coveredDistance;		// in meter!! 
 	private double sumCO2;  		
 	private List<WayPoint> wayPoints; 
+	
+	private double avgVelocityHighway;
+	private double avgVelocityCity;
+	private double avgVarianceVelocityHighway;
+	private double avgPosAcceleration; 
+	private double avgNegAcceleration;
+	private boolean hasEcoDrivingStatistics = false; 
+	
+	public void calcEcoDrivingStatistics() {
+
+		double sumVelocity = 0;
+		double sumPositiveAcceleration = 0;
+		double sumNegativeAcceleration = 0;
+		
+		int countNumberWayPointsHighway = 0;
+		int countNumberWayPointsCity = 0;
+		for (WayPoint w : wayPoints) {
+			if (w.getVelocity() > 100) {
+			sumVelocity += w.getVelocity();
+			countNumberWayPointsHighway++;
+			}
+			if (w.getVelocity() < 60) {
+				if (w.getAcceleration() > 0)
+					sumPositiveAcceleration += w.getAcceleration();
+				else if (w.getAcceleration() < 0)
+					sumNegativeAcceleration += w.getAcceleration();
+				countNumberWayPointsCity++;
+			}
+				
+		}
+		
+		avgVelocityHighway = sumVelocity / countNumberWayPointsHighway;
+		avgPosAcceleration = sumPositiveAcceleration / countNumberWayPointsCity;
+		avgNegAcceleration = sumNegativeAcceleration / countNumberWayPointsCity;
+				
+		// calculate average variance of velocity
+		double sum = 0;
+		for (WayPoint w : wayPoints) {
+			if (w.getVelocity() > 100) {
+				sum += Math.abs( w.getVelocity() - avgVelocityHighway); 
+			}
+		}		
+		
+		avgVarianceVelocityHighway = sum / countNumberWayPointsHighway;
+		
+		L.d("avgVelocityHighway: " + avgVelocityHighway); 	
+		
+		hasEcoDrivingStatistics = true; 
+	}	
 
 	public List<WayPoint> getWayPoints() {
 		return wayPoints;
@@ -184,5 +233,29 @@ public class DriveSequence extends Sequence implements Comparable {
 		else if (tripConsumption < ((DriveSequence) another).calcSumkWh())
 			return -1; 
 		else return 0;
+	}
+
+	public boolean hasEcoDrivingStatistics() {
+		return hasEcoDrivingStatistics;
+	}
+
+	public double avgVelocityHighway() {
+		return avgVelocityHighway;
+	}
+
+	public double getAvgVarianceVelocityHighway() {
+		return avgVarianceVelocityHighway;
+	}
+
+	public double getAvgPosAcceleration() {
+		return avgPosAcceleration;
+	}
+
+	public double getAvgNegAccelation() {
+		return avgNegAcceleration;
+	}
+
+	public double getAvgNegAcceleration() {
+		return avgNegAcceleration;
 	}
 }
