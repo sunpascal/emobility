@@ -52,10 +52,28 @@ public class EcoDrivingFeedbackTeqniqueFragment extends android.support.v4.app.F
 	AppContext appContext;
 	View rootView;	
 	
+	/**
+	 * trip for which to display feedback
+	 * if null, use last trip
+	 */
+	DriveSequence trip; 
+	
 	public EcoDrivingFeedbackTeqniqueFragment() {
+		List<DriveSequence> trips;
+		try {
+			trips = appContext.getDb().getDriveSequences(true);
+			// use last trip
+			this.trip = trips.get(trips.size()-1);
+		} catch (DatabaseException e) {
+			Toast.makeText(appContext, "Could not load trips.", Toast.LENGTH_SHORT);
+			e.printStackTrace();
+		}
+
 	}
 	
-
+	public EcoDrivingFeedbackTeqniqueFragment(DriveSequence trip) {
+		this.trip = trip;
+	}
 	
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -68,7 +86,7 @@ public class EcoDrivingFeedbackTeqniqueFragment extends android.support.v4.app.F
 	    ListView listView = (ListView) rootView.findViewById(R.id.listViewDoingWell);
 	    
 	    EcoDrivingScoreCalculator scoreCalculator = new EcoDrivingScoreCalculator(appContext); 
-	    scoreCalculator.calculateScores();
+	    scoreCalculator.calculateScores(trip);
 	    
 	    EcoDrivingScore[] values = scoreCalculator.getScores();
 	    EcoDrivingTechniqueAdapter adapter = new EcoDrivingTechniqueAdapter(appContext, values);

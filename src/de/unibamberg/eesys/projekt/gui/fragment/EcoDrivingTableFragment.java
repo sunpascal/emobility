@@ -74,7 +74,7 @@ public class EcoDrivingTableFragment extends Fragment {
 	private FragmentTransaction fragmentTransaction;
 	/** Fragment for displaying a drive sequence. */
 	
-	private AnalysisTripMapFragment driveGraphFragment;
+	private EcoDrivingFeedbackTeqniqueFragment techniqueFragment;
 	
 	/** Id of the select ListViewItem. */
 	private int containerId;
@@ -196,16 +196,16 @@ public class EcoDrivingTableFragment extends Fragment {
 
 		fragmentManager = getFragmentManager();
 		fragmentTransaction = fragmentManager.beginTransaction();
-		driveGraphFragment = new AnalysisTripMapFragment(ds);
+		techniqueFragment = new EcoDrivingFeedbackTeqniqueFragment(ds);
 		containerId = ((ViewGroup) getView().getParent()).getId();
 
-		driveGraphFragment.setArguments(getActivity().getIntent().getExtras());
+		techniqueFragment.setArguments(getActivity().getIntent().getExtras());
 		Bundle args = new Bundle();
-		args.putInt(driveGraphFragment.toString(), position);
+		args.putInt(techniqueFragment.toString(), position);
 
-		driveGraphFragment.setArguments(args);
+		techniqueFragment.setArguments(args);
 
-		fragmentTransaction.replace(containerId, driveGraphFragment);
+		fragmentTransaction.replace(containerId, techniqueFragment);
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 	}	
