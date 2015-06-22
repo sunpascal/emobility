@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import android.widget.Toast;
+
 import de.unibamberg.eesys.projekt.businessobjects.ChargingStation;
 import de.unibamberg.eesys.projekt.businessobjects.DriveSequence;
 import de.unibamberg.eesys.projekt.businessobjects.EcoDrivingScore;
@@ -21,10 +23,10 @@ public class EcoDrivingScoreCalculator {
 	private AppContext appContext;
 	
     EcoDrivingScore[] scores = new EcoDrivingScore[] { 
-    		new EcoDrivingScore("Constant speed", 10),
-    		new EcoDrivingScore("Moderate acceleration", 80),
-    		new EcoDrivingScore("Avoiding high speeds", 90),
-    		new EcoDrivingScore("Anticipating stops", 55)    
+    		new EcoDrivingScore("Constant speed", 50),
+    		new EcoDrivingScore("Moderate acceleration", 50),
+    		new EcoDrivingScore("Avoiding high speeds", 50),
+    		new EcoDrivingScore("Anticipating stops", 50)    
     };
 	
 	private int score_constant_speed;  			// calculated using mean variance in speed
@@ -41,37 +43,55 @@ public class EcoDrivingScoreCalculator {
 	/** used to (re-) calculate scores 
 	 *  
 	 */
-	public void calculateScores() {
+	public void calculateScores(DriveSequence trip) {
 		
-		List<DriveSequence> trips;
-		try {
-			trips = appContext.getDb().getDriveSequences(true);
-
+			try {
+				trip.setWayPoints(appContext.getDb().getWayPoints(trip));
+			} catch (DatabaseException e) {
+				Toast.makeText(appContext, "Could not load trip waypoints.", Toast.LENGTH_SHORT);
+				e.printStackTrace();
+			}
+		
 			for (EcoDrivingScore score : scores ) {
 				
-				// Constant speed:
-				for (DriveSequence trip : trips) {
-					// todo: if trip does not have mean variance in speed...					
-//					if (trip.getMeanVarianceInSpeed == null) ...
+				if (score.getTechniqueName().equals("Avoiding high speeds")) {
+					// high speed is based on average (top) speed
 					
-					// calculate mean variance in speed
-					trip.setWayPoints(appContext.getDb().getWayPoints(trip));
+					// toDo: differentiate by road type!
 					
+					double sumVelocity = 0;  
+					for (WayPoint w : trip.getWayPoints()) {
+						sumVelocity += w.getVelocity();
+					}
+					double avgVelocity = sumVelocity / trip.getWayPoints().size();
+					L.d("avgVelocity: " + avgVelocity); 
+					
+					int avgVelocityBad = 160; 
+					int avgVelocityOk = 110; 
+					
+					// calculate speed relative to intervall
+					int relativeSpeed = (int) ( (avgVelocityBad - avgVelocity)   / (avgVelocityBad - avgVelocityOk) ) * 100; 
+					score.setProgress(make100PercentIntervall((relativeSpeed)));
+						
+				}
+			}
+//				score.setProgress(50);	
+			
+			for (EcoDrivingScore score : scores ) {
+				
+				if (score.getTechniqueName().equals("Avoiding high speeds"))
 					for (WayPoint w : trip.getWayPoints()) {
 						w.getVelocity();
 						
 //						ToDo ... 
 					}
-				}
-//				score.setProgress(50);			
+				}			
+			// Constant speed:
+			// todo: if trip does not have mean variance in speed...					
+//			if (trip.getMeanVarianceInSpeed == null) ...
+			
+			// calculate mean variance in speed
 				
-			}
-			
-			
-		} catch (DatabaseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 	}
 	
@@ -94,4 +114,15 @@ public class EcoDrivingScoreCalculator {
 		return scores;
 	}
 
+	/** ensures that progress never exceed 100% and never drops below 0%
+	 *  
+	 */
+	private int  make100PercentIntervall(int progress) {
+		if (progress <0)
+			return 0;
+		else if (progress > 0)
+			return 100;
+		else return progress;
+	}	
+	
 }
