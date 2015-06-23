@@ -20,6 +20,9 @@ public class AboutActivity extends Activity {
 		setContentView(R.layout.activity_about);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
+		
+		// set action bar icon to white car on green background 
+		getActionBar().setIcon(R.drawable.drawer_icon);				
 	}
 	@Override
 	/**

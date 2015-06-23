@@ -157,34 +157,29 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 		GpxLoader gpxLoader = new GpxLoader(appContext);
 
 		// use this to load all .gpx files in /assets
-		String[] listOfFiles;
-		try {
-			listOfFiles = appContext.getResources().getAssets().list("");
-			for (String filename : listOfFiles) {
-				if (filename.endsWith(".gpx")) {
-					L.d("gpx file found: " + filename);
-					List<Location> locations = gpxLoader.loadGpx(filename);
-					simulateLocations(locations, false);
-					// set battery state to full
-					appContext.getEcar().getBattery().setCurrentSoc(appContext.getEcar().getVehicleType().getBatteryCapacity());
-				}
-			}
-		} catch (IOException e) {
-			L.e("Could not get list of *.gpx files");
-			e.printStackTrace();
-		}
+//		String[] listOfFiles;
+//		try {
+//			listOfFiles = appContext.getResources().getAssets().list("");
+//			for (String filename : listOfFiles) {
+//				if (filename.endsWith(".gpx")) {
+//					L.d("gpx file found: " + filename);
+//					List<Location> locations = gpxLoader.loadGpx(filename);
+//					simulateLocations(locations, false);
+//					// set battery state to full
+//					appContext.getEcar().getBattery().setCurrentSoc(appContext.getEcar().getVehicleType().getBatteryCapacity());
+//				}
+//			}
+//		} catch (IOException e) {
+//			L.e("Could not get list of *.gpx files");
+//			e.printStackTrace();
+//		}
 
-//		 List<Location> locations = gpxLoader.loadGpx("Track201501202031.gpx");
-//		 simulateLocations(locations, false);
+//		 simulateLocations(gpxLoader.loadGpx("Track201501202031.gpx"), false);
+//		 simulateLocations(gpxLoader.loadGpx("Track201501211158.gpx"), false);
+//		 simulateLocations(gpxLoader.loadGpx("Track201501211422.gpx"), false);
 
-		// List<Location> locations = gpxLoader.loadGpx("Track201501211158.gpx");
-		// simulateLocations(locations, false);
-
-//		 List<Location> locations = gpxLoader.loadGpx("Track201501211422.gpx");
-		// simulateLocations(locations, false);
-
-		// List<Location> locations = gpxLoader.loadGpx("Track201501220823.gpx");
-		// simulateLocations(locations, false);
+		 List<Location> locations = gpxLoader.loadGpx("Track201501220823.gpx");
+		 simulateLocations(locations, false);
 
 //		List<Location> locations = gpxLoader.loadGpx("Track201501221730.gpx");
 //		simulateLocations(locations, false);

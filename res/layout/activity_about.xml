@@ -57,38 +57,6 @@
 		android:gravity="center"/>
 
 	<TextView
-		android:id="@+id/aboutDeveloper3"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/developer3"
-		android:layout_margin="4dp" 
-		android:gravity="center"/>
-
-	<TextView
-		android:id="@+id/aboutDeveloper4"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/developer4"
-		android:layout_margin="4dp" 
-		android:gravity="center"/>
-
-	<TextView
-		android:id="@+id/aboutDeveloper5"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/developer5"
-		android:layout_margin="4dp" 
-		android:gravity="center"/>
-
-	<TextView
-		android:id="@+id/aboutDeveloper6"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/developer6"
-		android:layout_margin="4dp" 
-		android:gravity="center"/>
-
-	<TextView
 		android:id="@+id/aboutAppVersion"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"

@@ -62,6 +62,9 @@ public class ChargingStationActivity extends Activity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_change_cs);
+		
+		// set action bar icon to white car on green background 
+		getActionBar().setIcon(R.drawable.drawer_icon);				
 
 		context = this.getApplicationContext();
 		LocationManager mlocManager = (LocationManager) context

@@ -108,6 +108,9 @@ public class MainActivity extends SwipeActivity {
 		L.v("MainActivity onCreate()");
 		setContentView(R.layout.activity_main);
 		
+		// set action bar icon to white car on green background 
+		getActionBar().setIcon(R.drawable.drawer_icon);		
+		
 		fragmentFolder = appContext.getFragmentFolder(); 
 
 		mTitle = mDrawerTitle = getTitle();
@@ -183,6 +186,7 @@ public class MainActivity extends SwipeActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
+		
 		return super.onCreateOptionsMenu(menu);
 	}
 

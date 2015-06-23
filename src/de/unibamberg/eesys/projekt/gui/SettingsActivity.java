@@ -1,5 +1,6 @@
 package de.unibamberg.eesys.projekt.gui;
 
+import de.unibamberg.eesys.projekt.R;
 import de.unibamberg.eesys.projekt.gui.fragment.SettingsFragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +26,10 @@ public class SettingsActivity extends PreferenceActivity {
 		// addPreferencesFromResource(R.xml.preferences);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
+		
+		// set action bar icon to white car on green background 
+		getActionBar().setIcon(R.drawable.drawer_icon);
+				
 		this.getFragmentManager().beginTransaction()
 				.replace(android.R.id.content, new SettingsFragment()).commit();
 	}

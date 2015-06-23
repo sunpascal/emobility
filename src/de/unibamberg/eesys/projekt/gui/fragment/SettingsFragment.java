@@ -49,6 +49,7 @@ public class SettingsFragment extends PreferenceFragment  {
 		super.onCreate(savedInstanceState);
 		// get DatabaseConnection
 		appContext = (AppContext) getActivity().getApplicationContext();
+		
 		db = new DBImplementation(appContext);
 		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.preferences);
@@ -132,7 +133,7 @@ public class SettingsFragment extends PreferenceFragment  {
 		// Import Database for testing
 		Preference importDB = this.findPreference("testing.importDB");
 		importDB.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-
+			
 			public boolean onPreferenceClick(final Preference preference) {
 				Log.v(SettingsFragment.TAG, "Import DB");
 				appContext.getDb().importDb();
@@ -147,6 +148,8 @@ public class SettingsFragment extends PreferenceFragment  {
 		loadGpx.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
 			public boolean onPreferenceClick(final Preference preference) {
+				
+				// todo: start a new thread
 				Log.v(SettingsFragment.TAG, "loadGpx");
 				appContext.getMobilityManager().loadTestDataFromGpx();
 				Toast.makeText(appContext, "Gpx loaded successfully",
