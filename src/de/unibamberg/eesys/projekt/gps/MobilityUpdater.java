@@ -13,7 +13,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
@@ -150,48 +152,7 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 		
 	}
 
-	/**
-	 * loads multiple test files from /assets folder to simulate driving **
-	 */
-	public void loadTestDataFromGpx() {
-		GpxLoader gpxLoader = new GpxLoader(appContext);
 
-		// use this to load all .gpx files in /assets
-//		String[] listOfFiles;
-//		try {
-//			listOfFiles = appContext.getResources().getAssets().list("");
-//			for (String filename : listOfFiles) {
-//				if (filename.endsWith(".gpx")) {
-//					L.d("gpx file found: " + filename);
-//					List<Location> locations = gpxLoader.loadGpx(filename);
-//					simulateLocations(locations, false);
-//					// set battery state to full
-//					appContext.getEcar().getBattery().setCurrentSoc(appContext.getEcar().getVehicleType().getBatteryCapacity());
-//				}
-//			}
-//		} catch (IOException e) {
-//			L.e("Could not get list of *.gpx files");
-//			e.printStackTrace();
-//		}
-
-//		 simulateLocations(gpxLoader.loadGpx("Track201501202031.gpx"), false);
-//		 simulateLocations(gpxLoader.loadGpx("Track201501211158.gpx"), false);
-//		 simulateLocations(gpxLoader.loadGpx("Track201501211422.gpx"), false);
-
-		 List<Location> locations = gpxLoader.loadGpx("Track201501220823.gpx");
-		 simulateLocations(locations, false);
-
-//		List<Location> locations = gpxLoader.loadGpx("Track201501221730.gpx");
-//		simulateLocations(locations, false);
-
-		// List<Location> locations = gpxLoader.loadGpx("Track201501051332.gpx");
-		// simulateLocations(locations, false);
-
-//		 L.d("List of trips:");
-//		 for (de.unibamberg.eesys.projekt.businessobjects.DriveSequence trip : appContext.getDb().getDriveSequences())
-//		 L.v(appContext.getFormattedDate(trip.getTimeStart()) + " " + AppContext.round(trip.getCoveredDistance()/1000, 2) + "km");
-
-	}
 
 	
 	/** 
@@ -588,6 +549,7 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 	
 	public void simulateLocations(List<Location> locations, boolean useTestProvider) {
 		
+		
 		// manipulate last location with speed = 0 so that trip ends (and is
 		// stored in DB)
 		Location lastLocation = locations.get(locations.size() - 1);
@@ -597,6 +559,7 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 		// nicht alles in die Datebank geschrieben werden würde, kann man auch direkt den WayPoint erzeugen
 		if (!useTestProvider) {
 			for (Location l : locations) {
+				// todo: run on UI task
 				processLocation(l);
 			}
 		}
@@ -629,4 +592,64 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 		}
 
 	}
+	
+	/**
+	 * loads multiple test files from /assets folder to simulate driving **
+	 */
+	public void loadTestDataFromGpx() {
+		
+//		 new GpxImportTask().execute();
+		
+		 GpxLoader gpxLoader = new GpxLoader(appContext);
+		 simulateLocations(gpxLoader.loadGpx("Track201501202031.gpx"), false);
+		 SystemClock.sleep(3100);	
+		 simulateLocations(gpxLoader.loadGpx("Track201501211158.gpx"), false);
+		 SystemClock.sleep(3100);
+		 simulateLocations(gpxLoader.loadGpx("Track201501211422.gpx"), false);
+		 SystemClock.sleep(3100);
+		 simulateLocations(gpxLoader.loadGpx("Track201501220823.gpx"), false);
+		 SystemClock.sleep(3100);
+		 simulateLocations(gpxLoader.loadGpx("Track201501221730.gpx"), false);
+		 SystemClock.sleep(3100);
+
+	}	
+	
+	 private class GpxImportTask extends AsyncTask<Void, List<Location>, Void> {
+	     protected Void doInBackground(Void... params) {
+	    	 
+	 		final GpxLoader gpxLoader = new GpxLoader(appContext);
+			// use this to load all .gpx files in /assets	    	 
+				String[] listOfFiles;
+				try {
+					listOfFiles = appContext.getResources().getAssets().list("");
+					for (String filename : listOfFiles) {
+						if (filename.endsWith(".gpx")) {
+							List<Location> locations = gpxLoader.loadGpx(filename);
+							
+							// run this on UI thread!
+							publishProgress(locations);
+							
+						}
+					}
+				} catch (IOException e) {
+					L.e("Could not get list of *.gpx files");
+					e.printStackTrace();
+				}
+				
+				return null;
+	     }
+
+		// runs on UI thread
+	     protected void onProgressUpdate(List<Location> locations) {
+	    	 L.e("onProgressUpdate: " + locations.size() + " locations.");
+//	 		SystemClock.sleep(50);	    	 
+	    	 simulateLocations(locations, false);
+	     }
+
+	     protected void onPostExecute() {
+	    	 Toast.makeText(appContext, "Gpx loaded successfully", Toast.LENGTH_LONG).show();
+	     }
+
+	 }
+	
 }

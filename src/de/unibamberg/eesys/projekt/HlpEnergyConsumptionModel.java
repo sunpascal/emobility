@@ -80,7 +80,7 @@ public class HlpEnergyConsumptionModel implements InterfaceEnergyConsumption {
 			hillClimbingForce = vehicleType.getMass()
 				* gravitationalAcceleration
 				* (hightDelta/distance);    // höhenunterschied pro Meter!
-			L.i("hillClimbingForce=" + hillClimbingForce + ", hillClimbingForce=" + hillClimbingForce);
+//			L.v("hillClimbingForce=" + hillClimbingForce + ", hillClimbingForce=" + hillClimbingForce);
 		}
 
 		double recuperation;

@@ -149,11 +149,8 @@ public class SettingsFragment extends PreferenceFragment  {
 
 			public boolean onPreferenceClick(final Preference preference) {
 				
-				// todo: start a new thread
-				Log.v(SettingsFragment.TAG, "loadGpx");
 				appContext.getMobilityManager().loadTestDataFromGpx();
-				Toast.makeText(appContext, "Gpx loaded successfully",
-						Toast.LENGTH_LONG).show();
+
 				return true;
 			}
 		});
