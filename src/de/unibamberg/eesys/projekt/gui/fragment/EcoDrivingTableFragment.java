@@ -43,6 +43,7 @@ import de.unibamberg.eesys.projekt.R;
 import de.unibamberg.eesys.projekt.businessobjects.DriveSequence;
 import de.unibamberg.eesys.projekt.database.DBImplementation;
 import de.unibamberg.eesys.projekt.database.DatabaseException;
+import de.unibamberg.eesys.projekt.gui.FragmentFolder.MODE;
 import de.unibamberg.eesys.statistics.BatterySocsReport;
 import de.unibamberg.eesys.statistics.Statistic;
 import de.unibamberg.eesys.statistics.StatisticsException;
@@ -196,20 +197,22 @@ public class EcoDrivingTableFragment extends Fragment {
 
 		fragmentManager = getFragmentManager();
 		fragmentTransaction = fragmentManager.beginTransaction();
-		techniqueFragment = new EcoDrivingFeedbackTeqniqueFragment(ds);
+		
+		techniqueFragment = (EcoDrivingFeedbackTeqniqueFragment) appContext.getFragmentFolder().getFirstTab();
+		techniqueFragment.setTrip(ds);
+		
 		containerId = ((ViewGroup) getView().getParent()).getId();
 
 		techniqueFragment.setArguments(getActivity().getIntent().getExtras());
+		
+		techniqueFragment.setArguments(getActivity().getIntent().getExtras());
 		Bundle args = new Bundle();
-		args.putInt(techniqueFragment.toString(), position);
-
+		args.putInt(techniqueFragment.toString(), 0);
 		techniqueFragment.setArguments(args);
 
-		fragmentTransaction.replace(containerId, techniqueFragment);
-		fragmentTransaction.addToBackStack(null);
-		fragmentTransaction.commit();
+		getFragmentManager().beginTransaction()
+				.replace(R.id.content_frame, techniqueFragment).commit();
 	}	
-	
 	
 }	
 

@@ -67,11 +67,11 @@ public class EcoDrivingScoreCalculator {
 					// ToDo: take into account other road types!
 					
 					double avgVelocityHighway = trip.avgVelocityHighway();
-					int avgVelocityBad = 160; 
-					int avgVelocityOk = 110; 
+					int avgVelocityBad = (int) (160/3.6); 
+					int avgVelocityOk = (int) (110/3.6); 
 					
 					// calculate speed relative to intervall
-					int relativeSpeed = (int) ( (avgVelocityBad - avgVelocityHighway)   / (avgVelocityBad - avgVelocityOk) ) * 100; 
+					int relativeSpeed = (int) ( ( (avgVelocityBad - avgVelocityHighway)   / (avgVelocityBad - avgVelocityOk) ) * 100 ); 
 					score.setProgress(make100PercentIntervall((relativeSpeed)));
 						
 				}
@@ -140,7 +140,7 @@ public class EcoDrivingScoreCalculator {
 	private int  make100PercentIntervall(int progress) {
 		if (progress <0)
 			return 0;
-		else if (progress > 0)
+		else if (progress > 100)
 			return 100;
 		else return progress;
 	}	

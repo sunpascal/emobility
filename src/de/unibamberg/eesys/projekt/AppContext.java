@@ -29,6 +29,7 @@ import de.unibamberg.eesys.projekt.businessobjects.WayPoint;
 import de.unibamberg.eesys.projekt.database.DBImplementation;
 import de.unibamberg.eesys.projekt.database.DatabaseException;
 import de.unibamberg.eesys.projekt.gps.MobilityUpdater;
+import de.unibamberg.eesys.projekt.gui.FragmentFolder;
 import de.unibamberg.eesys.projekt.gui.GuiUpdateInterface;
 import de.unibamberg.eesys.projekt.gui.MainActivity;
 
@@ -129,7 +130,12 @@ public class AppContext extends Application {
 	
 	private BackgroundService backgroundService;
 	private Recommender recommender;
-
+	
+	private FragmentFolder fragmentFolder;
+	
+	static final String PREF_TESTING_ACTIVITY = "testing.activity";
+	private static final String PREF_TESTING_SPEED = "testing.speed";
+	
 	public BackgroundService getBackgroundService() {
 		return backgroundService;
 	}
@@ -137,9 +143,7 @@ public class AppContext extends Application {
 	public void setBackgroundService(BackgroundService backgroundService) {
 		this.backgroundService = backgroundService;
 	}
-
-	private static final String PREF_TESTING_ACTIVITY = "testing.activity";
-	private static final String PREF_TESTING_SPEED = "testing.speed";
+	
 
 	@Override
 	/**
@@ -154,7 +158,8 @@ public class AppContext extends Application {
 		db = new DBImplementation(this);
 		consumptionModel = new HlpEnergyConsumptionModel();
 		mobilityManager = new MobilityUpdater(this);
-
+		fragmentFolder = new FragmentFolder();
+		
 		// get list of all charging stations from database
 		try {
 			chargeStations = db.getChargingStations();
@@ -546,6 +551,10 @@ public class AppContext extends Application {
 
 	public Params getParams() {
 		return params;
+	}
+
+	public FragmentFolder getFragmentFolder() {
+		return fragmentFolder;
 	}
 	
 }

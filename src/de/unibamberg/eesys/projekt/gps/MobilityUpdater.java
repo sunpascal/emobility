@@ -310,7 +310,7 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 			// two or more coordinates captured
 						
 			double hightDelta = getAltitudeDiff(previousLocation, currentLocation); 
-			L.d("getAltitudeDiff: " + hightDelta + "m");
+//			L.d("getAltitudeDiff: " + hightDelta + "m");
 			distanceDelta = calcGroundDistance(previousLocation, currentLocation, hightDelta);
 			
 			distanceCumulated = distanceCumulated + distanceDelta;

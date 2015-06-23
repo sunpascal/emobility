@@ -9,7 +9,6 @@ import java.util.TreeMap;
 
 import com.google.android.gms.wallet.wobs.c;
 
-import de.unibamberg.eesys.projekt.gui.MainActivity.MODE;
 import de.unibamberg.eesys.projekt.gui.fragment.AnalysisBatteryLevelFragment;
 import de.unibamberg.eesys.projekt.gui.fragment.AnalysisCriticalTripsFragment;
 import de.unibamberg.eesys.projekt.gui.fragment.AnalysisDrivePossibilityFragment;
@@ -30,7 +29,11 @@ public class FragmentFolder {
 	private MODE currentDrawerMode = null; 	// pointer to current mode 
 	private int positionWithinMode = 0;					// pointer to current tab
 	
-	private TreeMap<MODE, ArrayList<Fragment>> drawers = new TreeMap<MainActivity.MODE, ArrayList<Fragment>>();
+	private TreeMap<MODE, ArrayList<Fragment>> drawers = new TreeMap<FragmentFolder.MODE, ArrayList<Fragment>>();
+	
+	public static enum MODE {
+		DASHBOARD, EV_RECOMMENDATION, ECO_DRIVING, ANALYSIS, BLANK
+	};
 	
 	public FragmentFolder() {
 		
@@ -109,6 +112,16 @@ public class FragmentFolder {
 		}
 		
 	}
+	
+	/** 
+	 * returns the first tab in the current mode
+	 * @return
+	 */
+	public Fragment getFirstTab() {
+		ArrayList<Fragment> tabsInDrawer = drawers.get((currentDrawerMode));
+			positionWithinMode = 0;  
+			return tabsInDrawer.get(0);	
+	}		
 	
 	/** returns the first fragment tab of the current drawer mode 
 	 * 

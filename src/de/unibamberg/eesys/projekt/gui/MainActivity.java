@@ -30,6 +30,7 @@ import android.widget.Toast;
 import de.unibamberg.eesys.projekt.AppContext;
 import de.unibamberg.eesys.projekt.L;
 import de.unibamberg.eesys.projekt.R;
+import de.unibamberg.eesys.projekt.gui.FragmentFolder.MODE;
 import de.unibamberg.eesys.projekt.gui.fragment.DashboardFragment;
 
 /**
@@ -59,10 +60,6 @@ public class MainActivity extends SwipeActivity {
 	DashboardFragment gpsUpdateListener;
 	
 	private ActionBar actionBar; 
-	
-	protected static enum MODE {
-		DASHBOARD, EV_RECOMMENDATION, ECO_DRIVING, ANALYSIS, BLANK
-	};
 	
 	private FragmentFolder fragmentFolder;
 	
@@ -111,7 +108,7 @@ public class MainActivity extends SwipeActivity {
 		L.v("MainActivity onCreate()");
 		setContentView(R.layout.activity_main);
 		
-		fragmentFolder = new FragmentFolder(); 
+		fragmentFolder = appContext.getFragmentFolder(); 
 
 		mTitle = mDrawerTitle = getTitle();
 		mDrawerOptions = getResources().getStringArray(R.array.drawer_options);
@@ -243,7 +240,7 @@ public class MainActivity extends SwipeActivity {
 		} else {
 			// We're somewhere else, reload the MAIN Fragment.
 
-			Fragment selectedFragment =fragmentFolder.getDrawer(MODE.DASHBOARD);;
+			Fragment selectedFragment =fragmentFolder.getDrawer(MODE.DASHBOARD);
 			selectedFragment.setArguments(this.getIntent().getExtras());
 			Bundle args = new Bundle();
 			args.putInt(selectedFragment.toString(), 0);

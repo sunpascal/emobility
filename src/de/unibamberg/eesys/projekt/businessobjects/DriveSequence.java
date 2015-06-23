@@ -17,7 +17,7 @@ import de.unibamberg.eesys.projekt.L;
  *
  */
 public class DriveSequence extends Sequence implements Comparable {
-
+	
 	private double coveredDistance;		// in meter!! 
 	private double sumCO2;  		
 	private List<WayPoint> wayPoints; 
@@ -38,11 +38,11 @@ public class DriveSequence extends Sequence implements Comparable {
 		int countNumberWayPointsHighway = 0;
 		int countNumberWayPointsCity = 0;
 		for (WayPoint w : wayPoints) {
-			if (w.getVelocity() > 100) {
-			sumVelocity += w.getVelocity();
-			countNumberWayPointsHighway++;
+			if (w.getVelocity() > 0) {
+				sumVelocity += w.getVelocity();
+				countNumberWayPointsHighway++;
 			}
-			if (w.getVelocity() < 60) {
+			if (w.getVelocity() < (60/3.6)) {
 				if (w.getAcceleration() > 0)
 					sumPositiveAcceleration += w.getAcceleration();
 				else if (w.getAcceleration() < 0)
@@ -53,13 +53,15 @@ public class DriveSequence extends Sequence implements Comparable {
 		}
 		
 		avgVelocityHighway = sumVelocity / countNumberWayPointsHighway;
+		L.d("avgVelocityHighway: " + avgVelocityHighway*3.6 + "km/h");
+		
 		avgPosAcceleration = sumPositiveAcceleration / countNumberWayPointsCity;
 		avgNegAcceleration = sumNegativeAcceleration / countNumberWayPointsCity;
 				
 		// calculate average variance of velocity
 		double sum = 0;
 		for (WayPoint w : wayPoints) {
-			if (w.getVelocity() > 100) {
+			if (w.getVelocityinKmh() > 0) {
 				sum += Math.abs( w.getVelocity() - avgVelocityHighway); 
 			}
 		}		

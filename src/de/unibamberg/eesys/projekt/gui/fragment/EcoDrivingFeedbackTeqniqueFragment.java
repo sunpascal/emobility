@@ -58,11 +58,7 @@ public class EcoDrivingFeedbackTeqniqueFragment extends android.support.v4.app.F
 	 */
 	DriveSequence trip = null; 
 	
-	public EcoDrivingFeedbackTeqniqueFragment() {
-
-	}
-	
-	public EcoDrivingFeedbackTeqniqueFragment(DriveSequence trip) {
+	public void setTrip(DriveSequence trip) {
 		this.trip = trip;
 	}
 	
@@ -74,26 +70,33 @@ public class EcoDrivingFeedbackTeqniqueFragment extends android.support.v4.app.F
 
 		appContext = (AppContext) getActivity().getApplicationContext();
 		
+		List<DriveSequence> trips = null;
 		if (trip == null) {
-			List<DriveSequence> trips;
 			try {
 				trips = appContext.getDb().getDriveSequences(true);
 				// use last trip
-				this.trip = trips.get(trips.size()-1);
+				if (trips != null && trips.size() > 0)
+					this.trip = trips.get(0);
 			} catch (DatabaseException e) {
 				Toast.makeText(appContext, "Could not load trips.", Toast.LENGTH_SHORT);
 				e.printStackTrace();
 			}
 		}
 		
-	    ListView listView = (ListView) rootView.findViewById(R.id.listViewDoingWell);
-	    
-	    EcoDrivingScoreCalculator scoreCalculator = new EcoDrivingScoreCalculator(appContext); 
-	    scoreCalculator.calculateScores(trip);
-	    
-	    EcoDrivingScore[] values = scoreCalculator.getScores();
-	    EcoDrivingTechniqueAdapter adapter = new EcoDrivingTechniqueAdapter(appContext, values);
-	    listView.setAdapter(adapter);
+		if (trip != null ) {
+		
+		    ListView listView = (ListView) rootView.findViewById(R.id.listViewDoingWell);
+		    
+		    EcoDrivingScoreCalculator scoreCalculator = new EcoDrivingScoreCalculator(appContext); 
+		    
+		    scoreCalculator.calculateScores(trip);
+		    
+		    EcoDrivingScore[] values = scoreCalculator.getScores();
+		    EcoDrivingTechniqueAdapter adapter = new EcoDrivingTechniqueAdapter(appContext, values);
+		    listView.setAdapter(adapter);
+		}
+		
+		else Toast.makeText(appContext, "No trips recored yet.", Toast.LENGTH_SHORT);
 	    
 	    return rootView;	    
 	    
