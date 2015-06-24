@@ -1,4 +1,4 @@
-package de.unibamberg.eesys.projekt.gui;
+package de.unibamberg.eesys.projekt.gui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;

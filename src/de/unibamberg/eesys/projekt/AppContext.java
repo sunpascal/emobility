@@ -31,7 +31,7 @@ import de.unibamberg.eesys.projekt.database.DatabaseException;
 import de.unibamberg.eesys.projekt.gps.MobilityUpdater;
 import de.unibamberg.eesys.projekt.gui.FragmentFolder;
 import de.unibamberg.eesys.projekt.gui.GuiUpdateInterface;
-import de.unibamberg.eesys.projekt.gui.MainActivity;
+import de.unibamberg.eesys.projekt.gui.activity.MainActivity;
 
 /**
  * This is class which represents the applications context. It allows accessing

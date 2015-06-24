@@ -1,4 +1,4 @@
-package de.unibamberg.eesys.projekt.gui;
+package de.unibamberg.eesys.projekt.gui.activity;
 
 import java.util.ArrayList;
 import java.util.List;

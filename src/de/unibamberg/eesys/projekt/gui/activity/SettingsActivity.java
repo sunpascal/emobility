@@ -1,4 +1,4 @@
-package de.unibamberg.eesys.projekt.gui;
+package de.unibamberg.eesys.projekt.gui.activity;
 
 import de.unibamberg.eesys.projekt.R;
 import de.unibamberg.eesys.projekt.gui.fragment.SettingsFragment;

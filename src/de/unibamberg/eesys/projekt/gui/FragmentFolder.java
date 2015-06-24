@@ -9,21 +9,7 @@ import java.util.TreeMap;
 
 import com.google.android.gms.wallet.wobs.c;
 
-import de.unibamberg.eesys.projekt.gui.fragment.AnalysisBatteryLevelFragment;
-import de.unibamberg.eesys.projekt.gui.fragment.AnalysisCriticalTripsFragment;
-import de.unibamberg.eesys.projekt.gui.fragment.AnalysisDrivePossibilityFragment;
-import de.unibamberg.eesys.projekt.gui.fragment.AnalysisTripDistanceFragment;
-import de.unibamberg.eesys.projekt.gui.fragment.AnalysisTripMapFragment;
-import de.unibamberg.eesys.projekt.gui.fragment.DashboardFragment;
-import de.unibamberg.eesys.projekt.gui.fragment.DashboardOldFragment;
-import de.unibamberg.eesys.projekt.gui.fragment.EcoDrivingAvgConsumptionFragment;
-import de.unibamberg.eesys.projekt.gui.fragment.EcoDrivingBackgroundInfoFragment;
-import de.unibamberg.eesys.projekt.gui.fragment.EcoDrivingFeedbackTeqniqueFragment;
-import de.unibamberg.eesys.projekt.gui.fragment.EcoDrivingGoalFragment;
-import de.unibamberg.eesys.projekt.gui.fragment.EcoDrivingTableFragment;
-import de.unibamberg.eesys.projekt.gui.fragment.EvRecommendationFragment;
-import de.unibamberg.eesys.projekt.gui.fragment.EvRecommendationFragment1;
-import de.unibamberg.eesys.projekt.gui.fragment.EvRecommendationFragment2;
+import de.unibamberg.eesys.projekt.gui.fragment.*;
 import android.support.v4.app.Fragment;
 
 public class FragmentFolder {
@@ -57,6 +43,7 @@ public class FragmentFolder {
 		ecodriving.add(new EcoDrivingFeedbackTeqniqueFragment());
 		ecodriving.add(new EcoDrivingTableFragment());
 		ecodriving.add(new EcoDrivingBackgroundInfoFragment());
+		ecodriving.add(new AnalysisSpeedFragment());
 		ecodriving.add(new EcoDrivingGoalFragment());
 		ecodriving.add(new EcoDrivingAvgConsumptionFragment());
 		drawers.put(MODE.ECO_DRIVING, ecodriving);		

@@ -1,4 +1,4 @@
-package de.unibamberg.eesys.projekt.gui;
+package de.unibamberg.eesys.projekt.gui.activity;
 
 import java.util.ArrayList;
 
@@ -30,6 +30,7 @@ import android.widget.Toast;
 import de.unibamberg.eesys.projekt.AppContext;
 import de.unibamberg.eesys.projekt.L;
 import de.unibamberg.eesys.projekt.R;
+import de.unibamberg.eesys.projekt.gui.FragmentFolder;
 import de.unibamberg.eesys.projekt.gui.FragmentFolder.MODE;
 import de.unibamberg.eesys.projekt.gui.fragment.DashboardFragment;
 

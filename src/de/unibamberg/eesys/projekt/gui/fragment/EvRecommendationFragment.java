@@ -25,7 +25,7 @@ import de.unibamberg.eesys.projekt.businessobjects.Ecar;
 import de.unibamberg.eesys.projekt.businessobjects.VehicleType;
 import de.unibamberg.eesys.projekt.businessobjects.Ecar.CarState;
 import de.unibamberg.eesys.projekt.businessobjects.WayPoint;
-import de.unibamberg.eesys.projekt.gui.MainActivity;
+import de.unibamberg.eesys.projekt.gui.activity.MainActivity;
 
 /**
  * Fragment for Main Overview with battery display View Overview in three

@@ -73,7 +73,9 @@ public class EcoDrivingScoreCalculator {
 					// calculate speed relative to intervall
 					int relativeSpeed = (int) ( ( (avgVelocityBad - avgVelocityHighway)   / (avgVelocityBad - avgVelocityOk) ) * 100 ); 
 					score.setProgress(make100PercentIntervall((relativeSpeed)));
-						
+					score.setTechniqueName(score.getTechniqueName() + 
+							"avgVelocityHighway: " + avgVelocityHighway + " " +
+							"relativeSpeed: " + relativeSpeed);
 				}
 				
 				else if (score.getTechniqueName().equals("Constant speed")) {
@@ -84,8 +86,10 @@ public class EcoDrivingScoreCalculator {
 					int limitBad = 20; 
 					int limitOk = 5;	
 					int relativeSpeed = (int) ( (limitBad - userValue)   / (limitBad - limitOk) ) * 100; 
-					score.setProgress(make100PercentIntervall((relativeSpeed)));					
-					
+					score.setProgress(make100PercentIntervall((relativeSpeed)));
+					score.setTechniqueName(score.getTechniqueName() + 
+							"getAvgVarianceVelocityHighway: " + userValue + " " +
+							"relativeSpeed: " + relativeSpeed);
 				}	
 			
 				else if (score.getTechniqueName().equals("Moderate acceleration")) {
@@ -97,7 +101,9 @@ public class EcoDrivingScoreCalculator {
 				int limitOk = 5;	
 				int relativeSpeed = (int) ( (limitBad - userValue)   / (limitBad - limitOk) ) * 100; 
 				score.setProgress(make100PercentIntervall((relativeSpeed)));						
-				
+				score.setTechniqueName(score.getTechniqueName() + 
+						"getAvgPosAcceleration: " + userValue + " " +
+						"relativeSpeed: " + relativeSpeed);				
 				}
 				
 				else if (score.getTechniqueName().equals("Anticipating stops")) {
@@ -109,7 +115,9 @@ public class EcoDrivingScoreCalculator {
 				int limitOk = 5;	
 				int relativeSpeed = (int) ( (limitBad - userValue)   / (limitBad - limitOk) ) * 100; 
 				score.setProgress(make100PercentIntervall((relativeSpeed)));					
-				
+				score.setTechniqueName(score.getTechniqueName() + 
+						"getAvgNegAcceleration: " + userValue +
+						"relativeSpeed:" + relativeSpeed);				
 				}				
 			}				
 			
