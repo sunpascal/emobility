@@ -33,7 +33,7 @@ import de.unibamberg.eesys.projekt.gui.MainActivity;
  * @author Pascal
  *
  */
-public class EvRecommendationFragment1 extends Fragment implements 
+public class EvRecommendationFragment2 extends Fragment implements 
 		OnTouchListener, OnClickListener {
 
 	AppContext appContext;
@@ -42,7 +42,7 @@ public class EvRecommendationFragment1 extends Fragment implements
 	/**
 	 * Fragment Class Constructor
 	 */
-	public EvRecommendationFragment1() {
+	public EvRecommendationFragment2() {
 		// Empty constructor required for fragment subclasses
 	}
 
@@ -53,7 +53,7 @@ public class EvRecommendationFragment1 extends Fragment implements
 	 */
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_evrecommendation1,
+		rootView = inflater.inflate(R.layout.fragment_evrecommendation2,
 				container, false);
 
 		appContext = (AppContext) getActivity().getApplicationContext();
@@ -72,7 +72,8 @@ public class EvRecommendationFragment1 extends Fragment implements
 		VehicleType v2;
 		try {
 			v1 = recommender.getRecommendation100PercentOfTrips();
-			v2 = recommender.getAlternativeRecommendationWithEcoDrivingAdaptation(v1);
+			VehicleType v2_old = recommender.getAlternativeRecommendationWithEcoDrivingAdaptation(v1);
+			v2 = recommender.getAlternativeRecommendationWithEcoDrivingAdaptation(v2_old);
 			
 			if (v1 == null)	{
 				txt_vehicle1.setText("No suitable vehicle found.");
@@ -99,8 +100,7 @@ public class EvRecommendationFragment1 extends Fragment implements
 			else { 
 				String alternativeRecTxt = "" + txt_alternativeRec.getText();
 				String percentConsumptionReduction = v2.getPercentConsumptionReductionRequired() + "";
-				txt_alternativeRec.setText(
-						alternativeRecTxt.replace("PERCENT", percentConsumptionReduction));
+				txt_alternativeRec.setText("\nIf you do both: \n");
 				
 				txt_vehicle2.setText(v2.getName() + ":" + v2.getBatteryCapacity() + "kWh");
 				txt_vehicle2specs.setText(v2.getPrice());

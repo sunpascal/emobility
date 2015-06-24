@@ -23,6 +23,7 @@ import de.unibamberg.eesys.projekt.gui.fragment.EcoDrivingGoalFragment;
 import de.unibamberg.eesys.projekt.gui.fragment.EcoDrivingTableFragment;
 import de.unibamberg.eesys.projekt.gui.fragment.EvRecommendationFragment;
 import de.unibamberg.eesys.projekt.gui.fragment.EvRecommendationFragment1;
+import de.unibamberg.eesys.projekt.gui.fragment.EvRecommendationFragment2;
 import android.support.v4.app.Fragment;
 
 public class FragmentFolder {
@@ -48,6 +49,7 @@ public class FragmentFolder {
 		ArrayList<Fragment> evRecommendationFragments = new ArrayList();
 		evRecommendationFragments.add(new EvRecommendationFragment());
 		evRecommendationFragments.add(new EvRecommendationFragment1());
+		evRecommendationFragments.add(new EvRecommendationFragment2());
 		drawers.put(MODE.EV_RECOMMENDATION, evRecommendationFragments);		
 		
 		// Mode Eco-driving

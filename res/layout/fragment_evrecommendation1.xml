@@ -17,6 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:textStyle="bold"
         android:text="@string/firstVehicleRec" />    
     
 <TextView
@@ -35,13 +36,22 @@
         android:layout_weight="0.84"
         android:cropToPadding="false"
         />
+    
+<TextView
+        android:id="@+id/vehicle1specs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textStyle="italic"
+        android:text="" />         
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/secondVehicleRec2" />    
+        android:textStyle="bold"
+        android:text="@string/secondVehicleRec2" />         
     
   <TextView
         android:id="@+id/vehicle2name"
@@ -50,14 +60,6 @@
         android:layout_gravity="center"
         android:textStyle="italic"
         android:text=""/>     
-        
-<TextView
-        android:id="@+id/vehicle1specs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textStyle="italic"
-        android:text="" />       
 
     <ImageView
         android:id="@+id/imageView2"

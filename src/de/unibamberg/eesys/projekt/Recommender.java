@@ -60,6 +60,7 @@ public class Recommender {
 		double requiredBatterySize = calcBatterySize100PercentOfTrips();
 		
 		// check vehicle list for the first vehicle with given battery size
+		// the vehicle list is sorted from smallest to largest!
 		for (VehicleType v : vehicleList) {
 			if (v.getBatteryCapacity() >= requiredBatterySize)
 				return v;
@@ -73,8 +74,10 @@ public class Recommender {
 	 */
 	public VehicleType getAlternativeRecommendationWithTripAdaptation(VehicleType originalVehicle) throws NoTripsException {
 		
-		// check vehicle list for the first vehicle that has a small battery size than the original vehicle
-		for (VehicleType v : vehicleList) {
+		// check vehicle list for the first vehicle that has a smaller battery size than the original vehicle
+		// go backwards through list, since list is sorted from smallest to largest!
+		for (int i=vehicleList.length-1; i>0; i--) {
+			VehicleType v = vehicleList[i];
 			if (v.getBatteryCapacity() < originalVehicle.getBatteryCapacity()) {
 				// determine how many trips have to done using another vehicles in order for this car
 				// to be possible 
@@ -117,8 +120,10 @@ public class Recommender {
 	public VehicleType getAlternativeRecommendationWithEcoDrivingAdaptation(
 			VehicleType originalVehicle) {
 		
-		// check vehicle list for the first vehicle that has a small battery size than the original vehicle
-		for (VehicleType v : vehicleList) {
+		// check vehicle list for the first vehicle that has a smaller battery size than the original vehicle
+		// Todo: check if we have to go backwards
+		for (int i=vehicleList.length-1; i>0; i--) {
+			VehicleType v = vehicleList[i];
 			if (v.getBatteryCapacity() < originalVehicle.getBatteryCapacity()) {
 				// determine how many trips have to done using another vehicles in order for this car
 				// to be possible 
