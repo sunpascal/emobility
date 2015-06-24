@@ -17,6 +17,7 @@ import de.unibamberg.eesys.projekt.gui.fragment.AnalysisTripMapFragment;
 import de.unibamberg.eesys.projekt.gui.fragment.DashboardFragment;
 import de.unibamberg.eesys.projekt.gui.fragment.DashboardOldFragment;
 import de.unibamberg.eesys.projekt.gui.fragment.EcoDrivingAvgConsumptionFragment;
+import de.unibamberg.eesys.projekt.gui.fragment.EcoDrivingBackgroundInfoFragment;
 import de.unibamberg.eesys.projekt.gui.fragment.EcoDrivingFeedbackTeqniqueFragment;
 import de.unibamberg.eesys.projekt.gui.fragment.EcoDrivingGoalFragment;
 import de.unibamberg.eesys.projekt.gui.fragment.EcoDrivingTableFragment;
@@ -53,6 +54,7 @@ public class FragmentFolder {
 		ArrayList<Fragment> ecodriving = new ArrayList();
 		ecodriving.add(new EcoDrivingFeedbackTeqniqueFragment());
 		ecodriving.add(new EcoDrivingTableFragment());
+		ecodriving.add(new EcoDrivingBackgroundInfoFragment());
 		ecodriving.add(new EcoDrivingGoalFragment());
 		ecodriving.add(new EcoDrivingAvgConsumptionFragment());
 		drawers.put(MODE.ECO_DRIVING, ecodriving);		

@@ -35,7 +35,17 @@ public class Table_VehicleType {
 	public static final String FULL_ID = TABLE_NAME + "." + COLUMN_ID;
 	
 	// create and drop statements
-	private static final String TABLE_CREATE = "CREATE TABLE " + Table_VehicleType.TABLE_NAME + "( " + Table_VehicleType.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + Table_VehicleType.COLUMN_NAME + " TEXT, " + Table_VehicleType.COLUMN_DESCRIPTION + "  TEXT, " + Table_VehicleType.COLUMN_BATTERY_CAPACITY + "  REAL, " + Table_VehicleType.COLUMN_ENERGY_CONSUMPTION_PER_KM + "  REAL, " + Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY + "  REAL, " + Table_VehicleType.COLUMN_MASS + "  REAL, " + Table_VehicleType.COLUMN_FRONT_AREA + "  REAL );";
+	private static final String TABLE_CREATE = "CREATE TABLE " + 
+												Table_VehicleType.TABLE_NAME + "( " + 
+												Table_VehicleType.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + 
+												Table_VehicleType.COLUMN_NAME + " TEXT, " +
+												Table_VehicleType.COLUMN_DESCRIPTION + "  TEXT, " + 
+												Table_VehicleType.COLUMN_BATTERY_CAPACITY + "  REAL, " + 
+												Table_VehicleType.COLUMN_ENERGY_CONSUMPTION_PER_KM + "  REAL, " + 
+												Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY + "  REAL, " + 
+												Table_VehicleType.COLUMN_MASS + "  REAL, " + 
+												Table_VehicleType.COLUMN_FRONT_AREA + "  REAL, " +
+												Table_VehicleType.COLUMN_PRICE + " TEXT );";
 	private static final String TABLE_DROP = "DROP TABLE IF EXISTS " + Table_VehicleType.TABLE_NAME + ";";
 	
  	/**

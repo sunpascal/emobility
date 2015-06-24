@@ -193,7 +193,6 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 		mActivityRecognitionClient.requestActivityUpdates(
 				Params.ACTIVITY_RECOGNITION_UPDATE_TIME, callbackIntent);
 		appContext.setPlayServicesAvailable(true);
-		L.v("Connected to Google Play Services and waiting for activity recognition updates.");
 	}
 
 	@Override
@@ -300,7 +299,7 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 														appContext.getEcar().getCurrentTrip().getVehicleType());
 			}
 
-			L.v(
+/*			L.v(
 					distanceDelta + "m " + timeStampDiffInSeconds + "s "
 					+ AppContext.round(prevLocationVelocity * 3.6, 1)
 					+ "km/h (startVelocity) "
@@ -310,9 +309,7 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 					+ AppContext.round(energy, 2) + "kWh "
 					+ waypoint.getUpdateType()
 			);
-			if (appContext.getEcar().getCurrentTrip() != null && appContext.getEcar().getCurrentTrip().getVehicleType() != null) 
-				L.v(appContext.getEcar().getCurrentTrip().getVehicleType().getName() + 
-						" " + appContext.getEcar().getCurrentTrip().getVehicleType().getId());
+*/			
 
 			prevLocationVelocity = thisLocationVelocity;
 			previousLocation = currentLocation;
@@ -375,17 +372,11 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 		if (appContext.getEcar() != null && appContext.getEcar().getCurrentTrip() != null)
 			waypoint.setDriveSequence(appContext.getEcar().getCurrentTrip());
 
-		// send update to listernes
+		// send update to listenes
 		if (waypoint != null)
 			for (GpsUpdateListener listener : listeners) {
 				listener.onWayPointUpdate(waypoint);
 			}
-		
-		L.v(" " + waypoint.getGeoCoordinate().toString() + 
-				" " + AppContext.round(waypoint.getVelocity()*3.6, 2) + "km/h " +
-				" " + AppContext.round(waypoint.getAcceleration()*3.6, 2) + "km/h/s " + 
-				" " + AppContext.round(waypoint.getDistance(), 2) + "m " +
-				AppContext.round(waypoint.getEnergyInKWh(), 2) + "kWh");		
 	}
 
 	/**

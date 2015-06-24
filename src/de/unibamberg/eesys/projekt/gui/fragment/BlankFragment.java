@@ -24,8 +24,6 @@ import de.unibamberg.eesys.projekt.businessobjects.WayPoint;
  * Fragment for Main Overview with battery display View Overview in three
  * different versions according to the car state (driving, charging, parking)
  * 
- * @author Julia
- *
  */
 public class BlankFragment extends Fragment {
 	public static final String TAG = "BlankFragment";

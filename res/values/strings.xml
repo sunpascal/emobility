@@ -19,17 +19,21 @@
     <string name="state">State:</string>
     <string name="gpsDisabled"></string>
     <string name="menu_preferences">Settings</string>
-    <string name="backgroundInfo"><b>There are a number of techniques that can be used to reduce energy consumption.</b><br /><br /><b>Accelerating lightly.</b>
+    <string name="backgroundInfo"><b>There are a number of techniques that can be used to reduce energy consumption.</b>\n
+    <b>Accelerating lightly.</b>
     Acceleration is the strongest contributor to your vehicles energy consumption.      
     Try to avoid unnecessary acceleration by anticipating traffic.<br /> 
-    During city driving, avoid complete stops at traffic ligths by letting the vehicle coast and accelerate smoothly at green lights.
-    <br />
+    During city driving, avoid complete stops at traffic ligths by letting the vehicle coast and accelerate smoothly at green lights.\n
     On the motorway maintant a constant speed for optimal efficiency.
-	<b>Top speeds</b>At 120 km/h every additional 10km/h consumes 20% for energy.<br /> 
-    <b>Correct gear</b>Shift up as soon as possible and avoid high engine speeds. <br />
-    <b>Auxiliary devices</b>Auxiliary devices such as heating significantly increase energy consumption in electric vehicles. 
+    
+	<b>Top speeds</b>At 120 km/h every additional 10km/h consumes 20% for energy.\n
+	 
+    <b>Correct gear</b>Shift up as soon as possible and avoid high engine speeds.\n
+    
+    <b>Auxiliary devices</b>Auxiliary devices such as heating significantly increase energy consumption in electric vehicles.\n 
+    
     <b>Excess weight</b>The greater the vehicles mass, the higher the energy consumption.
-    Avoid carrying uncessary extra weight.
+    Avoid carrying uncessary extra weight.\n
     <b>Vehicle maintenance</b>Keep your vehicles in good maintenance and regurlarly check the tire pressure.    
     </string>
     
@@ -63,12 +67,12 @@
     <string name="drive_possiblity_description">This report visualises the amount of drives that were driveable, not driveable and drivable if at the beginning of the trip the battery would have been fully charged.</string>
     <string name="soc_description">This report visualises the battery state of charge in percent.</string>
     <string name="zerokWh">0 kWh</string>
-    <string name="firstVehicleRec">"Based on your driving profile, the following vehicle is recommended: "</string>
-    <string name="secondVehicleRec1">If you use a different vehicle for N_TRIPS trip(s), the following vehicle will become feasible:</string>
+    <string name="firstVehicleRec">"<b>Based on your driving profile, the following vehicle is recommended:</b>"</string>
+    <string name="secondVehicleRec1"><b><br />If you use a different vehicle for N_TRIPS trip(s), the following vehicle will become feasible:</b></string>
     <string name="WhichTripsAreCritical"><u>Which trips are critical?</u></string>
     <string name="technique_good">"You are doing well on the following eco-driving techniques: "</string>
     <string name="improve_on">"You could improve on the following: "</string>
-    <string name="secondVehicleRec2">If you improve your consumption by PERCENT % the following vehicle will become feasible for you:</string>
+    <string name="secondVehicleRec2"><br /><b>If you improve your consumption by PERCENT % the following vehicle will become feasible for you:</b></string>
     <string name="howCanIimproveMyConsumption"><u>How can I improve my consumption?</u></string>
     <string name="goal_intro">"Set new goal (kWh/100km): "</string>
 

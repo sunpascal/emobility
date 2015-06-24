@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.support.v4.app.Fragment;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Bundle;
@@ -344,12 +345,16 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 		txtCurrentConsumption.setText(consumptionTxt);
 		
 		double currentConsumption = w.calcConsumptionPer100km(); 
-		if (currentConsumption > Params.THRESSHOLD_ACCELERATION_FOR_GREEN_BACKGROUND) 
-			rootView.setBackgroundColor(getResources().getColor(R.color.color_orange));
-		else if (currentConsumption > Params.THRESSHOLD_ACCELERATION_FOR_ORANGE_BACKGROUND) 
-			rootView.setBackgroundColor(getResources().getColor(R.color.color_red));
-		else 
-			rootView.setBackgroundColor(getResources().getColor(R.color.color_green));			
+		int backgroundColor = getResources().getColor(R.color.color_green);
+		if (currentConsumption > Params.THRESSHOLD_ACCELERATION_FOR_GREEN_BACKGROUND &
+				currentConsumption < Params.THRESSHOLD_ACCELERATION_FOR_ORANGE_BACKGROUND) 
+			backgroundColor = getResources().getColor(R.color.color_orange);
+		
+		else if (currentConsumption > Params.THRESSHOLD_ACCELERATION_FOR_ORANGE_BACKGROUND)
+			backgroundColor = getResources().getColor(R.color.color_red);
+		
+		rootView.setBackgroundColor(backgroundColor);
+		
 		
 		// also update consumption in top notification menu ("Runterziehmenü") 
 		appContext.showNotification(appContext.getEcar().getStateString(), consumptionTxt);		

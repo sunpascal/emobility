@@ -73,14 +73,18 @@ public class EvRecommendationFragment extends Fragment implements
 			v1 = recommender.getRecommendation100PercentOfTrips();
 			v2 = recommender.getAlternativeRecommendation(v1);
 			
-			if (v1 == null)		
+			if (v1 == null)	{
 				txt_vehicle1.setText("No suitable vehicle found.");
+				image1.setVisibility(View.INVISIBLE);
+			}
 			else {
 				txt_vehicle1.setText(v1.getName() + ":" + v1.getBatteryCapacity() + "kWh");
 				txt_vehicle1specs.setText(v1.getPrice());
 				int imageRes = getVehicleImage(v1); 
-				if (imageRes != -1)
+				if (imageRes != -1) {
+					image1.setVisibility(View.VISIBLE);
 					image1.setImageResource(imageRes);
+				}
 			}
 			
 			if (v2 == null) {
@@ -89,7 +93,7 @@ public class EvRecommendationFragment extends Fragment implements
 				txt_alternativeRec.setVisibility(View.INVISIBLE);
 				txt_vehicle2.setVisibility(View.INVISIBLE);
 				txt_vehicle2specs.setVisibility(View.INVISIBLE);
-				image1.setVisibility(View.INVISIBLE);
+				image2.setVisibility(View.INVISIBLE);
 			}
 			else { 
 				String alternativeRecTxt = (String) txt_alternativeRec.getText();
@@ -99,10 +103,10 @@ public class EvRecommendationFragment extends Fragment implements
 				
 				txt_vehicle2.setText(v2.getName() + ":" + v2.getBatteryCapacity() + "kWh");
 				txt_vehicle2specs.setText(v2.getPrice());
-				int imageRes = getVehicleImage(v1); 
+				int imageRes = getVehicleImage(v2); 
 				if (imageRes != -1) {
-					image1.setImageResource(imageRes);
-					image1.setVisibility(View.VISIBLE);
+					image2.setImageResource(imageRes);
+					image2.setVisibility(View.VISIBLE);
 				}
 			}
 		}

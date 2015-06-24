@@ -1,6 +1,7 @@
 package de.unibamberg.eesys.projekt.gui.fragment;
 
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.app.ActionBar;
 import android.location.LocationProvider;
 import android.os.Bundle;
@@ -28,8 +29,6 @@ import de.unibamberg.eesys.projekt.businessobjects.WayPoint;
  *
  */
 public class EcoDrivingBackgroundInfoFragment extends Fragment {
-	public static final String TAG = "BlankFragment";
-	public static final String ARG_STATUS = "status";
 
 	AppContext appContext;
 
@@ -48,10 +47,15 @@ public class EcoDrivingBackgroundInfoFragment extends Fragment {
 	 */
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_blank,
+		View rootView = inflater.inflate(R.layout.fragment_ecodriving_background_info,
 				container, false);
 
 		appContext = (AppContext) getActivity().getApplicationContext();
+		
+		TextView txt = (TextView) rootView.findViewById(R.id.textView1);
+		
+//	    txt.setInputType(txt.getInputType() | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+
 		
 		return rootView;
 	}
