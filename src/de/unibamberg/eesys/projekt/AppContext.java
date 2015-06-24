@@ -132,6 +132,7 @@ public class AppContext extends Application {
 	private Recommender recommender;
 	
 	private FragmentFolder fragmentFolder;
+	private int goal;
 	
 	static final String PREF_TESTING_ACTIVITY = "testing.activity";
 	private static final String PREF_TESTING_SPEED = "testing.speed";
@@ -555,6 +556,14 @@ public class AppContext extends Application {
 
 	public FragmentFolder getFragmentFolder() {
 		return fragmentFolder;
+	}
+
+	public void setGoal(int value) {
+		this.goal = value; 
+	}
+
+	public int getGoal() {
+		return goal;
 	}
 	
 }

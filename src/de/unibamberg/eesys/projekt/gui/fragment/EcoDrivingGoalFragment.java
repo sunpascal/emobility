@@ -16,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,11 +28,13 @@ import de.unibamberg.eesys.projekt.businessobjects.Ecar.CarState;
 import de.unibamberg.eesys.projekt.businessobjects.WayPoint;
 
 
-public class EcoDrivingGoalFragment extends Fragment {
+public class EcoDrivingGoalFragment extends Fragment implements OnClickListener {
 	public static final String TAG = "EcoDrivingGoalFragment";
 	public static final String ARG_STATUS = "status";
 
-	AppContext appContext;
+	private AppContext appContext;
+	private NumberPicker np;
+	private Button button1; 
 
  
 	/**
@@ -53,30 +56,23 @@ public class EcoDrivingGoalFragment extends Fragment {
 
 		appContext = (AppContext) getActivity().getApplicationContext();
 		
-		// spinner reference: http://androidexample.com/Spinner_Basics_-_Android_Example/index.php?view=article_discription&aid=82&aaid=105
-		// Todo: Listener
-		Spinner spinner1 = (Spinner) rootView.findViewById(R.id.spinner1);
-        List<String> list = new ArrayList<String>();
-        list.add("10");
-        list.add("15");
-        list.add("20");
-        list.add("25");
-        list.add("30");
-        
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
-                     (this.getActivity(), android.R.layout.simple_spinner_item,list);
-                      
-        dataAdapter.setDropDownViewResource
-                     (android.R.layout.simple_spinner_dropdown_item);
-                      
-        spinner1.setAdapter(dataAdapter);        
+		button1 = (Button) rootView.findViewById(R.id.button1);  
 		
-		NumberPicker np = (NumberPicker) rootView.findViewById(R.id.numberPicker1);
+		np = (NumberPicker) rootView.findViewById(R.id.numberPicker1);
 		np.setMaxValue(30);
 		np.setMinValue(10);
-		np.setValue(20);
+		np.setValue(20); // default goal
+		
+		np.setOnClickListener(this);
 		
 		return rootView;
+	}
+
+	@Override
+	public void onClick(View v) {
+		if (v.getId() == R.id.button1) {
+			appContext.setGoal(np.getValue());
+		}
 	}
 
 }
