@@ -18,7 +18,9 @@ public class VehicleType implements Comparable {
 	private String price;
 	
 	// Recommendations: number of trips that have to be done using a different vehicles
-	private int nTripAdaptationsrequired = -1;			// not persisted 
+	private int nTripAdaptationsrequired = -1;			// not persisted
+	
+	private String percentConsumptionReductionRequired = "";
 
 	/**
 	 * standard constructor
@@ -204,6 +206,15 @@ public class VehicleType implements Comparable {
 
 	public void setnTripAdaptationsrequired(int nTripAdaptationsrequired) {
 		this.nTripAdaptationsrequired = nTripAdaptationsrequired;
+	}
+
+	public String getPercentConsumptionReductionRequired() {
+		return percentConsumptionReductionRequired;
+	}
+
+	public void setPercentConsumptionReductionRequired(
+			String percentConsumptionReductionRequired) {
+		this.percentConsumptionReductionRequired = percentConsumptionReductionRequired;
 	}
 
 }

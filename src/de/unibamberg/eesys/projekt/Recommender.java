@@ -37,18 +37,18 @@ public class Recommender {
 		
 	}
 
-	public double calcBatterySize100PercentOfTrips() throws Exception {
+	public double calcBatterySize100PercentOfTrips() throws NoTripsException {
 		if (trips == null) {
-			throw new Exception("Recommendation not possible because there are no trips");
+			throw new NoTripsException("Recommendation not possible because there are no trips");
 		}
 		DriveSequence tripWithHighestConsumption = trips[trips.length-1];
 		double consumptionOfLongestTrip = tripWithHighestConsumption.calcSumkWh();  
 		return consumptionOfLongestTrip;
 	}
 	
-	public double calcBatterySize80PercentOfTrips() throws Exception {
+	public double calcBatterySize80PercentOfTrips() throws NoTripsException {
 		if (trips == null) {
-			throw new Exception("Recommendation not possible because there are no trips");
+			throw new NoTripsException("Recommendation not possible because there are no trips");
 		}
 		int nthTrip =  Math.round(0.90f * trips.length);
 		DriveSequence tripWithHighestConsumption = trips[nthTrip-1];
@@ -56,7 +56,7 @@ public class Recommender {
 		return consumptionOfNthTrip;		
 	}
 	
-	public VehicleType getRecommendation100PercentOfTrips() throws Exception {
+	public VehicleType getRecommendation100PercentOfTrips() throws NoTripsException {
 		double requiredBatterySize = calcBatterySize100PercentOfTrips();
 		
 		// check vehicle list for the first vehicle with given battery size
@@ -71,9 +71,7 @@ public class Recommender {
 	 * gives an alternative vehicle to originalVehicle
 	 * @return
 	 */
-	public VehicleType getAlternativeRecommendation(VehicleType originalVehicle) throws Exception {
-		
-		double requiredBatterySize = calcBatterySize80PercentOfTrips();
+	public VehicleType getAlternativeRecommendationWithTripAdaptation(VehicleType originalVehicle) throws NoTripsException {
 		
 		// check vehicle list for the first vehicle that has a small battery size than the original vehicle
 		for (VehicleType v : vehicleList) {
@@ -105,7 +103,7 @@ public class Recommender {
 		return n;
 	}
 	
-	public VehicleType getRecommendation80PercentofTrips() throws Exception {
+	public VehicleType getRecommendation80PercentofTrips() throws NoTripsException {
 		double requiredBatterySize = calcBatterySize80PercentOfTrips();
 		
 		// check vehicle list for the first vehicle with given battery size
@@ -114,6 +112,24 @@ public class Recommender {
 				return v;
 		}
 		return null; 
+	}
+
+	public VehicleType getAlternativeRecommendationWithEcoDrivingAdaptation(
+			VehicleType originalVehicle) {
+		
+		// check vehicle list for the first vehicle that has a small battery size than the original vehicle
+		for (VehicleType v : vehicleList) {
+			if (v.getBatteryCapacity() < originalVehicle.getBatteryCapacity()) {
+				// determine how many trips have to done using another vehicles in order for this car
+				// to be possible 
+					double targetCapacity = v.getBatteryCapacity();
+					double currentConsumption = originalVehicle.getBatteryCapacity();
+					double percentConsumptionReduction  = ((currentConsumption-targetCapacity)/currentConsumption)*100;
+					v.setPercentConsumptionReductionRequired( "" + Math.round(percentConsumptionReduction));
+				return v;
+			}
+		}
+		return null;
 	}		
 
 }

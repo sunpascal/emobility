@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import de.unibamberg.eesys.projekt.AppContext;
 import de.unibamberg.eesys.projekt.L;
+import de.unibamberg.eesys.projekt.NoTripsException;
 import de.unibamberg.eesys.projekt.R;
 import de.unibamberg.eesys.projekt.Recommender;
 import de.unibamberg.eesys.projekt.businessobjects.Ecar;
@@ -29,7 +31,7 @@ import de.unibamberg.eesys.projekt.gui.MainActivity;
  * Fragment for Main Overview with battery display View Overview in three
  * different versions according to the car state (driving, charging, parking)
  * 
- * @author Julia
+ * @author Pascal
  *
  */
 public class EvRecommendationFragment extends Fragment implements 
@@ -71,7 +73,7 @@ public class EvRecommendationFragment extends Fragment implements
 		VehicleType v2;
 		try {
 			v1 = recommender.getRecommendation100PercentOfTrips();
-			v2 = recommender.getAlternativeRecommendation(v1);
+			v2 = recommender.getAlternativeRecommendationWithTripAdaptation(v1);
 			
 			if (v1 == null)	{
 				txt_vehicle1.setText("No suitable vehicle found.");
@@ -96,7 +98,7 @@ public class EvRecommendationFragment extends Fragment implements
 				image2.setVisibility(View.INVISIBLE);
 			}
 			else { 
-				String alternativeRecTxt = (String) txt_alternativeRec.getText();
+				String alternativeRecTxt =  "" + txt_alternativeRec.getText();
 				String nAdaptationsRequired = v2.getnTripAdaptationsrequired() + "";
 				txt_alternativeRec.setText(
 						alternativeRecTxt.replace("N_TRIPS", nAdaptationsRequired));
@@ -110,11 +112,10 @@ public class EvRecommendationFragment extends Fragment implements
 				}
 			}
 		}
-		catch (Exception e) {
+		catch (NoTripsException e) {
 			L.e(e.getMessage() + e.getCause());
 			e.printStackTrace();
-			txt_vehicle1.setText("Please record more tips to receive a recommendation.");
-			txt_vehicle2.setText("Please record more tips to receive a recommendation.");
+			txt_vehicle1.setText("Please record more trips to receive a recommendation.");
 		}
 		
 		// set on click listener for link
