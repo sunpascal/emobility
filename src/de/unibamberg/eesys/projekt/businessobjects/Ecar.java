@@ -17,7 +17,7 @@ import de.unibamberg.eesys.projekt.database.DatabaseException;
  * Instance of this class represents the currently used Ecar model for
  * simulation
  * 
- * @author Julia
+ * @author Pascal, Julia
  *
  */
 public class Ecar {
@@ -443,7 +443,6 @@ public class Ecar {
 			// vehicle is still (<10 km/h) => Start timeout timer
 			else if (timeLastMovement == -1) {
 				// we have just stopped, store the time of stop
-				L.d("we have just stopped, store the time of stop.");
 				timeLastMovement = System.currentTimeMillis();
 			}
 			// car has already stopped before - determine if threshold has been
