@@ -84,7 +84,6 @@ public class AnalysisTripMapFragment extends Fragment {
 	 * Fragment for displaying one or more drive sequences.
 	 */
 	public AnalysisTripMapFragment() {
-		L.d("DriveGraphFragment");
 	}
 
 	/**

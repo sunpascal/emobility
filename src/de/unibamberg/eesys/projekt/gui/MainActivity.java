@@ -105,7 +105,6 @@ public class MainActivity extends SwipeActivity {
 		appContext = (AppContext) getApplicationContext();
 		appContext.setMainActivity(this);  // used to access drawer via appContent from other fragments
 		
-		L.v("MainActivity onCreate()");
 		setContentView(R.layout.activity_main);
 		
 		// set action bar icon to white car on green background 
@@ -287,9 +286,9 @@ public class MainActivity extends SwipeActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		L.d("onResume()");
+		
+		selectItem(0);
 //		gpsAlert();
-		// todo: klären, ob das auch nach der settingsactivity aufgerufen wird
 		appContext.getEcar().processLifecycle();
 		appContext.updateGui();
 	}

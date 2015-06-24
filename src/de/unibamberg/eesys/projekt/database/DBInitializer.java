@@ -33,10 +33,8 @@ public class DBInitializer {
      */
     public DBInitializer(AppContext ctx)
     {
-    	Log.v("--", "DBInitializer()");
         this.context = ctx;
         this.DBHelper = new DatabaseHelper(this.context);
-        
     }
 	
     /**
