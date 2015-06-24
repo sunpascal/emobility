@@ -13,7 +13,13 @@ public class Params {
 	private static final String PREF_TESTING_HEIGHT_DELTA = "testing.height";
 
 	// Dashboard 
-	public static final int THRESSHOLD_ACCELERATION_FOR_GREEN_BACKGROUND = 20; // if current consumption is > 200 kWh, background should be red 
+	
+	// if current consumption is > 20 kWh, background will be red
+	public static final int THRESSHOLD_ACCELERATION_FOR_GREEN_BACKGROUND = 20; 
+
+	// up to 30 kwH background will be orange if > 30, background will be red
+	public static final double THRESSHOLD_ACCELERATION_FOR_ORANGE_BACKGROUND = 30;		
+		
 	public static final int NUMBER_OF_CHARGE_STATIONS_TO_SHOW = 3;
 	// MobilityManager
 		//Verzögerung die gewartet wird, bis die neue Activity umgestellt wird
@@ -37,7 +43,8 @@ public class Params {
 		 * mapping every waypoint recorded is likely to overload the device
 		 * 10 = every 10th waypoint
 		 */
-		public final static int DRAW_NTH_WAYPOINT = 1; 
+		public final static int DRAW_NTH_WAYPOINT = 1;
+		 
 		
 public Params(AppContext appContext) {
 	this.appContext = appContext;

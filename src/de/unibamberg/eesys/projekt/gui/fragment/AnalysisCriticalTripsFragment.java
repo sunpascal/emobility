@@ -78,7 +78,7 @@ public class AnalysisCriticalTripsFragment extends Fragment {
 		VehicleType recommendedCar;
 		Recommender recommender = new Recommender(appContext);
 		try {
-			recommendedCar = recommender.getRecommendation95PercentOfTrips();
+			recommendedCar = recommender.getAlternativeRecommendation(recommender.getRecommendation100PercentOfTrips());
 			batteryCapacity = recommendedCar.getBatteryCapacity();
 		} catch (Exception e1) {
 			e1.printStackTrace();

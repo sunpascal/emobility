@@ -61,6 +61,7 @@ public class EvRecommendationFragment extends Fragment implements
 		TextView txt_vehicle2 = (TextView) rootView.findViewById(R.id.vehicle2name);
 		TextView txt_vehicle1specs = (TextView) rootView.findViewById(R.id.vehicle1specs);
 		TextView txt_vehicle2specs = (TextView) rootView.findViewById(R.id.vehicle2specs);
+		TextView txt_alternativeRec = (TextView) rootView.findViewById(R.id.textView2);
 		ImageView image1 = (ImageView) rootView.findViewById(R.id.imageView1);
 		ImageView image2 = (ImageView) rootView.findViewById(R.id.imageView2);
 		
@@ -70,7 +71,7 @@ public class EvRecommendationFragment extends Fragment implements
 		VehicleType v2;
 		try {
 			v1 = recommender.getRecommendation100PercentOfTrips();
-			v2 = recommender.getRecommendation95PercentOfTrips();
+			v2 = recommender.getAlternativeRecommendation(v1);
 			
 			if (v1 == null)		
 				txt_vehicle1.setText("No suitable vehicle found.");
@@ -82,14 +83,27 @@ public class EvRecommendationFragment extends Fragment implements
 					image1.setImageResource(imageRes);
 			}
 			
-			if (v2 == null)
-				txt_vehicle2.setText("No suitable vehicle found.");
+			if (v2 == null) {
+				L.i("No suitable alternative vehicle was found.");
+				// hide everything related to alternative recommendation
+				txt_alternativeRec.setVisibility(View.INVISIBLE);
+				txt_vehicle2.setVisibility(View.INVISIBLE);
+				txt_vehicle2specs.setVisibility(View.INVISIBLE);
+				image1.setVisibility(View.INVISIBLE);
+			}
 			else { 
+				String alternativeRecTxt = (String) txt_alternativeRec.getText();
+				String nAdaptationsRequired = v2.getnTripAdaptationsrequired() + "";
+				txt_alternativeRec.setText(
+						alternativeRecTxt.replace("N_TRIPS", nAdaptationsRequired));
+				
 				txt_vehicle2.setText(v2.getName() + ":" + v2.getBatteryCapacity() + "kWh");
 				txt_vehicle2specs.setText(v2.getPrice());
 				int imageRes = getVehicleImage(v1); 
-				if (imageRes != -1)
+				if (imageRes != -1) {
 					image1.setImageResource(imageRes);
+					image1.setVisibility(View.VISIBLE);
+				}
 			}
 		}
 		catch (Exception e) {

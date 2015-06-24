@@ -345,6 +345,8 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 		
 		double currentConsumption = w.calcConsumptionPer100km(); 
 		if (currentConsumption > Params.THRESSHOLD_ACCELERATION_FOR_GREEN_BACKGROUND) 
+			rootView.setBackgroundColor(getResources().getColor(R.color.color_orange));
+		else if (currentConsumption > Params.THRESSHOLD_ACCELERATION_FOR_ORANGE_BACKGROUND) 
 			rootView.setBackgroundColor(getResources().getColor(R.color.color_red));
 		else 
 			rootView.setBackgroundColor(getResources().getColor(R.color.color_green));			

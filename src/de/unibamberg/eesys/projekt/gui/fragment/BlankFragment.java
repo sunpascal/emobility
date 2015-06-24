@@ -48,7 +48,7 @@ public class BlankFragment extends Fragment {
 	 */
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_blank,
+		View rootView = inflater.inflate(R.layout.fragment_ecodriving_background_info,
 				container, false);
 
 		appContext = (AppContext) getActivity().getApplicationContext();
