@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:paddingLeft="2dp"
+	android:paddingRight="2dp" >
+	
+<LinearLayout
+    android:id="@+id/whole"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+	
+	    <!--  driver's log table with eco-driving metrics -->
+	   <TextView
+	        android:id="@+id/textView3"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/backgroundInfo" />    
+
+	<TableLayout
+	    		android:id="@+id/tableLayout1"
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:background="#ffffff">
+	                         
+	 </TableLayout>
+
+	</LinearLayout>  
+	
+</ScrollView>
