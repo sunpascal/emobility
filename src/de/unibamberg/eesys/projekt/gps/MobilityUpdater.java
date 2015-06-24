@@ -601,16 +601,20 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 //		 new GpxImportTask().execute();
 		
 		 GpxLoader gpxLoader = new GpxLoader(appContext);
-		 simulateLocations(gpxLoader.loadGpx("Track201501202031.gpx"), false);
-		 SystemClock.sleep(3100);	
-		 simulateLocations(gpxLoader.loadGpx("Track201501211158.gpx"), false);
-		 SystemClock.sleep(3100);
-		 simulateLocations(gpxLoader.loadGpx("Track201501211422.gpx"), false);
-		 SystemClock.sleep(3100);
+//		 simulateLocations(gpxLoader.loadGpx("Track201501262107.gpx"), false);
+//		 appContext.getEcar().endTripAbnormal();		 
+//		 simulateLocations(gpxLoader.loadGpx("Track201501241618.gpx"), false);
+//		 appContext.getEcar().endTripAbnormal();			 
+//		 simulateLocations(gpxLoader.loadGpx("Track201501202031.gpx"), false);
+//		 appContext.getEcar().endTripAbnormal();
+//		 simulateLocations(gpxLoader.loadGpx("Track201501211158.gpx"), false);
+//		 appContext.getEcar().endTripAbnormal();
+//		 simulateLocations(gpxLoader.loadGpx("Track201501211422.gpx"), false);
+//		 appContext.getEcar().endTripAbnormal();
 		 simulateLocations(gpxLoader.loadGpx("Track201501220823.gpx"), false);
-		 SystemClock.sleep(3100);
-		 simulateLocations(gpxLoader.loadGpx("Track201501221730.gpx"), false);
-		 SystemClock.sleep(3100);
+//		 appContext.getEcar().endTripAbnormal();
+//		 simulateLocations(gpxLoader.loadGpx("Track201501221730.gpx"), false);
+//		 appContext.getEcar().endTripAbnormal();
 
 	}	
 	

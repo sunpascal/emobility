@@ -32,6 +32,13 @@ public class Params {
 //		public static double MAX_VEHICLE_STILL_DURATION = 60 * 2; // 2 minutes	
 
 
+		/* 
+		 * the how many-th waypoint should be plotted on the map 
+		 * mapping every waypoint recorded is likely to overload the device
+		 * 10 = every 10th waypoint
+		 */
+		public final static int DRAW_NTH_WAYPOINT = 1; 
+		
 public Params(AppContext appContext) {
 	this.appContext = appContext;
 }

@@ -14,6 +14,8 @@ public class VehicleType implements Comparable {
 	private double mass;
 	private double frontArea;
 	private double batteryCapacity;
+	
+	private String price;
 
 	/**
 	 * standard constructor
@@ -31,12 +33,13 @@ public class VehicleType implements Comparable {
 	 * @param batteryCapacity of the VehicleType
 	 */
 	public VehicleType(long id, String description, double mass,
-			double frontArea, double batteryCapacity) {
+			double frontArea, double batteryCapacity, String price) {
 		this.id = id;
 		this.description = description;
 		this.mass = mass;
 		this.frontArea = frontArea;
 		this.batteryCapacity = batteryCapacity;
+		this.price = price;
 	}
 
 	/**
@@ -51,6 +54,7 @@ public class VehicleType implements Comparable {
 		this.mass = vehicleType.mass;
 		this.frontArea = vehicleType.frontArea;
 		this.batteryCapacity = vehicleType.batteryCapacity;
+		this.price = vehicleType.price;
 	}
 
 	/**
@@ -181,6 +185,14 @@ public class VehicleType implements Comparable {
 		else if (batteryCapacity < ((VehicleType) another).getBatteryCapacity())
 			return -1; 
 		else return 0;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
 	}
 
 }

@@ -20,6 +20,7 @@ public class DBAdapter_VehicleType {
 	public static final String RECUPERATION_EFFICIENCY = Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY;
 	public static final String MASS = Table_VehicleType.COLUMN_MASS;
 	public static final String FRONT_AREA = Table_VehicleType.COLUMN_FRONT_AREA;
+	public static final String PRICE = Table_VehicleType.COLUMN_PRICE;
 
     private static final String TABLE_VEHICLETYPE = Table_VehicleType.TABLE_NAME;
 
@@ -49,7 +50,7 @@ public class DBAdapter_VehicleType {
      * @return rowId or -1 if failed
      */
     public long createVehicleType(String name, String description, double batteryCapacity,
-    		double energyConsumption_perKM, double recuperationEfficiency, double mass, double frontArea) {
+    		double energyConsumption_perKM, double recuperationEfficiency, double mass, double frontArea, String price) {
         ContentValues args = new ContentValues();
         args.put(NAME, name);
         args.put(DESCRIPTION, description);
@@ -58,6 +59,7 @@ public class DBAdapter_VehicleType {
         args.put(RECUPERATION_EFFICIENCY, recuperationEfficiency);
         args.put(MASS, mass);
         args.put(FRONT_AREA, frontArea);
+        args.put(PRICE, price);
         return this.mDb.insert(TABLE_VEHICLETYPE, null, args);
     }
 
@@ -81,7 +83,7 @@ public class DBAdapter_VehicleType {
 
         return this.mDb.query(TABLE_VEHICLETYPE,
         		new String[] {ROW_ID, NAME, DESCRIPTION, BATTERY_CAPACITY, ENERGY_CONS_PER_KM,
-        			RECUPERATION_EFFICIENCY, MASS, FRONT_AREA },
+        			RECUPERATION_EFFICIENCY, MASS, FRONT_AREA, PRICE },
         		null, null, null, null, null);
     }
 
@@ -96,7 +98,7 @@ public class DBAdapter_VehicleType {
 
         this.mDb.query(true, TABLE_VEHICLETYPE, 
         		new String[] {ROW_ID, NAME, DESCRIPTION, BATTERY_CAPACITY, ENERGY_CONS_PER_KM,
-        		RECUPERATION_EFFICIENCY, MASS, FRONT_AREA },
+        		RECUPERATION_EFFICIENCY, MASS, FRONT_AREA, PRICE},
         		ROW_ID + "=" + rowId, null, null, null, null, null);
 
         return mCursor;
@@ -116,7 +118,7 @@ public class DBAdapter_VehicleType {
      * @return true if the note was successfully updated, false otherwise
      */
     public boolean updateVehicleType(long rowId, String name, String description, double batteryCapacity,
-    		double energyConsumption_perKM, double recuperationEfficiency, double mass, double frontArea) {
+    		double energyConsumption_perKM, double recuperationEfficiency, double mass, double frontArea, String price) {
         ContentValues args = new ContentValues();
         args.put(NAME, name);
         args.put(DESCRIPTION, description);
@@ -125,6 +127,7 @@ public class DBAdapter_VehicleType {
         args.put(RECUPERATION_EFFICIENCY, recuperationEfficiency);
         args.put(MASS, mass);
         args.put(FRONT_AREA, frontArea);
+        args.put(PRICE, price);
         return this.mDb.update(TABLE_VEHICLETYPE, args, ROW_ID + "=" + rowId, null) >0; 
     }
 

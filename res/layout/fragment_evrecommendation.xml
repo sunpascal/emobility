@@ -34,7 +34,15 @@
         android:layout_gravity="center"
         android:layout_weight="0.84"
         android:cropToPadding="false"
-        android:src="@drawable/tesla_model_s" />
+        />
+    
+<TextView
+        android:id="@+id/vehicle1specs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textStyle="italic"
+        android:text="" />        
 
     <TextView
         android:id="@+id/textView2"
@@ -56,8 +64,15 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="center"
-        android:src="@drawable/vw_eup"
         android:textAlignment="center" />
+    
+<TextView
+        android:id="@+id/vehicle2specs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textStyle="italic"
+        android:text="" />      
 
     <TextView
         android:id="@+id/link1"

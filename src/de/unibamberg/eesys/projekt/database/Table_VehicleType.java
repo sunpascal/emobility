@@ -30,6 +30,7 @@ public class Table_VehicleType {
 	public static final String COLUMN_RECUPERATION_EFFICIENCY = "recuperationEfficiency";
 	public static final String COLUMN_MASS = "mass";
 	public static final String COLUMN_FRONT_AREA = "frontArea";
+	public static final String COLUMN_PRICE = "price";
 	
 	public static final String FULL_ID = TABLE_NAME + "." + COLUMN_ID;
 	
@@ -104,31 +105,34 @@ public class Table_VehicleType {
 		args = new ContentValues();
         args.put(Table_VehicleType.COLUMN_NAME, "BMW i3");
         args.put(Table_VehicleType.COLUMN_DESCRIPTION, "Freude am Fahren.");
-        args.put(Table_VehicleType.COLUMN_BATTERY_CAPACITY, 22);
-        args.put(Table_VehicleType.COLUMN_ENERGY_CONSUMPTION_PER_KM, 0.15);
+        args.put(Table_VehicleType.COLUMN_BATTERY_CAPACITY, 18.8);
+        args.put(Table_VehicleType.COLUMN_ENERGY_CONSUMPTION_PER_KM, 0.129);
         args.put(Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY, 0.2);
         args.put(Table_VehicleType.COLUMN_MASS, 1195);
         args.put(Table_VehicleType.COLUMN_FRONT_AREA, 2.7966);
+        args.put(Table_VehicleType.COLUMN_PRICE, "34950€");
         cvBulk.add(args);
 
 		args = new ContentValues();
         args.put(Table_VehicleType.COLUMN_NAME, "VW eUP!");
         args.put(Table_VehicleType.COLUMN_DESCRIPTION, "Das Auto.");
         args.put(Table_VehicleType.COLUMN_BATTERY_CAPACITY, 18.7);
-        args.put(Table_VehicleType.COLUMN_ENERGY_CONSUMPTION_PER_KM, 0.12);
+        args.put(Table_VehicleType.COLUMN_ENERGY_CONSUMPTION_PER_KM, 0.117);
         args.put(Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY, 0.2);
-        args.put(Table_VehicleType.COLUMN_MASS, 929);
+        args.put(Table_VehicleType.COLUMN_MASS, 1214);
         args.put(Table_VehicleType.COLUMN_FRONT_AREA, 2.4272);
+        args.put(Table_VehicleType.COLUMN_PRICE, "26900€");
         cvBulk.add(args);
 
 		args = new ContentValues();
         args.put(Table_VehicleType.COLUMN_NAME, "Smart ED");
         args.put(Table_VehicleType.COLUMN_DESCRIPTION, "open your mind.");
         args.put(Table_VehicleType.COLUMN_BATTERY_CAPACITY, 17.6);
-        args.put(Table_VehicleType.COLUMN_ENERGY_CONSUMPTION_PER_KM, 0.1258);
+        args.put(Table_VehicleType.COLUMN_ENERGY_CONSUMPTION_PER_KM, 0.151);
         args.put(Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY, 0.2);
-        args.put(Table_VehicleType.COLUMN_MASS, 900);
+        args.put(Table_VehicleType.COLUMN_MASS, 975);
         args.put(Table_VehicleType.COLUMN_FRONT_AREA, 2.4492);
+        args.put(Table_VehicleType.COLUMN_PRICE, "19610€");
         cvBulk.add(args);
         
 //        ToDo: complete parameters
@@ -136,21 +140,22 @@ public class Table_VehicleType {
         args.put(Table_VehicleType.COLUMN_NAME, "Tesla Model S (85 kWh)");
         args.put(Table_VehicleType.COLUMN_DESCRIPTION, "");
         args.put(Table_VehicleType.COLUMN_BATTERY_CAPACITY, 85);
-        args.put(Table_VehicleType.COLUMN_ENERGY_CONSUMPTION_PER_KM, 0.1258);
+        args.put(Table_VehicleType.COLUMN_ENERGY_CONSUMPTION_PER_KM, 0.181);
         args.put(Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY, 0.2);
         args.put(Table_VehicleType.COLUMN_MASS, 900);
         args.put(Table_VehicleType.COLUMN_FRONT_AREA, 2.4492);
+        args.put(Table_VehicleType.COLUMN_PRICE, "90100€");
         cvBulk.add(args);
 
-//      ToDo: complete parameters        
 		args = new ContentValues();
-        args.put(Table_VehicleType.COLUMN_NAME, "Tesla Model S (60 kWh)");
+        args.put(Table_VehicleType.COLUMN_NAME, "Tesla Model S (70 kWh)");
         args.put(Table_VehicleType.COLUMN_DESCRIPTION, "");
-        args.put(Table_VehicleType.COLUMN_BATTERY_CAPACITY, 60);
-        args.put(Table_VehicleType.COLUMN_ENERGY_CONSUMPTION_PER_KM, 0.1258);
+        args.put(Table_VehicleType.COLUMN_BATTERY_CAPACITY, 70);
+        args.put(Table_VehicleType.COLUMN_ENERGY_CONSUMPTION_PER_KM, 0.181);
         args.put(Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY, 0.2);
-        args.put(Table_VehicleType.COLUMN_MASS, 900);
+        args.put(Table_VehicleType.COLUMN_MASS, 2108);
         args.put(Table_VehicleType.COLUMN_FRONT_AREA, 2.4492);
+        args.put(Table_VehicleType.COLUMN_PRICE, "79500€");
         cvBulk.add(args);                
         
 		db.beginTransaction();

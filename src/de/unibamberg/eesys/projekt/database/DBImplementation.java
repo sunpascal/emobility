@@ -201,7 +201,8 @@ public class DBImplementation implements DatabaseInterface {
 					vehicleType.setRecuperationEfficiency(cWayPoints.getDouble(25));//25 = recuperationEfficiency (real)
 					vehicleType.setMass(cWayPoints.getDouble(26));					//26 = mass (real)
 					vehicleType.setFrontArea(cWayPoints.getDouble(27));				//27 = frontArea (real)
-	
+					vehicleType.setPrice(cWayPoints.getString(28));
+					
 					//DriveSequence variables
 					active = (cWayPoints.getInt(17)==1) ? true : false;
 					driveSequence.setId(cWayPoints.getLong(10));				//10 = _id (int)
@@ -664,6 +665,7 @@ public class DBImplementation implements DatabaseInterface {
 					vehicleType.setRecuperationEfficiency(cVehicleType.getDouble(5));	//5 = recuperationEfficiency (real)
 					vehicleType.setMass(cVehicleType.getDouble(6));						//6 = mass (real)
 					vehicleType.setFrontArea(cVehicleType.getDouble(7));				//7 = frontArea (real)
+					vehicleType.setPrice(cVehicleType.getString(8));					//8 = price
 	
 					vehicleTypes.add(vehicleType);
 				} while(cVehicleType.moveToNext());

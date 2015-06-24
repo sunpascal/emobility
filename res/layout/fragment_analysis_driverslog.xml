@@ -12,46 +12,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/firstVehicleRec" />
-
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:layout_weight="0.84"
-        android:cropToPadding="false"
-        android:src="@drawable/tesla_model_s" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/secondVehicleRec1" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:src="@drawable/vw_eup"
-        android:textAlignment="center" />
-
-    <TextView
-        android:id="@+id/link1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/WhichTripsAreCritical"
-        android:textColor="#0000FF"
-        android:textStyle="italic" />
-
 </LinearLayout>
 
 </ScrollView>
