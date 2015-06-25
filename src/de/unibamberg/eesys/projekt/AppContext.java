@@ -42,7 +42,8 @@ import de.unibamberg.eesys.projekt.gui.activity.MainActivity;
  * AppContext appContext = (AppContext) getApplicationContext();
  * appContext.setEcar( // zum Aktualisieren des ausgewählten Fahrzeugs;
  * 
- * DatabaseImplementation db = appContext.getDb(); // acess database
+ * DatabaseImplementation db = appContext.s
+ * (); // acess database
  * db.store***()
  * 
  * @author pascal

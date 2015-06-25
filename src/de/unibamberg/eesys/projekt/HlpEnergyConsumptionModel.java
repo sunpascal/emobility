@@ -98,7 +98,6 @@ public class HlpEnergyConsumptionModel implements InterfaceEnergyConsumption {
 			
 			consumedEnergy = ((totalTractiveEffort) * (distance)) / constante;
 			
-			L.v("\n consumed Energy: " + consumedEnergy);
 			return consumedEnergy;
 		}
 	}

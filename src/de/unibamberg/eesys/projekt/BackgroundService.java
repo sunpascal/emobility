@@ -64,9 +64,11 @@ public class BackgroundService extends Service implements GpsUpdateListener {
 		appContext = (AppContext) getApplicationContext();
 		appContext.setBackgroundService(this);
 
-		new DatabaseImplementationTest(appContext.getDb(), appContext)
-				.testDatabase(); // @Stefan
+//		new DatabaseImplementationTest(appContext.getDb(), appContext).testDatabase(); // @Stefan
 
+		appContext.getParams().setAppContext(appContext);
+		appContext.getParams().updateMaxVehicleStillDuration();
+		
 		// reference to mobility manager which provides GPS and status updates.
 		MobilityUpdater mobilityManager = appContext.getMobilityManager();
 

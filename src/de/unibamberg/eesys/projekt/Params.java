@@ -36,9 +36,7 @@ public class Params {
 			 */
 		public static int MAX_VEHICLE_STILL_DURATION = 60 * 2; // 2 minutes	
 		public static String PREF_MAX_VEHICLE_STILL_DURATION = "testing.maxvehiclestillduration";
-		
-		public double maxVehicleStillDuration;
-
+		public int maxVehicleStillDuration = MAX_VEHICLE_STILL_DURATION;
 
 		/* 
 		 * the how many-th waypoint should be plotted on the map 
@@ -54,7 +52,6 @@ public class Params {
 		
 public Params(AppContext appContext) {
 	this.appContext = appContext;
-	updateMaxVehicleStillDuration();
 }
 
 
@@ -86,14 +83,14 @@ public double getFakeHeight() {
 	}
 
 
-public double getMaxVehicleStillLocation() {
+public int getMaxVehicleStillLocation() {
 	return maxVehicleStillDuration;
 }
 
-
-public void setMaxVehicleStillLocation(double maxVehicleStillLocation) {
-	this.maxVehicleStillDuration = maxVehicleStillLocation;
+public void setAppContext(AppContext appContext2) {
+	this.appContext = appContext2;
 }
+
 
 }
 
