@@ -87,7 +87,6 @@ public class HlpEnergyConsumptionModel implements InterfaceEnergyConsumption {
 					+ forceRollingResistance + hillClimbingForce);
 
 			consumedEnergy = (recuperation * distance) / constante;
-			L.v("\n consumed Energy: " + consumedEnergy);
 			return consumedEnergy;
 		} else {
 		// Adds energy if car drives

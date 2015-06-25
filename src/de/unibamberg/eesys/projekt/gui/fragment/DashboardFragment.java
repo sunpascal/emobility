@@ -364,7 +364,8 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 			txtTripCons.setText(appContext.round(tripkWh) + " kWh");
 		}
 		
-		updateNearbyChargeStations(w); 
+		// todo: enable after importing gpx
+//		updateNearbyChargeStations(w); 
 		
 		txtDebug1.setText(appContext.round(w.getVelocityinKmh(), 0) + " km/h");		
 		
@@ -407,7 +408,8 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 		tableChargeStations.removeAllViews();	
 		
 		if (nearbyCS.size() == 0) {
-			L.e("No nearby charge stations loaded.");
+			// maybe no waypoint yet?
+//			L.v("No nearby charge stations loaded.");
 			return; 
 		}
 			

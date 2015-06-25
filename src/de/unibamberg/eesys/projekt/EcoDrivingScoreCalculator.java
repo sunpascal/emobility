@@ -98,8 +98,8 @@ public class EcoDrivingScoreCalculator {
 				// currently only motorway
 				
 				double userValue = trip.getAvgPosAcceleration();
-				int limitBad = 20; 
-				int limitOk = 5;	
+				int limitBad = 10; 
+				int limitOk = 0;	
 				int relativeSpeed = (int) ( (limitBad - userValue)   / (limitBad - limitOk) ) * 100; 
 				score.setProgress(make100PercentIntervall((relativeSpeed)));						
 				score.setTechniqueName(score.getTechniqueName() + " " + 
@@ -112,8 +112,8 @@ public class EcoDrivingScoreCalculator {
 				// currently only motorway
 				
 				double userValue = trip.getAvgNegAcceleration();
-				int limitBad = 20; 
-				int limitOk = 5;	
+				int limitBad = -10; 
+				int limitOk = 0;	
 				int relativeSpeed = (int) ( (limitBad - userValue)   / (limitBad - limitOk) ) * 100; 
 				score.setProgress(make100PercentIntervall((relativeSpeed)));					
 				score.setTechniqueName(score.getTechniqueName() + " " + 

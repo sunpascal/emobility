@@ -287,7 +287,7 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 			if (timeStampDiffInSeconds == 0 || distanceDelta == 0 || appContext.getEcar().getCurrentTrip() == null) {
 				// when trip has not been started (startTrip called in Ecar), the vehicleType will not yet have been added 
 				// to the current trip. Therefore skip energy computation for first waypoint.
-				L.v("Not all data available, energy computation does not make sense");
+//				L.v("Not all data available, energy computation does not make sense");
 				energy = 0;
 			} else {
 				energy = consumptionModel.consumeEnergy(timeStampDiffInSeconds, 
@@ -549,6 +549,7 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 				// todo: run on UI task
 				processLocation(l);
 			}
+			appContext.getEcar().endTripAbnormal();
 		}
 		else 
 		{
@@ -585,23 +586,20 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 	 */
 	public void loadTestDataFromGpx() {
 		
+		// while importing debug speed override should be disabled 
+//		PreferenceManager.setDefaultSharedPreferences(
+//				appContext).getString(PREF_TESTING_SPEED, "disabled");		
+		
 //		 new GpxImportTask().execute();
 		
 		 GpxLoader gpxLoader = new GpxLoader(appContext);
 //		 simulateLocations(gpxLoader.loadGpx("Track201501262107.gpx"), false);
-//		 appContext.getEcar().endTripAbnormal();		 
 //		 simulateLocations(gpxLoader.loadGpx("Track201501241618.gpx"), false);
-//		 appContext.getEcar().endTripAbnormal();			 
 //		 simulateLocations(gpxLoader.loadGpx("Track201501202031.gpx"), false);
-//		 appContext.getEcar().endTripAbnormal();
 //		 simulateLocations(gpxLoader.loadGpx("Track201501211158.gpx"), false);
-//		 appContext.getEcar().endTripAbnormal();
 //		 simulateLocations(gpxLoader.loadGpx("Track201501211422.gpx"), false);
-//		 appContext.getEcar().endTripAbnormal();
-		 simulateLocations(gpxLoader.loadGpx("Track201501220823.gpx"), false);
-//		 appContext.getEcar().endTripAbnormal();
-//		 simulateLocations(gpxLoader.loadGpx("Track201501221730.gpx"), false);
-//		 appContext.getEcar().endTripAbnormal();
+		 simulateLocations(gpxLoader.loadGpx("Track201501220823.gpx"), false);   // has error !?!
+		 simulateLocations(gpxLoader.loadGpx("Track201501221730.gpx"), false);
 
 	}	
 	
