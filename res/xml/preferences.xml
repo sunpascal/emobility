@@ -62,10 +62,18 @@
 			android:title="Import GPX files from assets" />
 
 		<ListPreference
+			android:entries="@array/pref_max_vehicle_still_duration"
+			android:entryValues="@array/pref_max_vehicle_still_duration"
+			android:key="testing.maxvehiclestillduration"
+			android:title="Timeout for ending trip (s)" />
+		
+				<ListPreference
 			android:entries="@array/pref_list_show_debug_messages"
 			android:entryValues="@array/pref_list_show_debug_messages"
 			android:key="testing.show_debug_messages"
 			android:title="Show debug messages" />
+		
+		
 	</PreferenceCategory>
 
 </PreferenceScreen>

@@ -449,14 +449,14 @@ public class Ecar {
 			// exceeded
 			else if (durationSinceLastMovementExceeded() == true) {
 				timeLastMovement = -1; // reset counter for next time
-				L.d("Vehicle stop time exceeds " + Params.MAX_VEHICLE_STILL_DURATION
+				L.d("Vehicle stop time exceeds " + appContext.getParams().getMaxVehicleStillLocation()
 						+ "s + ("
 						+ (System.currentTimeMillis() - timeLastMovement)
 						/ 1000 + "s). Ending trip.");
 				Toast.makeText(
 						appContext.getApplicationContext(),
 						"Vehicle stop time exceeds "
-								+ Params.MAX_VEHICLE_STILL_DURATION
+								+ appContext.getParams().getMaxVehicleStillLocation()
 								+ "s. Ending trip.", Toast.LENGTH_SHORT).show();
 				endTrip();
 
@@ -664,7 +664,7 @@ public class Ecar {
 
 		double msStandstillDuration = System.currentTimeMillis()
 				- timeLastMovement;
-		if (msStandstillDuration > (Params.MAX_VEHICLE_STILL_DURATION * 1000))
+		if (msStandstillDuration > (appContext.getParams().getMaxVehicleStillLocation() * 1000))
 			return true;
 		else
 			return false;

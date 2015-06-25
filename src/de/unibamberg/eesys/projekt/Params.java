@@ -34,8 +34,10 @@ public class Params {
 			 * duration in seconds that a car may be still, before trip ends used to
 			 * prevent short stops (e.g. traffic lights) to end trip "Ampeltimeout"
 			 */
-		public static double MAX_VEHICLE_STILL_DURATION = 3; // 3 seconds
-//		public static double MAX_VEHICLE_STILL_DURATION = 60 * 2; // 2 minutes	
+		public static int MAX_VEHICLE_STILL_DURATION = 60 * 2; // 2 minutes	
+		public static String PREF_MAX_VEHICLE_STILL_DURATION = "testing.maxvehiclestillduration";
+		
+		public double maxVehicleStillDuration;
 
 
 		/* 
@@ -45,9 +47,14 @@ public class Params {
 		 */
 		public final static int DRAW_NTH_WAYPOINT = 1;
 		 
+		public void updateMaxVehicleStillDuration() {
+			this.maxVehicleStillDuration = PreferenceManager.getDefaultSharedPreferences(
+					appContext).getInt(PREF_MAX_VEHICLE_STILL_DURATION, MAX_VEHICLE_STILL_DURATION);			
+		}
 		
 public Params(AppContext appContext) {
 	this.appContext = appContext;
+	updateMaxVehicleStillDuration();
 }
 
 
@@ -77,6 +84,16 @@ public double getFakeHeight() {
 	}
 	return altitudeDiffInMeters;
 	}
+
+
+public double getMaxVehicleStillLocation() {
+	return maxVehicleStillDuration;
+}
+
+
+public void setMaxVehicleStillLocation(double maxVehicleStillLocation) {
+	this.maxVehicleStillDuration = maxVehicleStillLocation;
+}
 
 }
 

@@ -15,6 +15,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 import de.unibamberg.eesys.projekt.AppContext;
+import de.unibamberg.eesys.projekt.L;
 import de.unibamberg.eesys.projekt.R;
 import de.unibamberg.eesys.projekt.businessobjects.Battery;
 import de.unibamberg.eesys.projekt.businessobjects.Ecar;
@@ -63,6 +64,11 @@ public class SettingsFragment extends PreferenceFragment  {
 					@Override
 					public boolean onPreferenceChange(Preference preference,
 							Object newValue) {
+						if (preference.getKey().equals("testing.maxvehiclestillduration")) {
+							appContext.getParams().updateMaxVehicleStillDuration();
+							L.d("Loaded new max vehicle still duration");
+						}
+						
 						// Called when the ecar model is changed by the user
 						if (preference.getKey().equals("display.car_name")) {
 							Ecar ecar = new Ecar(appContext);
