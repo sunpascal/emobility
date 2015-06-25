@@ -593,13 +593,29 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 //		 new GpxImportTask().execute();
 		
 		 GpxLoader gpxLoader = new GpxLoader(appContext);
+		// use this to load all .gpx files in /assets	    	 
+			String[] listOfFiles;
+			try {
+				listOfFiles = appContext.getResources().getAssets().list("");
+				for (String filename : listOfFiles) {
+					if (filename.endsWith(".gpx")) {
+						List<Location> locations = gpxLoader.loadGpx(filename);
+						simulateLocations(locations, false);
+					}
+				}	
+			} catch (IOException e) {
+				L.e("Could not get list of *.gpx files");
+				e.printStackTrace();
+			}		
+			Toast.makeText(appContext, "Gpx import complete.", Toast.LENGTH_SHORT);
+		 
 //		 simulateLocations(gpxLoader.loadGpx("Track201501262107.gpx"), false);
 //		 simulateLocations(gpxLoader.loadGpx("Track201501241618.gpx"), false);
 //		 simulateLocations(gpxLoader.loadGpx("Track201501202031.gpx"), false);
 //		 simulateLocations(gpxLoader.loadGpx("Track201501211158.gpx"), false);
 //		 simulateLocations(gpxLoader.loadGpx("Track201501211422.gpx"), false);
-		 simulateLocations(gpxLoader.loadGpx("Track201501220823.gpx"), false);   // has error !?!
-		 simulateLocations(gpxLoader.loadGpx("Track201501221730.gpx"), false);
+//		 simulateLocations(gpxLoader.loadGpx("Track201501220823.gpx"), false);   // has error !?!
+//		 simulateLocations(gpxLoader.loadGpx("Track201501221730.gpx"), false);
 
 	}	
 	
