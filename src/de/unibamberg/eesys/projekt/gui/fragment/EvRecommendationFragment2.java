@@ -69,11 +69,9 @@ public class EvRecommendationFragment2 extends Fragment implements
 		Recommender recommender = new Recommender(appContext);
 		
 		VehicleType v1;
-		VehicleType v2;
+		VehicleType v2 = null;
 		try {
 			v1 = recommender.getRecommendation100PercentOfTrips();
-			VehicleType v2_old = recommender.getAlternativeRecommendationWithEcoDrivingAdaptation(v1);
-			v2 = recommender.getAlternativeRecommendationWithEcoDrivingAdaptation(v2_old);
 			
 			if (v1 == null)	{
 				txt_vehicle1.setText("No suitable vehicle found.");
@@ -87,6 +85,10 @@ public class EvRecommendationFragment2 extends Fragment implements
 					image1.setVisibility(View.VISIBLE);
 					image1.setImageResource(imageRes);
 				}
+				
+				VehicleType v2_old = recommender.getAlternativeRecommendationWithEcoDrivingAdaptation(v1);
+				if (v2_old != null)
+					v2 = recommender.getAlternativeRecommendationWithEcoDrivingAdaptation(v2_old);
 			}
 			
 			if (v2 == null) {
