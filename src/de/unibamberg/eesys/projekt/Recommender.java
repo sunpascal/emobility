@@ -38,7 +38,7 @@ public class Recommender {
 	}
 
 	public double calcBatterySize100PercentOfTrips() throws NoTripsException {
-		if (trips == null) {
+		if (trips == null | trips.length == 0) {
 			throw new NoTripsException("Recommendation not possible because there are no trips");
 		}
 		DriveSequence tripWithHighestConsumption = trips[trips.length-1];

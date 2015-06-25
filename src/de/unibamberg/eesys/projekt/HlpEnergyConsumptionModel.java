@@ -40,12 +40,6 @@ public class HlpEnergyConsumptionModel implements InterfaceEnergyConsumption {
 		 * @post A double value is returned to the Ecar
 		 */
 
-		// Log Messages for GPS simulation:
-		L.v("\n Duration: " + duration + " " + "\n startVelocity: "
-				+ startVelocity + " " + "\n endVelocity: " + endVelocity + " "
-				+ "\n distance: " + distance + " " + "\n acceleration: "
-				+ acceleration + " " + "\n ............................");
-
 		//Formula Fad  (11)
 		double forceAirDrag = 0.5 * vehicleType.getFrontArea()
 				* coefficientAirDrag * endVelocity * endVelocity * airDensity;

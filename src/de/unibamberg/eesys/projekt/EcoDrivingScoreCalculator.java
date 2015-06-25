@@ -65,6 +65,7 @@ public class EcoDrivingScoreCalculator {
 					// high speed is based on average (top) speed
 					
 					// ToDo: take into account other road types!
+						// Todo: hysteris / buffer
 					
 					double avgVelocityHighway = trip.avgVelocityHighway();
 					int avgVelocityBad = (int) (160/3.6); 
@@ -73,8 +74,8 @@ public class EcoDrivingScoreCalculator {
 					// calculate speed relative to intervall
 					int relativeSpeed = (int) ( ( (avgVelocityBad - avgVelocityHighway)   / (avgVelocityBad - avgVelocityOk) ) * 100 ); 
 					score.setProgress(make100PercentIntervall((relativeSpeed)));
-					score.setTechniqueName(score.getTechniqueName() + 
-							"avgVelocityHighway: " + avgVelocityHighway + " " +
+					score.setTechniqueName(score.getTechniqueName() + " " +
+							"Ø VelocityHighway: " + avgVelocityHighway + " " +
 							"relativeSpeed: " + relativeSpeed);
 				}
 				
@@ -87,8 +88,8 @@ public class EcoDrivingScoreCalculator {
 					int limitOk = 5;	
 					int relativeSpeed = (int) ( (limitBad - userValue)   / (limitBad - limitOk) ) * 100; 
 					score.setProgress(make100PercentIntervall((relativeSpeed)));
-					score.setTechniqueName(score.getTechniqueName() + 
-							"getAvgVarianceVelocityHighway: " + userValue + " " +
+					score.setTechniqueName(score.getTechniqueName() + " " + 
+							"Ø VarianceVelocityHighway: " + userValue + " " +
 							"relativeSpeed: " + relativeSpeed);
 				}	
 			
@@ -101,8 +102,8 @@ public class EcoDrivingScoreCalculator {
 				int limitOk = 5;	
 				int relativeSpeed = (int) ( (limitBad - userValue)   / (limitBad - limitOk) ) * 100; 
 				score.setProgress(make100PercentIntervall((relativeSpeed)));						
-				score.setTechniqueName(score.getTechniqueName() + 
-						"getAvgPosAcceleration: " + userValue + " " +
+				score.setTechniqueName(score.getTechniqueName() + " " + 
+						"Ø PosAcceleration: " + userValue + " " +
 						"relativeSpeed: " + relativeSpeed);				
 				}
 				
@@ -115,8 +116,8 @@ public class EcoDrivingScoreCalculator {
 				int limitOk = 5;	
 				int relativeSpeed = (int) ( (limitBad - userValue)   / (limitBad - limitOk) ) * 100; 
 				score.setProgress(make100PercentIntervall((relativeSpeed)));					
-				score.setTechniqueName(score.getTechniqueName() + 
-						"getAvgNegAcceleration: " + userValue +
+				score.setTechniqueName(score.getTechniqueName() + " " + 
+						"Ø NegAcceleration: " + userValue +
 						"relativeSpeed:" + relativeSpeed);				
 				}				
 			}				

@@ -299,17 +299,13 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 														appContext.getEcar().getCurrentTrip().getVehicleType());
 			}
 
-/*			L.v(
-					distanceDelta + "m " + timeStampDiffInSeconds + "s "
-					+ AppContext.round(prevLocationVelocity * 3.6, 1)
-					+ "km/h (startVelocity) "
-					+ AppContext.round(thisLocationVelocity * 3.6, 1)
-					+ "km/h (endVelocity)  "
-					+ AppContext.round(Acceleration * 3.6, 1) + "km/h/s "
-					+ AppContext.round(energy, 2) + "kWh "
-					+ waypoint.getUpdateType()
+			L.v(
+					AppContext.round(thisLocationVelocity * 3.6, 1) + "km/h " +
+					AppContext.round(Acceleration * 3.6, 1) + "km/h/s " + 
+//					distanceDelta + "m " + timeStampDiffInSeconds + "s " +
+					AppContext.round(energy, 2) + "kWh "
 			);
-*/			
+			
 
 			prevLocationVelocity = thisLocationVelocity;
 			previousLocation = currentLocation;
