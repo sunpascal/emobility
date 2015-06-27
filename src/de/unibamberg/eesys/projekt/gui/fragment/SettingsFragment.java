@@ -36,7 +36,6 @@ public class SettingsFragment extends PreferenceFragment  {
 	private List<String> vTypeNames = new ArrayList<String>();
 	private List<String> entryVal = new ArrayList<String>();
 	private List<VehicleType> vehicleTypes = new ArrayList<VehicleType>();
-	private SharedPreferences prefs;
 
 	private static final String TAG = "Settings Fragment";
 
@@ -50,48 +49,12 @@ public class SettingsFragment extends PreferenceFragment  {
 		super.onCreate(savedInstanceState);
 		// get DatabaseConnection
 		appContext = (AppContext) getActivity().getApplicationContext();
+		db = appContext.getDb();
 		
-		db = new DBImplementation(appContext);
 		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.preferences);
 
-		prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-		// Instantiate the listPreference and set eCar values
-		ListPreference listPreference = (ListPreference) findPreference("display.car_name");
-		listPreference
-				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-					@Override
-					public boolean onPreferenceChange(Preference preference,
-							Object newValue) {
-						if (preference.getKey().equals("testing.maxvehiclestillduration")) {
-							appContext.getParams().updateMaxVehicleStillDuration();
-							L.d("Loaded new max vehicle still duration");
-						}
-						
-						// Called when the ecar model is changed by the user
-						if (preference.getKey().equals("display.car_name")) {
-							Ecar ecar = new Ecar(appContext);
-							for (int x = 0; x < entryVal.size(); x++) {
-								if (newValue.equals(entryVal.get(x))) {
-									VehicleType selectedType = vehicleTypes
-											.get(x);
-									ecar.setVehicleType(selectedType);
-									ecar.setName(selectedType.getName());
-									Battery battery = new Battery();
-									battery.setCurrentSoc(selectedType
-											.getBatteryCapacity());
-									battery.setCharging(false);
-									ecar.setBattery(battery);
-								}
-							}
-							appContext.setEcar(ecar);
-							return true;
-						} else
-							return true;
-					}
-				});		
-		
+		// todo: check how to set listener for AFTER user has changed option
 		
 		try {
 			vehicleTypes = db.getVehicleTypes();
@@ -118,6 +81,33 @@ public class SettingsFragment extends PreferenceFragment  {
 		}
 		final CharSequence[] entryValues = entryVal
 				.toArray(new CharSequence[entryVal.size()]);
+		
+		// Instantiate the listPreference and set eCar values
+		ListPreference listPreference = (ListPreference) findPreference("display.car_name");
+		listPreference
+				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+					@Override
+					public boolean onPreferenceChange(Preference preference,
+							Object newValue) {
+						// Called when the ecar model is changed by the user
+							Ecar ecar = new Ecar(appContext);
+							for (int x = 0; x < entryVal.size(); x++) {
+								if (newValue.equals(entryVal.get(x))) {
+									VehicleType selectedType = vehicleTypes
+											.get(x);
+									ecar.setVehicleType(selectedType);
+									ecar.setName(selectedType.getName());
+									Battery battery = new Battery();
+									battery.setCurrentSoc(selectedType
+											.getBatteryCapacity());
+									battery.setCharging(false);
+									ecar.setBattery(battery);
+								}
+							}
+							appContext.setEcar(ecar);
+							return true;
+					}
+				});		
 
 		listPreference.setEntries(entries);
 		listPreference.setEntryValues(entryValues);
@@ -134,6 +124,22 @@ public class SettingsFragment extends PreferenceFragment  {
 				return true;
 			}
 		});
+		
+		// load timeout for ending trips
+		ListPreference prefMaxVehicleTimeout2 = (ListPreference) findPreference("testing.maxvehiclestillduration");
+		prefMaxVehicleTimeout2
+				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+					@Override
+					// use on onPreferenceChange instead of onPreferenceClick 
+					// to get code AFTER the preference is changed
+					// Note: this is still executed before the change is stored! 
+					// only way to update is seems to be to access newValue! 
+					public boolean onPreferenceChange(Preference preference,
+							Object newValue) {
+							appContext.getParams().setMaxVehicleStillLocation(newValue);
+							return true;
+					}
+				});			
 
 		// Following options are only for testing!
 		// Import Database for testing
@@ -154,9 +160,7 @@ public class SettingsFragment extends PreferenceFragment  {
 		loadGpx.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
 			public boolean onPreferenceClick(final Preference preference) {
-				
 				appContext.getMobilityManager().loadTestDataFromGpx();
-
 				return true;
 			}
 		});

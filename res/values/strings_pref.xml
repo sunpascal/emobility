@@ -14,6 +14,7 @@
 	</string-array>
 	
 	<string-array name="pref_max_vehicle_still_duration">
+		<item>1</item>
 		<item>3</item>
 		<item>10</item>
 		<item>30</item>

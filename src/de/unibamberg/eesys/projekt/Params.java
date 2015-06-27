@@ -34,9 +34,9 @@ public class Params {
 			 * duration in seconds that a car may be still, before trip ends used to
 			 * prevent short stops (e.g. traffic lights) to end trip "Ampeltimeout"
 			 */
-		public static int MAX_VEHICLE_STILL_DURATION = 60 * 2; // 2 minutes	
+		public static String MAX_VEHICLE_STILL_DURATION = "119"; // 2 minutes	
 		public static String PREF_MAX_VEHICLE_STILL_DURATION = "testing.maxvehiclestillduration";
-		public int maxVehicleStillDuration = MAX_VEHICLE_STILL_DURATION;
+		public String maxVehicleStillDuration = MAX_VEHICLE_STILL_DURATION;
 
 		/* 
 		 * the how many-th waypoint should be plotted on the map 
@@ -46,12 +46,20 @@ public class Params {
 		public final static int DRAW_NTH_WAYPOINT = 1;
 		 
 		public void updateMaxVehicleStillDuration() {
+			try {
+				// todo: check if this can be done using Integer.getInt() !
 			this.maxVehicleStillDuration = PreferenceManager.getDefaultSharedPreferences(
-					appContext).getInt(PREF_MAX_VEHICLE_STILL_DURATION, MAX_VEHICLE_STILL_DURATION);			
+					appContext).getString(PREF_MAX_VEHICLE_STILL_DURATION, MAX_VEHICLE_STILL_DURATION);
+			L.d("maxVehicleStillDuration: " + maxVehicleStillDuration);
+			}
+			catch (Exception e) {
+				L.e("Could not get maxVehicleStill from preferences. " + e.getCause());
+				e.printStackTrace();
+			}
 		}
 		
 public Params(AppContext appContext) {
-	this.appContext = appContext;
+//	this.appContext = appContext;
 }
 
 
@@ -84,11 +92,22 @@ public double getFakeHeight() {
 
 
 public int getMaxVehicleStillLocation() {
-	return maxVehicleStillDuration;
+	try {
+		return Integer.parseInt(maxVehicleStillDuration);
+	}
+	catch (Exception e) {
+		L.e("Could not parse maxVehicleStillDuration.");
+		e.printStackTrace();
+		return Integer.parseInt(MAX_VEHICLE_STILL_DURATION);
+	}
 }
 
 public void setAppContext(AppContext appContext2) {
 	this.appContext = appContext2;
+}
+
+public void setMaxVehicleStillLocation(Object newValue) {
+	this.maxVehicleStillDuration = newValue.toString();
 }
 
 

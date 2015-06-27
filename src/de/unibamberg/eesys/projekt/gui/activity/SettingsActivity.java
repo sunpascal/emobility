@@ -1,5 +1,7 @@
 package de.unibamberg.eesys.projekt.gui.activity;
 
+import de.unibamberg.eesys.projekt.AppContext;
+import de.unibamberg.eesys.projekt.L;
 import de.unibamberg.eesys.projekt.R;
 import de.unibamberg.eesys.projekt.gui.fragment.SettingsFragment;
 import android.content.Intent;
@@ -23,6 +25,7 @@ public class SettingsActivity extends PreferenceActivity {
 	 */
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		// addPreferencesFromResource(R.xml.preferences);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
@@ -37,10 +40,15 @@ public class SettingsActivity extends PreferenceActivity {
 	@Override
 	/**
 	 * Method handles the back navigation 
-	 *
+	 * called for example when SimEcar on the top left side is clicked
 	 */
 	public boolean onOptionsItemSelected(MenuItem item) {
+		
+//		AppContext appContext = (AppContext) getApplicationContext();
+//		appContext.getParams().updateMaxVehicleStillDuration();
+		
 		switch (item.getItemId()) {
+		
 		case android.R.id.home:
 			// This is called when the Home (Up) button is pressed in the action
 			// bar.

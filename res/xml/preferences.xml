@@ -10,14 +10,14 @@
 		<Preference android:title="@string/pref_title_cs" >
 			<intent
 				android:action="android.intent.action.VIEW"
-				android:targetClass="de.unibamberg.eesys.projekt.gui.ChargingStationActivity"
+				android:targetClass="de.unibamberg.eesys.projekt.gui.activity.ChargingStationActivity"
 				android:targetPackage="de.unibamberg.eesys.projekt"
 				android:summary="@string/pref_summary_cs" />
 		</Preference>
 		<Preference android:title="@string/activity_about_title" >
 			<intent
 				android:action="android.intent.action.VIEW"
-				android:targetClass="de.unibamberg.eesys.projekt.gui.AboutActivity"
+				android:targetClass="de.unibamberg.eesys.projekt.gui.activity.AboutActivity"
 				android:targetPackage="de.unibamberg.eesys.projekt" />
 		</Preference>
 		<Preference android:title="@string/pref_title_exportDB"
@@ -27,6 +27,18 @@
 	</PreferenceCategory>
 	
 	<PreferenceCategory android:title="@string/pref_title_override" >
+	    
+		<ListPreference
+			android:entries="@array/pref_list_show_debug_messages"
+			android:entryValues="@array/pref_list_show_debug_messages"
+			android:key="testing.show_debug_messages"
+			android:title="Show debug messages" />	    
+	    
+		<ListPreference
+			android:entries="@array/pref_max_vehicle_still_duration"
+			android:entryValues="@array/pref_max_vehicle_still_duration"
+			android:key="testing.maxvehiclestillduration"
+			android:title="Timeout for ending trip (s)" />	    
 	    
 		<ListPreference
 			android:entries="@array/pref_list_speeds"
@@ -40,6 +52,14 @@
 			android:key="testing.height"
 			android:title="Height difference" />		
 			    
+		<Preference
+			android:key="testing.importDB"
+			android:title="Import DB" />
+
+		<Preference
+			android:key="testing.loadGpx"
+			android:title="Import GPX files from assets" />
+
 		<ListPreference
 			android:entries="@array/pref_list_activities"
 			android:entryValues="@array/pref_list_activities"
@@ -52,27 +72,6 @@
 			android:defaultValue="ignore activity recognition"
 			android:key="testing.ignore_activity_recognition"
 			android:title="Ignore Activity Recognition" />
-
-		<Preference
-			android:key="testing.importDB"
-			android:title="Import DB" />
-
-		<Preference
-			android:key="testing.loadGpx"
-			android:title="Import GPX files from assets" />
-
-		<ListPreference
-			android:entries="@array/pref_max_vehicle_still_duration"
-			android:entryValues="@array/pref_max_vehicle_still_duration"
-			android:key="testing.maxvehiclestillduration"
-			android:title="Timeout for ending trip (s)" />
-		
-				<ListPreference
-			android:entries="@array/pref_list_show_debug_messages"
-			android:entryValues="@array/pref_list_show_debug_messages"
-			android:key="testing.show_debug_messages"
-			android:title="Show debug messages" />
-		
 		
 	</PreferenceCategory>
 
