@@ -23,20 +23,12 @@ public class EcoDrivingScoreCalculator {
 	private AppContext appContext;
 	
     EcoDrivingScore[] scores = new EcoDrivingScore[] { 
-    		new EcoDrivingScore("Constant speed", 50),
-    		new EcoDrivingScore("Moderate acceleration", 50),
-    		new EcoDrivingScore("Avoiding high speeds", 50),
-    		new EcoDrivingScore("Anticipating stops", 50)    
+    		new EcoDrivingScore("Constant speed on the motorway", 50),
+    		new EcoDrivingScore("Low positive acceleration on motorway", 50),
+    		new EcoDrivingScore("Avoiding top speeds on motorway", 50),
+    		new EcoDrivingScore("Anticipating stops in the city", 50),    
+    		new EcoDrivingScore("Moderate accelerations in the city", 50)
     };
-	
-	private int score_constant_speed;  			// calculated using mean variance in speed
-	private int score_moderate_acceleration;	// based on average positive acceleration
-	private int score_avoiding_high_speeds;		// based on average speed: ToDo: wie nur top Geschwindigkeiten berücksichtigen? (sollte nicht durch häufig Stau/Stadtfahren verringert werden)
-	private int score_anticipating_stops;		// based on average negative acceleration
-
-	protected static enum ROAD_TYPE {
-		CITY, COUNTRY, MOTORWAY, IGNORE
-	};	
 	
 	private List<WayPoint> waypoints;
 	
@@ -76,7 +68,7 @@ public class EcoDrivingScoreCalculator {
 					score.setProgress(make100PercentIntervall(((int) percent)));
 					score.setTechniqueName(score.getTechniqueName() + " " +
 							"Ø VelocityHighway: " + avgVelocityHighway*3.6 + "km/h " +
-							"score: " + percent);
+							Math.round(percent));
 				}
 				
 				else if (score.getTechniqueName().equals("Constant speed")) {
@@ -85,12 +77,12 @@ public class EcoDrivingScoreCalculator {
 					
 					double userValue = trip.getAvgVarianceVelocityHighway();
 					double limitBad = 20; 
-					double limitOk = 5;	
-					double percent = ( (limitBad - userValue)   / (limitBad - limitOk) ) * 100; 
+					double limitOk = 0;	
+					double percent = ( (limitBad - userValue)   / Math.abs(limitBad - limitOk) ) * 100; 
 					score.setProgress(make100PercentIntervall((int) percent));
 					score.setTechniqueName(score.getTechniqueName() + " " + 
 							"Ø VarianceVelocityHighway: " + userValue + " " +
-							percent +"%");
+							Math.round(percent) +"%");
 				}	
 			
 				else if (score.getTechniqueName().equals("Moderate acceleration")) {
@@ -100,10 +92,10 @@ public class EcoDrivingScoreCalculator {
 				double userValue = trip.getAvgPosAcceleration();
 				double limitBad = 10; 
 				double limitOk = 0;	
-				double percent = ( (limitBad - userValue)   / (limitBad - limitOk) ) * 100; 
+				double percent = ( (limitBad - userValue)   / Math.abs(limitBad - limitOk) ) * 100; 
 				score.setTechniqueName(score.getTechniqueName() + " " + 
 						"Ø Positive acceleration: " + userValue + " " +
-						percent +"%");
+						Math.round(percent) +"%");
 				score.setProgress(make100PercentIntervall((int) percent));
 				}
 				
@@ -114,11 +106,11 @@ public class EcoDrivingScoreCalculator {
 				double limitBad = -10; 
 				double limitOk = 0;	
 				double q1 = limitBad - userValue;
-				double q2 = limitBad - limitOk; 
+				double q2 = Math.abs(limitBad - limitOk); 
 				double inPercent =  (q1/q2)  * 100; 
 				score.setTechniqueName(score.getTechniqueName() + " " + 
 						"Ø negative acceleration: " + appContext.round(userValue*3.6,2) + "km/h/s " +
-						inPercent + "%");
+						Math.round(inPercent) + "%");
 				score.setProgress(make100PercentIntervall((int) inPercent));
 				}				
 			}				

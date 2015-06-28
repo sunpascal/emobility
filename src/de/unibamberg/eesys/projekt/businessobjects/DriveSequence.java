@@ -7,13 +7,15 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import de.unibamberg.eesys.projekt.L;
+import de.unibamberg.eesys.projekt.RoadType;
+import de.unibamberg.eesys.projekt.RoadType.ROAD_TYPE;
 
 /**
  * Business object containing a trip 
  * 
  * the properties that a trip has in common with a charging sequence are inherited from Sequence 
  * 
- * @author pascal, matthias
+ * @author pascal
  *
  */
 public class DriveSequence extends Sequence implements Comparable {
@@ -22,53 +24,73 @@ public class DriveSequence extends Sequence implements Comparable {
 	private double sumCO2;  		
 	private List<WayPoint> wayPoints; 
 	
-	private double avgVelocityHighway;
-	private double avgVelocityCity;
-	private double avgVarianceVelocityHighway;
-	private double avgPosAcceleration; 
-	private double avgNegAcceleration;
+	private double avgVelocityHighway;				// eco-driving: avoid high speeds on the highway
+	private double avgVarianceVelocityHighway;		// eco-driving: maintain constant speeds on the highway
+	private double avgPosAccelerationCity;			// eco-driving: Moderate acceleration (city)
+	private double avgNegAccelerationCity;			// eco-driving: Anticipate traffic (city)
+	private double avgPosAccelerationHighway;		// eco-driving: Moderate acceleration (highway)
+	private double avgNegAccelerationHighway;		// eco-driving: Anticipate traffic (highway)
+	
 	private boolean hasEcoDrivingStatistics = false; 
 	
 	public void calcEcoDrivingStatistics() {
 
-		double sumVelocity = 0;
-		double sumPositiveAcceleration = 0;
-		double sumNegativeAcceleration = 0;
+		double sumVelocityHighway = 0;
+		double sumPositiveAccelerationCity = 0;
+		double sumNegativeAccelerationCity = 0;
+		double sumPositiveAccelerationHighway = 0;
+		double sumNegativeAccelerationHighway = 0;		
 		
 		int countNumberWayPointsHighway = 0;
 		int countNumberWayPointsCity = 0;
+		
+		RoadType roadType = new RoadType();
+		ROAD_TYPE currentRoadType = ROAD_TYPE.CITY;	
+		
 		for (WayPoint w : wayPoints) {
-			if (w.getVelocity() > 0) {
-				sumVelocity += w.getVelocity();
+			
+			currentRoadType = roadType.updateRoadType(w.getVelocity());
+			
+			if (currentRoadType == ROAD_TYPE.HIGHWAY) {
+				sumVelocityHighway += w.getVelocity();
+				
+				if (w.getAcceleration() > 0)
+					sumPositiveAccelerationHighway += w.getAcceleration();
+				else if (w.getAcceleration() < 0)
+					sumNegativeAccelerationHighway += w.getAcceleration();				
+				
 				countNumberWayPointsHighway++;
 			}
-			if (w.getVelocity() < (60/3.6)) {
+			if (currentRoadType == ROAD_TYPE.CITY) {
+				
 				if (w.getAcceleration() > 0)
-					sumPositiveAcceleration += w.getAcceleration();
+					sumPositiveAccelerationCity += w.getAcceleration();
 				else if (w.getAcceleration() < 0)
-					sumNegativeAcceleration += w.getAcceleration();
+					sumNegativeAccelerationCity += w.getAcceleration();
+				
 				countNumberWayPointsCity++;
 			}
 				
 		}
 		
-		avgVelocityHighway = sumVelocity / countNumberWayPointsHighway;
-		L.d("avgVelocityHighway: " + avgVelocityHighway*3.6 + "km/h");
+		avgVelocityHighway = sumVelocityHighway / countNumberWayPointsHighway;
+		avgVelocityHighway = sumVelocityHighway / countNumberWayPointsHighway;
 		
-		avgPosAcceleration = sumPositiveAcceleration / countNumberWayPointsCity;
-		avgNegAcceleration = sumNegativeAcceleration / countNumberWayPointsCity;
+		avgPosAccelerationCity = sumPositiveAccelerationCity / countNumberWayPointsCity;
+		avgNegAccelerationCity = sumNegativeAccelerationCity / countNumberWayPointsCity;
+		
+		avgPosAccelerationHighway = sumPositiveAccelerationCity / countNumberWayPointsCity;
+		avgNegAccelerationHighway = sumNegativeAccelerationCity / countNumberWayPointsCity;		
 				
 		// calculate average variance of velocity
 		double sum = 0;
 		for (WayPoint w : wayPoints) {
-			if (w.getVelocityinKmh() > 0) {
+			if (w.getVelocity() > 0) {
 				sum += Math.abs( w.getVelocity() - avgVelocityHighway); 
 			}
 		}		
 		
 		avgVarianceVelocityHighway = sum / countNumberWayPointsHighway;
-		
-		L.d("avgVelocityHighway: " + avgVelocityHighway); 	
 		
 		hasEcoDrivingStatistics = true; 
 	}	
@@ -144,7 +166,7 @@ public class DriveSequence extends Sequence implements Comparable {
 	 */
 	public double calcAveragekWhPerKm() {
 		if (coveredDistance == 0) {
-			 L.e("calcAveragekWhPerKm(): Cannot calculate - covered distance is 0.");
+			 L.v("calcAveragekWhPerKm(): Cannot calculate - covered distance is 0.");
 			 return 0; 
 		}
 
@@ -250,14 +272,32 @@ public class DriveSequence extends Sequence implements Comparable {
 	}
 
 	public double getAvgPosAcceleration() {
-		return avgPosAcceleration;
+		return avgPosAccelerationCity;
 	}
 
 	public double getAvgNegAccelation() {
-		return avgNegAcceleration;
+		return avgNegAccelerationCity;
 	}
 
 	public double getAvgNegAcceleration() {
-		return avgNegAcceleration;
+		return avgNegAccelerationCity;
 	}
+	
+	/**
+	 * converts km/h to m/s 
+	 * @param kmh
+	 * @return
+	 */
+	public double toMs(double kmh) {
+		return kmh / 3.6;
+	}
+	
+	/**
+	 * converts m/s to km/h
+	 * @param ms
+	 * @return
+	 */
+	public double toKmh(double ms) {
+		return ms * 3.6;
+	}	
 }
