@@ -40,7 +40,7 @@ import de.unibamberg.eesys.statistics.StatisticsException;
 
 /**
  * 
- * @author Robert
+ * @author Pascal
  * 
  */
 public class EcoDrivingFeedbackTeqniqueFragment extends android.support.v4.app.Fragment {

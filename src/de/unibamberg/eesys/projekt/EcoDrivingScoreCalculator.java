@@ -52,7 +52,7 @@ public class EcoDrivingScoreCalculator {
 			try {
 				trip.setWayPoints(appContext.getDb().getWayPoints(trip));
 			} catch (DatabaseException e) {
-				Toast.makeText(appContext, "Could not load trip waypoints.", Toast.LENGTH_SHORT);
+				Toast.makeText(appContext, "Could not load trip waypoints.", Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			}
 			
@@ -68,15 +68,15 @@ public class EcoDrivingScoreCalculator {
 						// Todo: hysteris / buffer
 					
 					double avgVelocityHighway = trip.avgVelocityHighway();
-					int avgVelocityBad = (int) (160/3.6); 
-					int avgVelocityOk = (int) (110/3.6); 
+					double avgVelocityBad = (160/3.6); 
+					double avgVelocityOk =  (110/3.6); 
 					
 					// calculate speed relative to intervall
-					int relativeSpeed = (int) ( ( (avgVelocityBad - avgVelocityHighway)   / (avgVelocityBad - avgVelocityOk) ) * 100 ); 
-					score.setProgress(make100PercentIntervall((relativeSpeed)));
+					double percent = ( ( (avgVelocityBad - avgVelocityHighway)   / (avgVelocityBad - avgVelocityOk) ) * 100 ); 
+					score.setProgress(make100PercentIntervall(((int) percent)));
 					score.setTechniqueName(score.getTechniqueName() + " " +
-							"Ø VelocityHighway: " + avgVelocityHighway + " " +
-							"relativeSpeed: " + relativeSpeed);
+							"Ø VelocityHighway: " + avgVelocityHighway*3.6 + "km/h " +
+							"score: " + percent);
 				}
 				
 				else if (score.getTechniqueName().equals("Constant speed")) {
@@ -84,13 +84,13 @@ public class EcoDrivingScoreCalculator {
 					// currently only motorway
 					
 					double userValue = trip.getAvgVarianceVelocityHighway();
-					int limitBad = 20; 
-					int limitOk = 5;	
-					int relativeSpeed = (int) ( (limitBad - userValue)   / (limitBad - limitOk) ) * 100; 
-					score.setProgress(make100PercentIntervall((relativeSpeed)));
+					double limitBad = 20; 
+					double limitOk = 5;	
+					double percent = ( (limitBad - userValue)   / (limitBad - limitOk) ) * 100; 
+					score.setProgress(make100PercentIntervall((int) percent));
 					score.setTechniqueName(score.getTechniqueName() + " " + 
 							"Ø VarianceVelocityHighway: " + userValue + " " +
-							"relativeSpeed: " + relativeSpeed);
+							percent +"%");
 				}	
 			
 				else if (score.getTechniqueName().equals("Moderate acceleration")) {
@@ -98,27 +98,28 @@ public class EcoDrivingScoreCalculator {
 				// currently only motorway
 				
 				double userValue = trip.getAvgPosAcceleration();
-				int limitBad = 10; 
-				int limitOk = 0;	
-				int relativeSpeed = (int) ( (limitBad - userValue)   / (limitBad - limitOk) ) * 100; 
-				score.setProgress(make100PercentIntervall((relativeSpeed)));						
+				double limitBad = 10; 
+				double limitOk = 0;	
+				double percent = ( (limitBad - userValue)   / (limitBad - limitOk) ) * 100; 
 				score.setTechniqueName(score.getTechniqueName() + " " + 
-						"Ø PosAcceleration: " + userValue + " " +
-						"relativeSpeed: " + relativeSpeed);				
+						"Ø Positive acceleration: " + userValue + " " +
+						percent +"%");
+				score.setProgress(make100PercentIntervall((int) percent));
 				}
 				
 				else if (score.getTechniqueName().equals("Anticipating stops")) {
 					
 				// currently only motorway
-				
 				double userValue = trip.getAvgNegAcceleration();
-				int limitBad = -10; 
-				int limitOk = 0;	
-				int relativeSpeed = (int) ( (limitBad - userValue)   / (limitBad - limitOk) ) * 100; 
-				score.setProgress(make100PercentIntervall((relativeSpeed)));					
+				double limitBad = -10; 
+				double limitOk = 0;	
+				double q1 = limitBad - userValue;
+				double q2 = limitBad - limitOk; 
+				double inPercent =  (q1/q2)  * 100; 
 				score.setTechniqueName(score.getTechniqueName() + " " + 
-						"Ø NegAcceleration: " + userValue +
-						"relativeSpeed:" + relativeSpeed);				
+						"Ø negative acceleration: " + appContext.round(userValue*3.6,2) + "km/h/s " +
+						inPercent + "%");
+				score.setProgress(make100PercentIntervall((int) inPercent));
 				}				
 			}				
 			
