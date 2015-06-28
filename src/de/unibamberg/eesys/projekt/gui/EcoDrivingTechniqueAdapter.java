@@ -38,6 +38,9 @@ public class EcoDrivingTechniqueAdapter extends ArrayAdapter<EcoDrivingScore> {
     
     ProgressBar progressBar = (ProgressBar) rowView.findViewById(R.id.progressBar1);
     progressBar.setProgress(values[position].getProgress());    
+    
+    if (values[position].isVisible() == false)
+    	rowView.setVisibility(View.INVISIBLE);
 
     return rowView;
   }

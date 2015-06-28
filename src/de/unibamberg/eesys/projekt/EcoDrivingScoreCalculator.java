@@ -31,7 +31,7 @@ public class EcoDrivingScoreCalculator {
 	
     EcoDrivingScore[] scores = new EcoDrivingScore[] { 
     		new EcoDrivingScore(Technique.CONSTANT_SPEED_HIGHWAY, 50),
-    		new EcoDrivingScore(Technique.POS_ACCELERATION_HIGHWAY, 50),
+//    		new EcoDrivingScore(Technique.POS_ACCELERATION_HIGHWAY, 50),
     		new EcoDrivingScore(Technique.AVOID_TOPSPEED__HIGHWAY, 50),
     		new EcoDrivingScore(Technique.ANTICIPATE_STOPS_CITY, 50),    
     		new EcoDrivingScore(Technique.MODERATE_ACCELERATION_CITY, 50)
@@ -63,30 +63,41 @@ public class EcoDrivingScoreCalculator {
 				if (score.getTechniqueName().equals(Technique.AVOID_TOPSPEED__HIGHWAY)) {
 					// high speed is based on average (top) speed
 					
-					double avgVelocityHighway = trip.avgVelocityHighway();
-					double avgVelocityBad = (160/3.6); 
-					double avgVelocityOk =  (110/3.6); 
-					
-					// calculate speed relative to intervall
-					double percent = ( ( (avgVelocityBad - avgVelocityHighway)   / (avgVelocityBad - avgVelocityOk) ) * 100 ); 
-					score.setProgress(make100PercentIntervall(((int) percent)));
-					score.setTechniqueName(score.getTechniqueName() + " " +
-							"Ø VelocityHighway: " + avgVelocityHighway*3.6 + "km/h " +
-							Math.round(percent));
+					// check if there were any waypoints on the highway 
+					if (Double.isNaN(trip.avgVelocityHighway()) ) {
+						score.setVisible(false);
+					}
+					else {
+						double avgVelocityHighway = trip.avgVelocityHighway();
+						double avgVelocityBad = (160/3.6); 
+						double avgVelocityOk =  (110/3.6); 
+						
+						// calculate speed relative to interval
+						double percent = ( ( (avgVelocityBad - avgVelocityHighway)   / (avgVelocityBad - avgVelocityOk) ) * 100 ); 
+						score.setProgress(make100PercentIntervall(((int) percent)));
+						score.setTechniqueName(score.getTechniqueName() + " " +
+								"Ø VelocityHighway: " + avgVelocityHighway*3.6 + "km/h " +
+								Math.round(percent));
+					}
 				}
 				
 				else if (score.getTechniqueName().equals(Technique.CONSTANT_SPEED_HIGHWAY)) {
 					
-					// currently only motorway
+					// check if there were any waypoints on the highway 
+					if (Double.isNaN(trip.avgVelocityHighway()) ) {
+						score.setVisible(false);
+					}
 					
-					double userValue = trip.getAvgVarianceVelocityHighway();
-					double limitBad = 20; 
-					double limitOk = 0;	
-					double percent = ( (limitBad - userValue)   / Math.abs(limitBad - limitOk) ) * 100; 
-					score.setProgress(make100PercentIntervall((int) percent));
-					score.setTechniqueName(score.getTechniqueName() + " " + 
-							"Ø VarianceVelocityHighway: " + userValue + " " +
-							Math.round(percent) +"%");
+					else {
+						double userValue = trip.getAvgVarianceVelocityHighway();
+						double limitBad = 20; 
+						double limitOk = 0;	
+						double percent = ( (limitBad - userValue)   / Math.abs(limitBad - limitOk) ) * 100; 
+						score.setProgress(make100PercentIntervall((int) percent));
+						score.setTechniqueName(score.getTechniqueName() + " " + 
+								"Ø VarianceVelocityHighway: " + userValue + " " +
+								Math.round(percent) +"%");
+					}
 				}	
 			
 				else if (score.getTechniqueName().equals(Technique.MODERATE_ACCELERATION_CITY)) {

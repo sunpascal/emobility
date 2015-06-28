@@ -2,6 +2,8 @@ package de.unibamberg.eesys.projekt.businessobjects;
 
 public class EcoDrivingScore implements Comparable {
 	
+	private boolean visible = true; 
+	
 	public String getTechniqueName() {
 		return techniqueName;
 	}
@@ -54,7 +56,16 @@ public class EcoDrivingScore implements Comparable {
 			else if (progress > ((EcoDrivingScore) another).getProgress())
 				return -1; 
 			else return 0;
-	}	
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
 	
 
 }

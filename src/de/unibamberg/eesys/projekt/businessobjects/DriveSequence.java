@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.unibamberg.eesys.projekt.L;
@@ -47,12 +48,15 @@ public class DriveSequence extends Sequence implements Comparable {
 		RoadType roadType = new RoadType();
 		ROAD_TYPE currentRoadType = ROAD_TYPE.CITY;	
 		
+		ArrayList<Double> velocitiesHighway = new ArrayList<Double>(); 		// list of velocities during highway driving, used to calculate velocity variance
+		
 		for (WayPoint w : wayPoints) {
 			
 			currentRoadType = roadType.updateRoadType(w.getVelocity());
 			
 			if (currentRoadType == ROAD_TYPE.HIGHWAY) {
 				sumVelocityHighway += w.getVelocity();
+				velocitiesHighway.add(w.getVelocity());
 				
 				if (w.getAcceleration() > 0)
 					sumPositiveAccelerationHighway += w.getAcceleration();
@@ -84,11 +88,9 @@ public class DriveSequence extends Sequence implements Comparable {
 				
 		// calculate average variance of velocity
 		double sum = 0;
-		for (WayPoint w : wayPoints) {
-			if (w.getVelocity() > 0) {
-				sum += Math.abs( w.getVelocity() - avgVelocityHighway); 
-			}
-		}		
+		for (double v : velocitiesHighway) {
+			sum += Math.abs( v - avgVelocityHighway); 
+		}
 		
 		avgVarianceVelocityHighway = sum / countNumberWayPointsHighway;
 		
@@ -99,7 +101,7 @@ public class DriveSequence extends Sequence implements Comparable {
 		return wayPoints;
 	}
 	/**
-	 * sets all way points of one drive sequece
+	 * sets all way points of one drive sequence
 	 * @param wayPoints = List of all wayPoints of this drive sequence
 	 */
 	public void setWayPoints(List<WayPoint> wayPoints) {
