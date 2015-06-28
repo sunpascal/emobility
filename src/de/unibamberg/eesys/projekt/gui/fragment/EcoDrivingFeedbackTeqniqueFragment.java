@@ -45,10 +45,6 @@ import de.unibamberg.eesys.statistics.StatisticsException;
  */
 public class EcoDrivingFeedbackTeqniqueFragment extends android.support.v4.app.Fragment {
 
-	public static final String ARG_STATUS = "status";
-
-	public static final int BATTERY_SOCS = 3223478;
-	
 	AppContext appContext;
 	View rootView;	
 	

@@ -79,8 +79,8 @@ public class DriveSequence extends Sequence implements Comparable {
 		avgPosAccelerationCity = sumPositiveAccelerationCity / countNumberWayPointsCity;
 		avgNegAccelerationCity = sumNegativeAccelerationCity / countNumberWayPointsCity;
 		
-		avgPosAccelerationHighway = sumPositiveAccelerationCity / countNumberWayPointsCity;
-		avgNegAccelerationHighway = sumNegativeAccelerationCity / countNumberWayPointsCity;		
+		avgPosAccelerationHighway = sumPositiveAccelerationHighway / countNumberWayPointsHighway;
+		avgNegAccelerationHighway = sumNegativeAccelerationHighway / countNumberWayPointsHighway;		
 				
 		// calculate average variance of velocity
 		double sum = 0;
@@ -271,15 +271,15 @@ public class DriveSequence extends Sequence implements Comparable {
 		return avgVarianceVelocityHighway;
 	}
 
-	public double getAvgPosAcceleration() {
+	public double getAvgPosAccelerationCity() {
 		return avgPosAccelerationCity;
 	}
 
-	public double getAvgNegAccelation() {
+	public double getAvgNegAccelationCity() {
 		return avgNegAccelerationCity;
 	}
 
-	public double getAvgNegAcceleration() {
+	public double getAvgNegAccelerationCity() {
 		return avgNegAccelerationCity;
 	}
 	
@@ -299,5 +299,13 @@ public class DriveSequence extends Sequence implements Comparable {
 	 */
 	public double toKmh(double ms) {
 		return ms * 3.6;
+	}
+
+	public double getAvgPosAccelerationHighway() {
+		return avgPosAccelerationHighway;
+	}
+
+	public double getAvgNegAccelerationHighway() {
+		return avgNegAccelerationHighway;
 	}	
 }

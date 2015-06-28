@@ -7,7 +7,6 @@ import java.util.List;
 
 import android.widget.Toast;
 
-import de.unibamberg.eesys.projekt.businessobjects.ChargingStation;
 import de.unibamberg.eesys.projekt.businessobjects.DriveSequence;
 import de.unibamberg.eesys.projekt.businessobjects.EcoDrivingScore;
 import de.unibamberg.eesys.projekt.businessobjects.WayPoint;
@@ -20,14 +19,22 @@ import de.unibamberg.eesys.projekt.database.DatabaseException;
  */
 public class EcoDrivingScoreCalculator {
 	
+	public class Technique {
+		public static final String CONSTANT_SPEED_HIGHWAY = "Constant speed on the motorway";
+		public static final String POS_ACCELERATION_HIGHWAY = "Low positive acceleration on motorway";
+		public static final String AVOID_TOPSPEED__HIGHWAY = "Avoiding top speeds on motorway";
+		public static final String ANTICIPATE_STOPS_CITY = "Anticipating stops in the city";
+		public static final String MODERATE_ACCELERATION_CITY = "Moderate accelerations in the city";
+	}
+	
 	private AppContext appContext;
 	
     EcoDrivingScore[] scores = new EcoDrivingScore[] { 
-    		new EcoDrivingScore("Constant speed on the motorway", 50),
-    		new EcoDrivingScore("Low positive acceleration on motorway", 50),
-    		new EcoDrivingScore("Avoiding top speeds on motorway", 50),
-    		new EcoDrivingScore("Anticipating stops in the city", 50),    
-    		new EcoDrivingScore("Moderate accelerations in the city", 50)
+    		new EcoDrivingScore(Technique.CONSTANT_SPEED_HIGHWAY, 50),
+    		new EcoDrivingScore(Technique.POS_ACCELERATION_HIGHWAY, 50),
+    		new EcoDrivingScore(Technique.AVOID_TOPSPEED__HIGHWAY, 50),
+    		new EcoDrivingScore(Technique.ANTICIPATE_STOPS_CITY, 50),    
+    		new EcoDrivingScore(Technique.MODERATE_ACCELERATION_CITY, 50)
     };
 	
 	private List<WayPoint> waypoints;
@@ -53,11 +60,8 @@ public class EcoDrivingScoreCalculator {
 		
 			for (EcoDrivingScore score : scores ) {
 				
-				if (score.getTechniqueName().equals("Avoiding high speeds")) {
+				if (score.getTechniqueName().equals(Technique.AVOID_TOPSPEED__HIGHWAY)) {
 					// high speed is based on average (top) speed
-					
-					// ToDo: take into account other road types!
-						// Todo: hysteris / buffer
 					
 					double avgVelocityHighway = trip.avgVelocityHighway();
 					double avgVelocityBad = (160/3.6); 
@@ -71,7 +75,7 @@ public class EcoDrivingScoreCalculator {
 							Math.round(percent));
 				}
 				
-				else if (score.getTechniqueName().equals("Constant speed")) {
+				else if (score.getTechniqueName().equals(Technique.CONSTANT_SPEED_HIGHWAY)) {
 					
 					// currently only motorway
 					
@@ -85,11 +89,11 @@ public class EcoDrivingScoreCalculator {
 							Math.round(percent) +"%");
 				}	
 			
-				else if (score.getTechniqueName().equals("Moderate acceleration")) {
+				else if (score.getTechniqueName().equals(Technique.MODERATE_ACCELERATION_CITY)) {
 				
 				// currently only motorway
 				
-				double userValue = trip.getAvgPosAcceleration();
+				double userValue = trip.getAvgPosAccelerationCity();
 				double limitBad = 10; 
 				double limitOk = 0;	
 				double percent = ( (limitBad - userValue)   / Math.abs(limitBad - limitOk) ) * 100; 
@@ -99,10 +103,10 @@ public class EcoDrivingScoreCalculator {
 				score.setProgress(make100PercentIntervall((int) percent));
 				}
 				
-				else if (score.getTechniqueName().equals("Anticipating stops")) {
+				else if (score.getTechniqueName().equals(Technique.ANTICIPATE_STOPS_CITY)) {
 					
 				// currently only motorway
-				double userValue = trip.getAvgNegAcceleration();
+				double userValue = trip.getAvgNegAccelerationCity();
 				double limitBad = -10; 
 				double limitOk = 0;	
 				double q1 = limitBad - userValue;
