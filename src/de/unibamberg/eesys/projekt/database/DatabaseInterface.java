@@ -190,4 +190,7 @@ public interface DatabaseInterface {
 
 	List<Map<String, Object>> getReport_Speed(
 			int numberOfDriveSeq, long driveSequenceId) throws DatabaseException;
+
+	List<Map<String, Object>> getReport_Acceleration(int numberOfDriveSeq,
+			long driveSeqId) throws DatabaseException;
 }

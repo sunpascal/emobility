@@ -44,6 +44,7 @@ public class FragmentFolder {
 		ecodriving.add(new EcoDrivingTableFragment());
 		ecodriving.add(new EcoDrivingBackgroundInfoFragment());
 		ecodriving.add(new AnalysisSpeedFragment());
+		ecodriving.add(new AnalysisAccelerationFragment());
 		ecodriving.add(new EcoDrivingGoalFragment());
 		ecodriving.add(new EcoDrivingAvgConsumptionFragment());
 		drawers.put(MODE.ECO_DRIVING, ecodriving);		
@@ -124,6 +125,17 @@ public class FragmentFolder {
 			// todo: 3 should not be fixed in case fragments are added or removed!
 			return tabsInDrawer.get(3);	
 	}	
+	
+	/** 
+	 * returns the first tab in the current mode
+	 * @return
+	 */
+	public Fragment getAnalysisAccelerationTab() {
+		ArrayList<Fragment> tabsInDrawer = drawers.get((currentDrawerMode));
+			positionWithinMode = 0;  
+			// todo: 3 should not be fixed in case fragments are added or removed!
+			return tabsInDrawer.get(4);	
+	}		
 	
 	/** returns the first fragment tab of the current drawer mode 
 	 * 

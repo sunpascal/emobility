@@ -164,7 +164,7 @@ public class EcoDrivingTableFragment extends Fragment {
 			t3.setOnClickListener(new OnClickListener() {
 	            @Override
 	             public void onClick(View v) {
-	            	loadSpeedFragment(d);
+	            	loadAccelerationFragment(d);
 	             }   
 			});
 			
@@ -239,6 +239,27 @@ public class EcoDrivingTableFragment extends Fragment {
 		fragmentTransaction = fragmentManager.beginTransaction();
 		
 		AnalysisSpeedFragment fragment = (AnalysisSpeedFragment) appContext.getFragmentFolder().getAnalysisSpeedTab();
+		fragment.setTrip(ds);
+		
+		containerId = ((ViewGroup) getView().getParent()).getId();
+
+		fragment.setArguments(getActivity().getIntent().getExtras());
+		
+		fragment.setArguments(getActivity().getIntent().getExtras());
+		Bundle args = new Bundle();
+		args.putInt(fragment.toString(), 0);
+		fragment.setArguments(args);
+
+		getFragmentManager().beginTransaction()
+				.replace(R.id.content_frame, fragment).commit();
+	}		
+	
+	private void loadAccelerationFragment(DriveSequence ds) {
+
+		fragmentManager = getFragmentManager();
+		fragmentTransaction = fragmentManager.beginTransaction();
+		
+		AnalysisAccelerationFragment fragment = (AnalysisAccelerationFragment) appContext.getFragmentFolder().getAnalysisAccelerationTab();
 		fragment.setTrip(ds);
 		
 		containerId = ((ViewGroup) getView().getParent()).getId();

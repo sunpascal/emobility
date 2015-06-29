@@ -76,7 +76,7 @@ public class EcoDrivingScoreCalculator {
 						double percent = ( ( (avgVelocityBad - avgVelocityHighway)   / (avgVelocityBad - avgVelocityOk) ) * 100 ); 
 						score.setProgress(make100PercentIntervall(((int) percent)));
 						score.setTechniqueName(score.getTechniqueName() + " " +
-								"Ø VelocityHighway: " + avgVelocityHighway*3.6 + "km/h " +
+								"Ø VelocityHighway: " + Math.round(avgVelocityHighway*3.6) + "km/h " +
 								Math.round(percent));
 					}
 				}
@@ -90,12 +90,14 @@ public class EcoDrivingScoreCalculator {
 					
 					else {
 						double userValue = trip.getAvgVarianceVelocityHighway();
-						double limitBad = 20; 
+						// Speed oscillations during cruising of 5 km/h increases fuel use  by 30% at 40 km/h and by 20% at 120 km/h (Waters and Laker 1980)
+						// lead to an increase in energy consumption by 20% (Waters and Laker (1980))
+						double limitBad = 1; 
 						double limitOk = 0;	
 						double percent = ( (limitBad - userValue)   / Math.abs(limitBad - limitOk) ) * 100; 
 						score.setProgress(make100PercentIntervall((int) percent));
 						score.setTechniqueName(score.getTechniqueName() + " " + 
-								"Ø VarianceVelocityHighway: " + userValue + " " +
+								"Ø VarianceVelocityHighway: " + appContext.round(userValue) + " " +
 								Math.round(percent) +"%");
 					}
 				}	
@@ -108,11 +110,14 @@ public class EcoDrivingScoreCalculator {
 				}
 				
 				double userValue = trip.getAvgPosAccelerationCity();
-				double limitBad = 10; 
+				// An increase in acceleration to 1.765 m/s2 (coresponding to 0-100km/h time of 15 seconds) 
+				// Larsson and Ericsson (2009) define "strong accelerations" in their study 
+				// as accelerations greater than 1.5 m/s2.				
+				double limitBad = 1; 
 				double limitOk = 0;	
 				double percent = ( (limitBad - userValue)   / Math.abs(limitBad - limitOk) ) * 100; 
 				score.setTechniqueName(score.getTechniqueName() + " " + 
-						"Ø Positive acceleration: " + userValue + " " +
+						"Ø Positive acceleration: " + appContext.round(userValue,2) + " " +
 						Math.round(percent) +"%");
 				score.setProgress(make100PercentIntervall((int) percent));
 				}
@@ -125,13 +130,13 @@ public class EcoDrivingScoreCalculator {
 				}
 					
 				double userValue = trip.getAvgNegAccelerationCity();
-				double limitBad = -10; 
+				double limitBad = -1; 
 				double limitOk = 0;	
-				double q1 = limitBad - userValue;
+				double q1 = userValue - limitBad;
 				double q2 = Math.abs(limitBad - limitOk); 
 				double inPercent =  (q1/q2)  * 100; 
 				score.setTechniqueName(score.getTechniqueName() + " " + 
-						"Ø negative acceleration: " + appContext.round(userValue*3.6,2) + "km/h/s " +
+						"Ø negative acceleration: " + appContext.round(userValue,2) + "m/s/s " +
 						Math.round(inPercent) + "%");
 				score.setProgress(make100PercentIntervall((int) inPercent));
 				}				
