@@ -72,7 +72,8 @@ public class AnalysisSpeedFragment extends Fragment {
 		mStatistic = new SpeedReport();
 
 		// starts an AsyncTask, to get the data from DB
-		mChartData = reportProv.execute(BATTERY_SOCS, 50);
+		int numberOfTripsToShow = 50;
+		mChartData = reportProv.execute(BATTERY_SOCS, numberOfTripsToShow);
 		mChart.setVisibility(View.VISIBLE);
 		return rootView;
 	}
@@ -107,9 +108,9 @@ public class AnalysisSpeedFragment extends Fragment {
 		 */
 		@Override
 		protected Object doInBackground(Integer... params) {
-			int methodParam = 0;
+			int numberOfTripsToShow = 0;
 			if (params.length > 1) {
-				methodParam = (int) params[1];// number of values that will be shown.
+				numberOfTripsToShow = (int) params[1];// number of values that will be shown.
 			}
 			try {
 				// if not called using id of a specific trip, show last trip
@@ -117,7 +118,7 @@ public class AnalysisSpeedFragment extends Fragment {
 					List<DriveSequence> trips = db.getDriveSequences(true);
 					this.driveSequenceId = trips.get(trips.size()-1).getId();
 				}
-				DbReturnValue = db.getReport_Speed(methodParam, this.driveSequenceId);
+				DbReturnValue = db.getReport_Speed(numberOfTripsToShow, this.driveSequenceId);
 			} catch (DatabaseException e) {
 				Toast.makeText(mContext.getApplicationContext(),
 						e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -135,7 +136,6 @@ public class AnalysisSpeedFragment extends Fragment {
 		protected void onPostExecute(Object result) {
 			// this code is processed in the main Thread, it calls the Statistic
 			// class and returns the gathered data from DB
-			L.v("onPostExecute");
 			recivedData(DbReturnValue);
 		}
 

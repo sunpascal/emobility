@@ -16,7 +16,7 @@ import com.github.mikephil.charting.utils.Legend;
 import com.github.mikephil.charting.utils.Legend.LegendForm;
 /**
  * this class contains the logic for formating and creating the Average ConsumtionReport
- * @author robert
+ * @author pascal
  */
 public class SpeedReport extends Statistic {
 
@@ -32,7 +32,7 @@ public class SpeedReport extends Statistic {
 			throws StatisticsException {
 		try {
 			LineData graphData = extractLineGraphData(dbReturnValue,
-					"timestamp", "soc", "State of Charge");
+					"timestamp", "soc", "Speed (km/h)");
 			this.drawLineGraph(graphData, (LineChart) chart);// draws the graph on GUI.
 		} catch (StatisticsException e) {
 			throw new StatisticsException(e.getMessage(), e.getCause());
@@ -103,7 +103,7 @@ public class SpeedReport extends Statistic {
 		try {
 			
 			// setting Format.
-			chart.setUnit(" %");
+			chart.setUnit(" ");
 			chart.setDrawUnitsInChart(true);
 
 			// if enabled, the chart will always start at zero on the y-axis

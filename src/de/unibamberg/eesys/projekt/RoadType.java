@@ -15,7 +15,9 @@ public class RoadType {
 	};	
 
 	public ROAD_TYPE updateRoadType(double velocity) {
-		int nThWaypoint = 0; 						// number of waypoints that fullfill requirement for new road type
+		
+		// number of waypoints that fullfill requirement for new road type		
+		int nThWaypoint = 0; 						
 		
 		if (currentRoadType == ROAD_TYPE.CITY) {
 			if (velocity > MIN_SPEED_HIGHWAY) {

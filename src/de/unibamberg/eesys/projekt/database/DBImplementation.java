@@ -959,7 +959,7 @@ public class DBImplementation implements DatabaseInterface {
 								(cWaypoints.getDouble(3)*3.6));	//3 = velocity
 						returnVals.add(listItem);
 						i++;
-				} while(cWaypoints.moveToNext() & i<10);
+				} while(cWaypoints.moveToNext() & i<numberOfDriveSeq);
 			}
 			cWaypoints.close();
 		}

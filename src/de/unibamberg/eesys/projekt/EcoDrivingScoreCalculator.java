@@ -102,7 +102,10 @@ public class EcoDrivingScoreCalculator {
 			
 				else if (score.getTechniqueName().equals(Technique.MODERATE_ACCELERATION_CITY)) {
 				
-				// currently only motorway
+				// check if there were any waypoints in the city
+				if (trip.getCountNumberWayPointsCity() == 0 ) {
+					score.setVisible(false);
+				}
 				
 				double userValue = trip.getAvgPosAccelerationCity();
 				double limitBad = 10; 
@@ -116,7 +119,11 @@ public class EcoDrivingScoreCalculator {
 				
 				else if (score.getTechniqueName().equals(Technique.ANTICIPATE_STOPS_CITY)) {
 					
-				// currently only motorway
+				// check if there were any waypoints in the city
+				if (trip.getCountNumberWayPointsCity() == 0 ) {
+					score.setVisible(false);
+				}
+					
 				double userValue = trip.getAvgNegAccelerationCity();
 				double limitBad = -10; 
 				double limitOk = 0;	

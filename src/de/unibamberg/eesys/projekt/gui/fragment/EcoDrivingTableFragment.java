@@ -147,12 +147,33 @@ public class EcoDrivingTableFragment extends Fragment {
 			row.addView(t4);	
 			row.setPadding(0, 3, 0, 3);
 			
-			row.setOnClickListener(new OnClickListener() {
+			t1.setOnClickListener(new OnClickListener() {
 	            @Override
 	             public void onClick(View v) {
 	            	loadDriveGraphFragment(d);
 	             }   
 			});
+			
+			t2.setOnClickListener(new OnClickListener() {
+	            @Override
+	             public void onClick(View v) {
+	            	loadSpeedFragment(d);
+	             }   
+			});	
+			
+			t3.setOnClickListener(new OnClickListener() {
+	            @Override
+	             public void onClick(View v) {
+	            	loadSpeedFragment(d);
+	             }   
+			});
+			
+			t4.setOnClickListener(new OnClickListener() {
+	            @Override
+	             public void onClick(View v) {
+	            	loadDriveGraphFragment(d);
+	             }   
+			});			
 			
 			tableLayout.addView(row);
 		}
@@ -196,8 +217,7 @@ public class EcoDrivingTableFragment extends Fragment {
 		fragmentManager = getFragmentManager();
 		fragmentTransaction = fragmentManager.beginTransaction();
 		
-//		EcoDrivingFeedbackTeqniqueFragment fragment = (EcoDrivingFeedbackTeqniqueFragment) appContext.getFragmentFolder().getFirstTab();
-		AnalysisSpeedFragment fragment = (AnalysisSpeedFragment) appContext.getFragmentFolder().getAnalysisSpeedTab();
+		EcoDrivingFeedbackTeqniqueFragment fragment = (EcoDrivingFeedbackTeqniqueFragment) appContext.getFragmentFolder().getFirstTab();
 		fragment.setTrip(ds);
 		
 		containerId = ((ViewGroup) getView().getParent()).getId();
@@ -212,6 +232,27 @@ public class EcoDrivingTableFragment extends Fragment {
 		getFragmentManager().beginTransaction()
 				.replace(R.id.content_frame, fragment).commit();
 	}	
+	
+	private void loadSpeedFragment(DriveSequence ds) {
+
+		fragmentManager = getFragmentManager();
+		fragmentTransaction = fragmentManager.beginTransaction();
+		
+		AnalysisSpeedFragment fragment = (AnalysisSpeedFragment) appContext.getFragmentFolder().getAnalysisSpeedTab();
+		fragment.setTrip(ds);
+		
+		containerId = ((ViewGroup) getView().getParent()).getId();
+
+		fragment.setArguments(getActivity().getIntent().getExtras());
+		
+		fragment.setArguments(getActivity().getIntent().getExtras());
+		Bundle args = new Bundle();
+		args.putInt(fragment.toString(), 0);
+		fragment.setArguments(args);
+
+		getFragmentManager().beginTransaction()
+				.replace(R.id.content_frame, fragment).commit();
+	}		
 	
 }	
 

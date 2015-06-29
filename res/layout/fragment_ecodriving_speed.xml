@@ -19,7 +19,7 @@
         android:layout_margin="5dip"
         android:layout_weight="5"
         android:gravity="center"
-        android:text="@string/soc_description" >
+        android:text="@string/speed_description" >
     </TextView>
 
 </LinearLayout>

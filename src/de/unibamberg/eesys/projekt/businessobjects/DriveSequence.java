@@ -32,6 +32,9 @@ public class DriveSequence extends Sequence implements Comparable {
 	private double avgPosAccelerationHighway;		// eco-driving: Moderate acceleration (highway)
 	private double avgNegAccelerationHighway;		// eco-driving: Anticipate traffic (highway)
 	
+	private int countNumberWayPointsHighway = 0;
+	private int countNumberWayPointsCity = 0;
+	
 	private boolean hasEcoDrivingStatistics = false; 
 	
 	public void calcEcoDrivingStatistics() {
@@ -41,9 +44,6 @@ public class DriveSequence extends Sequence implements Comparable {
 		double sumNegativeAccelerationCity = 0;
 		double sumPositiveAccelerationHighway = 0;
 		double sumNegativeAccelerationHighway = 0;		
-		
-		int countNumberWayPointsHighway = 0;
-		int countNumberWayPointsCity = 0;
 		
 		RoadType roadType = new RoadType();
 		ROAD_TYPE currentRoadType = ROAD_TYPE.CITY;	
@@ -191,7 +191,7 @@ public class DriveSequence extends Sequence implements Comparable {
 	 */
 	private double calcKmPerKwH() {
 		if (coveredDistance == 0) {
-			 L.e("calcAverageKmPerKw(): Cannot calculate - covered distance is 0.");
+			 L.v("calcAverageKmPerKw(): Cannot calculate - covered distance is 0.");
 			 return 0; 
 		}
 
@@ -309,5 +309,13 @@ public class DriveSequence extends Sequence implements Comparable {
 
 	public double getAvgNegAccelerationHighway() {
 		return avgNegAccelerationHighway;
+	}
+
+	public int getCountNumberWayPointsHighway() {
+		return countNumberWayPointsHighway;
+	}
+
+	public int getCountNumberWayPointsCity() {
+		return countNumberWayPointsCity;
 	}	
 }
