@@ -187,4 +187,7 @@ public interface DatabaseInterface {
 	 * @throws DatabaseException 
 	 */
 	public int[][] getReport_DriveSeqDistances(boolean onlyFinishedDriveSequences) throws DatabaseException;
+
+	List<Map<String, Object>> getReport_Speed(
+			int numberOfDriveSeq, long driveSequenceId) throws DatabaseException;
 }

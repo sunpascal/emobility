@@ -1,5 +1,7 @@
 package de.unibamberg.eesys.projekt.gui.fragment;
 
+import java.util.List;
+
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -17,9 +19,11 @@ import com.github.mikephil.charting.charts.LineChart;
 import de.unibamberg.eesys.projekt.AppContext;
 import de.unibamberg.eesys.projekt.L;
 import de.unibamberg.eesys.projekt.R;
+import de.unibamberg.eesys.projekt.businessobjects.DriveSequence;
 import de.unibamberg.eesys.projekt.database.DBImplementation;
 import de.unibamberg.eesys.projekt.database.DatabaseException;
 import de.unibamberg.eesys.statistics.BatterySocsReport;
+import de.unibamberg.eesys.statistics.SpeedReport;
 import de.unibamberg.eesys.statistics.Statistic;
 import de.unibamberg.eesys.statistics.StatisticsException;
 
@@ -32,6 +36,7 @@ public class AnalysisSpeedFragment extends Fragment {
 	Chart mChart;
 	Object mChartData;
 	Statistic mStatistic;
+	DriveSequence trip;
 
 	public AnalysisSpeedFragment() {
 	}
@@ -51,7 +56,11 @@ public class AnalysisSpeedFragment extends Fragment {
 
 		// gets the current context, this is used to show the Chart and
 		// Exceptionhandling.
-		ReportProvider reportProv = new ReportProvider(rootView.getContext());
+		
+		long driveSequenceId = -1;
+		if (trip != null)
+			driveSequenceId = trip.getId();
+		ReportProvider reportProv = new ReportProvider(rootView.getContext(), driveSequenceId);
 
 		// gets the Parent of the fragment, which will include the graph.
 		RelativeLayout parent = (RelativeLayout) rootView
@@ -60,7 +69,7 @@ public class AnalysisSpeedFragment extends Fragment {
 		// creates a new chart and adds it to the view.
 		this.mChart = new LineChart(getActivity());
 		parent.addView(mChart);
-		mStatistic = new BatterySocsReport();
+		mStatistic = new SpeedReport();
 
 		// starts an AsyncTask, to get the data from DB
 		mChartData = reportProv.execute(BATTERY_SOCS, 50);
@@ -76,14 +85,16 @@ public class AnalysisSpeedFragment extends Fragment {
 		private Context mContext;
 		private DBImplementation db;
 		Object DbReturnValue;
+		private long driveSequenceId;
 
 		/**
 		 * @param context
 		 *            is used to get the DB-Reference, which is placed in
 		 *            Appcontext.
 		 */
-		public ReportProvider(Context context) {
+		public ReportProvider(Context context, long driveSequenceId) {
 			mContext = context;
+			this.driveSequenceId = driveSequenceId; 
 			AppContext appContext = (AppContext) context
 					.getApplicationContext();
 			db = appContext.getDb();
@@ -98,12 +109,15 @@ public class AnalysisSpeedFragment extends Fragment {
 		protected Object doInBackground(Integer... params) {
 			int methodParam = 0;
 			if (params.length > 1) {
-				methodParam = params[1];// number of values that will be shown.
-				
+				methodParam = (int) params[1];// number of values that will be shown.
 			}
 			try {
-				System.out.println(BATTERY_SOCS);
-				DbReturnValue = db.getReport_BatterySOCs(methodParam, true);
+				// if not called using id of a specific trip, show last trip
+				if (this.driveSequenceId == -1) {
+					List<DriveSequence> trips = db.getDriveSequences(true);
+					this.driveSequenceId = trips.get(trips.size()-1).getId();
+				}
+				DbReturnValue = db.getReport_Speed(methodParam, this.driveSequenceId);
 			} catch (DatabaseException e) {
 				Toast.makeText(mContext.getApplicationContext(),
 						e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -124,6 +138,7 @@ public class AnalysisSpeedFragment extends Fragment {
 			L.v("onPostExecute");
 			recivedData(DbReturnValue);
 		}
+
 	}
 	/**
 	 * @param DbReturnValue
@@ -137,5 +152,13 @@ public class AnalysisSpeedFragment extends Fragment {
 			Toast.makeText(this.getActivity(), e.getMessage(),
 					Toast.LENGTH_SHORT).show();
 		}
+	}
+
+	public DriveSequence getTrip() {
+		return trip;
+	}
+
+	public void setTrip(DriveSequence trip) {
+		this.trip = trip;
 	}
 }

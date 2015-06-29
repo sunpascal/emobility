@@ -926,6 +926,49 @@ public class DBImplementation implements DatabaseInterface {
 		
 		return returnVals;
 	}
+	
+	@Override
+	public List<Map<String, Object>> getReport_Speed(int numberOfDriveSeq,
+			long driveSeqId) throws DatabaseException{
+		//working variables
+		Cursor cWaypoints;
+		Cursor cEcar;
+		long vehicleTypeId = 0;
+		double batteryCapacity = 0;
+		List<Map<String, Object>> returnVals = new ArrayList<Map<String,Object>>();;
+		Map<String, Object> listItem;
+		
+		//DBAdapters
+		DBAdapter_WayPoint dbwaypoint = new DBAdapter_WayPoint(db);
+
+		//get the DriveSequences
+			// todo: get last instead of first trip
+		DriveSequence lastDrive = this.getDriveSequences(true).get(0);
+		cWaypoints = dbwaypoint.getWayPointsByDriveSeq(driveSeqId);
+		
+		if(cWaypoints != null) {
+			if (cWaypoints.moveToFirst()) {
+				int i = 0;
+				do {
+						// todo: get speed!!!!!!!!!!
+						
+						//start of DriveSequence
+						listItem = new HashMap<String, Object>();
+						listItem.put("timestamp", cWaypoints.getLong(5));	//5 = timeStart (int)
+						listItem.put("soc",
+								(cWaypoints.getDouble(3)*3.6));	//3 = velocity
+						returnVals.add(listItem);
+						i++;
+				} while(cWaypoints.moveToNext() & i<10);
+			}
+			cWaypoints.close();
+		}
+		else {
+			throw new DatabaseException("DBImplementation; getReport_BatterySOCs; Could not receive valid cursor (cDriveSeq).");
+		}
+		
+		return returnVals;
+	}	
 
 	@Override
 	public double[] getReport_AverageConsumption(boolean onlyFinishedDriveSequences) throws DatabaseException{

@@ -114,6 +114,17 @@ public class FragmentFolder {
 			return tabsInDrawer.get(0);	
 	}		
 	
+	/** 
+	 * returns the first tab in the current mode
+	 * @return
+	 */
+	public Fragment getAnalysisSpeedTab() {
+		ArrayList<Fragment> tabsInDrawer = drawers.get((currentDrawerMode));
+			positionWithinMode = 0;  
+			// todo: 3 should not be fixed in case fragments are added or removed!
+			return tabsInDrawer.get(3);	
+	}	
+	
 	/** returns the first fragment tab of the current drawer mode 
 	 * 
 	 * @param position
