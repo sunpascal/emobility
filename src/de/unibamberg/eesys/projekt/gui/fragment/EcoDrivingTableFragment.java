@@ -1,72 +1,46 @@
 package de.unibamberg.eesys.projekt.gui.fragment;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.view.View.OnLongClickListener;
+import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.charts.LineChart;
-
 import de.unibamberg.eesys.projekt.AppContext;
-import de.unibamberg.eesys.projekt.L;
 import de.unibamberg.eesys.projekt.R;
 import de.unibamberg.eesys.projekt.businessobjects.DriveSequence;
 import de.unibamberg.eesys.projekt.database.DBImplementation;
 import de.unibamberg.eesys.projekt.database.DatabaseException;
-import de.unibamberg.eesys.projekt.gui.FragmentFolder.MODE;
-import de.unibamberg.eesys.statistics.BatterySocsReport;
-import de.unibamberg.eesys.statistics.Statistic;
-import de.unibamberg.eesys.statistics.StatisticsException;
 
 /**
  * 
- * @author Robert
+ * @author Pascal
  * 
  */
 public class EcoDrivingTableFragment extends Fragment {
 
 	AppContext appContext;
-	private FragmentActivity myContext;
 	private TableLayout tableLayout;
 	
 	/** View that displays the fragment. */
 	private View rootView;
 	
-	/** Instance of the SQL database. */
-	private DBImplementation dBImplementation;
-	
-	/** Displays an list */
-	private ListView listView;
 	/** Is needed for handling the fragment lifecycle. */
 	
 	private FragmentManager fragmentManager;
@@ -79,42 +53,51 @@ public class EcoDrivingTableFragment extends Fragment {
 	private int containerId;
 	
 	/** Position of the List Element. */
-	int position;		
+	int position;
+	
+	private List<DriveSequence> listDriveSequences;		
 	
 	public EcoDrivingTableFragment() {
 	}
 	
 	@Override
 	public void onAttach(Activity activity) {
-	    myContext=(FragmentActivity) activity;
 	    super.onAttach(activity);
 	}	
 	
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
 			Bundle savedInstanceState) {
+		
 		rootView = inflater.inflate(R.layout.fragment_ecodriving, container, false);
 		appContext = (AppContext) getActivity().getApplicationContext();
 		
-		// CODE FOR DRIVER'S LOG TABLE //
-		tableLayout = (TableLayout) rootView.findViewById(R.id.tableLayout1);
-		tableLayout.setColumnShrinkable(1, false);
-		tableLayout.setColumnShrinkable(2, true);
-		
-		tableLayout.setColumnStretchable(0, true);
-		
-		// header row
-		addHeaderRow();
-		
 		// main data
 		
-		List<DriveSequence> listDriveSequences = new ArrayList<DriveSequence>();
+		listDriveSequences = new ArrayList<DriveSequence>();
 		try {
 			listDriveSequences = appContext.getDb().getDriveSequences(true);
 		} catch (DatabaseException e) {
 			Toast.makeText(appContext, "An unexpected error has occurred.", Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
+		
+		displayDriveSequences(listDriveSequences); 
+	    
+	    return rootView;	
+	    
+	}
+
+	private void displayDriveSequences(final List<DriveSequence> listDriveSequences) {
+		
+		// CODE FOR DRIVER'S LOG TABLE //
+		tableLayout = (TableLayout) rootView.findViewById(R.id.tableLayout1);
+		tableLayout.setColumnShrinkable(1, false);
+		tableLayout.setColumnShrinkable(2, true);
+		tableLayout.setColumnStretchable(0, true);
+		
+		// header row
+		addHeaderRow();		
 		
 		for (final DriveSequence d : listDriveSequences) {
 			
@@ -174,14 +157,47 @@ public class EcoDrivingTableFragment extends Fragment {
 	            	loadDriveGraphFragment(d);
 	             }   
 			});			
+						
+			OnLongClickListener deleteTripListener = (new OnLongClickListener() {
+				   @Override
+		             public boolean onLongClick(final View v) {
+		            	
+		            	DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+		            		@Override
+			            	public void onClick(DialogInterface dialog, int which) {
+		            		switch(which) {
+		            			case DialogInterface.BUTTON_POSITIVE: 
+		            				// delete
+		        	            	appContext.getDb().deleteDriveSequence(d);	 
+		        	            	
+		        	            	tableLayout.removeView(v);
+		        	            	listDriveSequences.remove(d);
+		        	            	refreshDriveSequences();
+		        	            	
+		        	            	rootView.refreshDrawableState();
+		            				break;
+		            			case DialogInterface.BUTTON_NEGATIVE: 
+		            				break;
+		            			}	 
+		            		}
+	            	};
+	            	
+	            	AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+	            	builder.setMessage("Delete trip?").setPositiveButton("Yes", dialogListener)
+														.setNegativeButton("No", dialogListener)
+														.show();
+	            	
+	            	return true;
+	             }   
+			});			
+			
+			row.setOnLongClickListener(deleteTripListener);
+			t1.setOnLongClickListener(deleteTripListener);
 			
 			tableLayout.addView(row);
 		}
-	    
-	    return rootView;	
-	    
+		
 	}
-	
 
 	private void addHeaderRow() {
 		TableRow headerRow = new TableRow(rootView.getContext());
@@ -199,7 +215,7 @@ public class EcoDrivingTableFragment extends Fragment {
 		headerRow.addView(t3);
 		headerRow.addView(t4);	
 		headerRow.setPadding(0, 3, 0, 3);	
-		headerRow.setShowDividers(1);
+		headerRow.setShowDividers(0);
 		
 		tableLayout.addView(headerRow);
 	}
@@ -274,6 +290,14 @@ public class EcoDrivingTableFragment extends Fragment {
 		getFragmentManager().beginTransaction()
 				.replace(R.id.content_frame, fragment).commit();
 	}		
+	
+	private void refreshDriveSequences() {
+		tableLayout.removeAllViews();
+		tableLayout.invalidate();
+    	tableLayout.refreshDrawableState();		
+		this.displayDriveSequences(listDriveSequences);
+		
+	}
 	
 }	
 

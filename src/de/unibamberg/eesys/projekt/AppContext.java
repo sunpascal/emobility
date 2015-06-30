@@ -566,5 +566,9 @@ public class AppContext extends Application {
 	public int getGoal() {
 		return goal;
 	}
+
+	public void showToast(String text) {
+		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+	}
 	
 }

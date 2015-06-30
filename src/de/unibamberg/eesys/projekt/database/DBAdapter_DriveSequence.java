@@ -83,7 +83,6 @@ public class DBAdapter_DriveSequence {
      * @return true if deleted, false otherwise
      */
     public boolean deleteDriveSequence(long rowId) {
-
         return this.mDb.delete(TABLE_DRIVESEQ, DS_ROW_ID + "=" + rowId, null) > 0;
     }
 

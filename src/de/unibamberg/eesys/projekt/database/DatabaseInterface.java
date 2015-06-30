@@ -193,4 +193,6 @@ public interface DatabaseInterface {
 
 	List<Map<String, Object>> getReport_Acceleration(int numberOfDriveSeq,
 			long driveSeqId) throws DatabaseException;
+
+	void deleteDriveSequence(DriveSequence d);
 }

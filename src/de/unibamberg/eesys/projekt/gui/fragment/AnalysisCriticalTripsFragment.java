@@ -7,11 +7,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -50,11 +53,13 @@ public class AnalysisCriticalTripsFragment extends Fragment {
 	private int containerId;
 	/** Position of the List Element. */
 	int position;
+	private List<DriveSequence>  listDriveSequences;
+	private AppContext appContext;
 
 	/**
 	 * Fragment for displaying an list of all recorded drive sequences.
 	 * 
-	 * @author Matthias
+	 * @author Pascal
 	 * 
 	 * */
 	public AnalysisCriticalTripsFragment() {
@@ -65,7 +70,24 @@ public class AnalysisCriticalTripsFragment extends Fragment {
 			Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_driverslog, container,
 				false);
-		AppContext appContext = (AppContext) getActivity().getApplicationContext();
+		appContext = (AppContext) getActivity().getApplicationContext();
+		
+		dBImplementation = new DBImplementation(appContext);
+
+		listDriveSequences = new ArrayList<DriveSequence>();
+		try {
+			listDriveSequences = dBImplementation.getDriveSequences(true);
+		} catch (DatabaseException e) {
+			Toast.makeText(appContext, "An unexpected error has occurred.", Toast.LENGTH_SHORT).show();
+			e.printStackTrace();
+		}
+		
+		displayDriveSequences(listDriveSequences);
+	    
+		return rootView;
+	}
+	
+	private void displayDriveSequences(final List<DriveSequence> listDriveSequences) {
 		
 		tableLayout = (TableLayout) rootView.findViewById(R.id.tableLayout1);
 		
@@ -84,16 +106,6 @@ public class AnalysisCriticalTripsFragment extends Fragment {
 			e1.printStackTrace();
 			L.e("Recommendation not available. Using currently selected car as benchmark.");
 			batteryCapacity = appContext.ecar.getVehicleType().getBatteryCapacity();
-		}
-		
-		dBImplementation = new DBImplementation(appContext);
-
-		List<DriveSequence> listDriveSequences = new ArrayList<DriveSequence>();
-		try {
-			listDriveSequences = dBImplementation.getDriveSequences(true);
-		} catch (DatabaseException e) {
-			Toast.makeText(appContext, "An unexpected error has occurred.", Toast.LENGTH_SHORT).show();
-			e.printStackTrace();
 		}
 		
 		for (final DriveSequence d : listDriveSequences) {
@@ -126,13 +138,46 @@ public class AnalysisCriticalTripsFragment extends Fragment {
 	             }   
 			});
 			
+			OnLongClickListener deleteTripListener = (new OnLongClickListener() {
+	            @Override
+	             public boolean onLongClick(final View v) {
+	            	
+	            	DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+	            		@Override
+		            	public void onClick(DialogInterface dialog, int which) {
+	            		switch(which) {
+	            			case DialogInterface.BUTTON_POSITIVE: 
+	            				// delete
+	        	            	tableLayout.removeView(v);
+	        	            	listDriveSequences.remove(d);
+	        	            	refreshDriveSequences();
+	        	            	
+	            				break;
+	            			case DialogInterface.BUTTON_NEGATIVE: 
+	            				break;
+	            			}	 
+	            		}
+	            	};
+	            	
+	            	AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+	            	builder.setMessage("Delete trip?").setPositiveButton("Yes", dialogListener)
+	            										.setNegativeButton("No", dialogListener)
+	            										.show();
+	            	
+	            	return true;
+	             }   
+			});					
+			
+			row.setOnLongClickListener(deleteTripListener);
+			t1.setOnLongClickListener(deleteTripListener);
+			t2.setOnLongClickListener(deleteTripListener);
+			t3.setOnLongClickListener(deleteTripListener);
+			
 			tableLayout.addView(row);
 			
-		}
-	    
-		return rootView;
+		}		
 	}
-	
+
 	private void addHeaderRow() {
 		TableRow headerRow = new TableRow(rootView.getContext());
 		TextView t1 = new TextView(rootView.getContext());
@@ -175,6 +220,14 @@ public class AnalysisCriticalTripsFragment extends Fragment {
 //		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 	}
+	
+	private void refreshDriveSequences() {
+		tableLayout.removeAllViews();
+		tableLayout.invalidate();
+    	tableLayout.refreshDrawableState();		
+		this.displayDriveSequences(listDriveSequences);
+		
+	}	
 	
 
 	@Override

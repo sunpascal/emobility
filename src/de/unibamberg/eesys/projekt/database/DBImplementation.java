@@ -311,6 +311,14 @@ public class DBImplementation implements DatabaseInterface {
 	}
 	
 	@Override
+	public void deleteDriveSequence(DriveSequence d) {
+        //DBAdapters
+		DBAdapter_DriveSequence dbDriveSeq = new DBAdapter_DriveSequence(db);
+		dbDriveSeq.deleteDriveSequence(d.getId());
+	}
+		
+	
+	@Override
 	public List<DriveSequence> getDriveSequences(boolean onlyFinishedDriveSequences) throws DatabaseException{
 		
 		// working variables
@@ -374,7 +382,7 @@ public class DBImplementation implements DatabaseInterface {
 		}
 		//empty if nothing found
 		return driveSequences;
-	}
+	}	
 
 
 	@Override
