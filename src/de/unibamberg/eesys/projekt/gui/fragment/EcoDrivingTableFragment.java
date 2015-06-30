@@ -5,11 +5,12 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -17,7 +18,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -27,6 +27,7 @@ import de.unibamberg.eesys.projekt.R;
 import de.unibamberg.eesys.projekt.businessobjects.DriveSequence;
 import de.unibamberg.eesys.projekt.database.DBImplementation;
 import de.unibamberg.eesys.projekt.database.DatabaseException;
+import de.unibamberg.eesys.statistics.StatisticsException;
 
 /**
  * 
@@ -42,12 +43,10 @@ public class EcoDrivingTableFragment extends Fragment {
 	private View rootView;
 	
 	/** Is needed for handling the fragment lifecycle. */
-	
 	private FragmentManager fragmentManager;
-	/** Is needed for handling the fragment lifecycle. */
 	
+	/** Is needed for handling the fragment lifecycle. */
 	private FragmentTransaction fragmentTransaction;
-	/** Fragment for displaying a drive sequence. */
 	
 	/** Id of the select ListViewItem. */
 	private int containerId;
@@ -72,17 +71,8 @@ public class EcoDrivingTableFragment extends Fragment {
 		rootView = inflater.inflate(R.layout.fragment_ecodriving, container, false);
 		appContext = (AppContext) getActivity().getApplicationContext();
 		
-		// main data
-		
-		listDriveSequences = new ArrayList<DriveSequence>();
-		try {
-			listDriveSequences = appContext.getDb().getDriveSequences(true);
-		} catch (DatabaseException e) {
-			Toast.makeText(appContext, "An unexpected error has occurred.", Toast.LENGTH_SHORT).show();
-			e.printStackTrace();
-		}
-		
-		displayDriveSequences(listDriveSequences); 
+		ReportProvider reportProv = new ReportProvider(rootView.getContext());
+		reportProv.execute();
 	    
 	    return rootView;	
 	    
@@ -299,6 +289,72 @@ public class EcoDrivingTableFragment extends Fragment {
 		this.displayDriveSequences(listDriveSequences);
 		
 	}
+	
+	private class ReportProvider extends AsyncTask<Void, Void, Object> {
+		private Context mContext;
+		private DBImplementation db;
+		Object DbReturnValue;
+		private long driveSequenceId;
+
+		/**
+		 * @param context
+		 *            is used to get the DB-Reference, which is placed in
+		 *            Appcontext.
+		 */
+		public ReportProvider(Context context) {
+			mContext = context;
+			this.driveSequenceId = driveSequenceId; 
+			AppContext appContext = (AppContext) context
+					.getApplicationContext();
+			db = appContext.getDb();
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see android.os.AsyncTask#doInBackground(Params[])
+		 */
+		@Override
+		protected Object doInBackground(Void... params) {
+			
+			// get trips from Db
+			try {
+				DbReturnValue = db.getDriveSequences(true);
+			} catch (DatabaseException e) {
+				appContext.showToast("Could not load trips.");
+				e.printStackTrace();
+			} 
+			return DbReturnValue;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+		 */
+		@Override
+		protected void onPostExecute(Object result) {
+			// this code is processed in the main Thread, it calls the Statistic
+			// class and returns the gathered data from DB
+			receivedData(DbReturnValue);
+		}
+
+	}
+	/**
+	 * @param DbReturnValue: trips.
+	 */
+	public void receivedData(Object DbReturnValue) {
+		// ToDo: show Trips!  
+		listDriveSequences = new ArrayList<DriveSequence>();
+		try {
+			listDriveSequences = appContext.getDb().getDriveSequences(true);
+		} catch (DatabaseException e) {
+			Toast.makeText(appContext, "An unexpected error has occurred.", Toast.LENGTH_SHORT).show();
+			e.printStackTrace();
+		}
+		
+		displayDriveSequences(listDriveSequences); 		
+	}	
 	
 }	
 

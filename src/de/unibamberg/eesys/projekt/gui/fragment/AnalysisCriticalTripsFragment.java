@@ -1,4 +1,4 @@
-	package de.unibamberg.eesys.projekt.gui.fragment;
+package de.unibamberg.eesys.projekt.gui.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +8,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,17 +74,8 @@ public class AnalysisCriticalTripsFragment extends Fragment {
 				false);
 		appContext = (AppContext) getActivity().getApplicationContext();
 		
-		dBImplementation = new DBImplementation(appContext);
-
-		listDriveSequences = new ArrayList<DriveSequence>();
-		try {
-			listDriveSequences = dBImplementation.getDriveSequences(true);
-		} catch (DatabaseException e) {
-			Toast.makeText(appContext, "An unexpected error has occurred.", Toast.LENGTH_SHORT).show();
-			e.printStackTrace();
-		}
-		
-		displayDriveSequences(listDriveSequences);
+		ReportProvider reportProv = new ReportProvider(rootView.getContext());
+		reportProv.execute();		
 	    
 		return rootView;
 	}
@@ -232,9 +225,79 @@ public class AnalysisCriticalTripsFragment extends Fragment {
 		
 	}	
 	
+	/**
+	 * @author Robert AsyncTask, which is used to get Reportdata from DB.
+	 *         <Input-Type, Update-Type, Return-Type>
+	 */
+	private class ReportProvider extends AsyncTask<Void, Void, Object> {
+		private Context mContext;
+		private DBImplementation db;
+		Object DbReturnValue;
+		private long driveSequenceId;
 
+		/**
+		 * @param context
+		 *            is used to get the DB-Reference, which is placed in
+		 *            Appcontext.
+		 */
+		public ReportProvider(Context context) {
+			mContext = context;
+			this.driveSequenceId = driveSequenceId; 
+			AppContext appContext = (AppContext) context
+					.getApplicationContext();
+			db = appContext.getDb();
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see android.os.AsyncTask#doInBackground(Params[])
+		 */
+		@Override
+		protected Object doInBackground(Void... params) {
+			
+			// get trips from Db
+			try {
+				DbReturnValue = db.getDriveSequences(true);
+			} catch (DatabaseException e) {
+				appContext.showToast("Could not load trips.");
+				e.printStackTrace();
+			} 
+			return DbReturnValue;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+		 */
+		@Override
+		protected void onPostExecute(Object result) {
+			// this code is processed in the main Thread, it calls the Statistic
+			// class and returns the gathered data from DB
+			receivedData(DbReturnValue);
+		}
+
+	}
+	/**
+	 * @param DbReturnValue: trips.
+	 */
+	public void receivedData(Object DbReturnValue) {
+		// ToDo: show Trips!  
+		listDriveSequences = new ArrayList<DriveSequence>();
+		try {
+			listDriveSequences = appContext.getDb().getDriveSequences(true);
+		} catch (DatabaseException e) {
+			Toast.makeText(appContext, "An unexpected error has occurred.", Toast.LENGTH_SHORT).show();
+			e.printStackTrace();
+		}
+		
+		displayDriveSequences(listDriveSequences); 		
+	}	
+	
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
 	}
+		
 }
