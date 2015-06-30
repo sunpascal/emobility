@@ -183,7 +183,8 @@ public class EcoDrivingTableFragment extends Fragment {
 	            	};
 	            	
 	            	AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
-	            	builder.setMessage("Delete trip?").setPositiveButton("Yes", dialogListener)
+	            	String msgTxt = "Delete trip \"" + d.getTimeStartFormatted() + "\"?";
+	            	builder.setMessage(msgTxt).setPositiveButton("Yes", dialogListener)
 														.setNegativeButton("No", dialogListener)
 														.show();
 	            	

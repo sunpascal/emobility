@@ -148,6 +148,8 @@ public class AnalysisCriticalTripsFragment extends Fragment {
 	            		switch(which) {
 	            			case DialogInterface.BUTTON_POSITIVE: 
 	            				// delete
+	            				appContext.getDb().deleteDriveSequence(d);
+	            				
 	        	            	tableLayout.removeView(v);
 	        	            	listDriveSequences.remove(d);
 	        	            	refreshDriveSequences();
@@ -160,18 +162,19 @@ public class AnalysisCriticalTripsFragment extends Fragment {
 	            	};
 	            	
 	            	AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
-	            	builder.setMessage("Delete trip?").setPositiveButton("Yes", dialogListener)
-	            										.setNegativeButton("No", dialogListener)
-	            										.show();
+	            	String msgTxt = "Delete trip \"" + d.getTimeStartFormatted() + "\"?";
+	            	builder.setMessage(msgTxt).setPositiveButton("Yes", dialogListener)
+														.setNegativeButton("No", dialogListener)
+														.show();
 	            	
 	            	return true;
 	             }   
 			});					
 			
 			row.setOnLongClickListener(deleteTripListener);
-			t1.setOnLongClickListener(deleteTripListener);
-			t2.setOnLongClickListener(deleteTripListener);
-			t3.setOnLongClickListener(deleteTripListener);
+//			t1.setOnLongClickListener(deleteTripListener);
+//			t2.setOnLongClickListener(deleteTripListener);
+//			t3.setOnLongClickListener(deleteTripListener);
 			
 			tableLayout.addView(row);
 			
