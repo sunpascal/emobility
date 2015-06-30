@@ -26,7 +26,7 @@ import de.unibamberg.eesys.projekt.database.DatabaseException;
 /**
  * Class SettingsFragment to create a Settings Menu (Preferences)
  * 
- * @author Julia
+ * @author Julia, Pascal
  *
  */
 public class SettingsFragment extends PreferenceFragment  {
@@ -154,7 +154,18 @@ public class SettingsFragment extends PreferenceFragment  {
 				return true;
 			}
 		});
-
+		
+		Preference resetBatteryButton = this.findPreference("testing.resetBattery");
+		resetBatteryButton.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			public boolean onPreferenceClick(final Preference preference) {
+				L.v("resetting battery to 100%");
+				appContext.getEcar().getBattery().setCurrentSoc(
+						appContext.getEcar().getVehicleType().getBatteryCapacity());
+				return true;
+			}
+		});		
+		
 		// load Gpx for testing
 		Preference loadGpx = this.findPreference("testing.loadGpx");
 		loadGpx.setOnPreferenceClickListener(new OnPreferenceClickListener() {

@@ -51,6 +51,10 @@
 			android:entryValues="@array/pref_list_accelerations"
 			android:key="testing.height"
 			android:title="Height difference" />		
+			
+		<Preference
+			android:key="testing.resetBattery"
+			android:title="Reset Battery" />		
 			    
 		<Preference
 			android:key="testing.importDB"

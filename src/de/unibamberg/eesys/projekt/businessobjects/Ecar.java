@@ -760,13 +760,8 @@ public class Ecar {
 			averagekWhPerKm = appContext.getEcar().getVehicleType()
 					.getEnergyConsumption_perKM();
 		}
-		// da Testdaten noch nicht korrekt, erst mal Standardverbrauch Werte
-		// verwenden
-		averagekWhPerKm = appContext.getEcar().getVehicleType()
-				.getEnergyConsumption_perKM();
 
 		double remainingKm = currentSoc / averagekWhPerKm;
-
 		return remainingKm;
 	}
 

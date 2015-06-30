@@ -25,6 +25,10 @@ public class DriveSequence extends Sequence implements Comparable {
 	private double sumCO2;  		
 	private List<WayPoint> wayPoints; 
 	
+	/* not currently persisting 
+	 * if this would be stored in DB, performance could be increased,
+	 * as eco-driving score only have to be calculated once 
+	 */
 	private double avgVelocityHighway;				// eco-driving: avoid high speeds on the highway
 	private double avgVarianceVelocityHighway;		// eco-driving: maintain constant speeds on the highway
 	private double avgPosAccelerationCity;			// eco-driving: Moderate acceleration (city)
