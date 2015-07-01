@@ -749,11 +749,11 @@ public class DBImplementation implements DatabaseInterface {
 				vehicleType.setMass(cEcar.getDouble(11));					//11 = mass (real)
 				vehicleType.setFrontArea(cEcar.getDouble(12));				//12 = frontArea (real)
 				
-				//Battery variables
-				charging = (cEcar.getInt(15)==1) ? true : false;
-				battery.setId(cEcar.getLong(13));				//13 = _id (int)
-				battery.setCurrentSoc(cEcar.getDouble(14));		//14 = currentSoc (real)
-				battery.setCharging(charging);					//15 = charging (int)
+				//Battery variables (Warning: currentSoc and charging were inverted)
+				charging = (cEcar.getInt(14)==1) ? true : false;	//14 = charging (int)
+				battery.setId(cEcar.getLong(13));					//13 = _id (int)
+				battery.setCurrentSoc(cEcar.getDouble(15));			//15 = currentSoc (real)
+				battery.setCharging(charging);						
 				
 				//eCar variables
 				eCar.setId(cEcar.getLong(0));					//0  = _id (int)

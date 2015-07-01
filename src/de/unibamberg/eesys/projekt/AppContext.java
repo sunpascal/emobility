@@ -212,11 +212,19 @@ public class AppContext extends Application {
 		}
 
 		// start background service
-		startService(new Intent(this, BackgroundService.class));
+		startBackgroundService();
 
 		updateGui();
 
 	}
+
+	private void startBackgroundService() {
+		startService(new Intent(this, BackgroundService.class));
+	}
+	
+	public void stopBackgroundService() {
+		stopService (new Intent(getBaseContext(), BackgroundService.class));
+	}	
 
 	public AppContext() {
 		params = new Params(this);
@@ -569,6 +577,18 @@ public class AppContext extends Application {
 
 	public void showToast(String text) {
 		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+	}
+
+	public void shutdown() {
+		
+		try {
+			db.storeEcar(ecar);
+//			ecar.endTripAbnormal();
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+		}		
+		stopBackgroundService();
+		getMainActivity().finish();
 	}
 	
 }

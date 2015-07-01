@@ -20,6 +20,11 @@
 				android:targetClass="de.unibamberg.eesys.projekt.gui.activity.AboutActivity"
 				android:targetPackage="de.unibamberg.eesys.projekt" />
 		</Preference>
+		
+		<Preference android:title="@string/pref_title_shutdown"
+			android:key="shutdown"
+			android:summary="@string/pref_summary_shutdown" />
+				
 		<Preference android:title="@string/pref_title_exportDB"
 			android:key="testing.exportDB"
 			android:summary="@string/pref_summary_exportDB" />

@@ -280,7 +280,6 @@ public class MainActivity extends SwipeActivity {
 	}
 
 	public void onDestroy() {
-		// stopService (new Intent(getBaseContext(), BackgroundService.class));
 		super.onDestroy();
 	}
 

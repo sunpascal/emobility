@@ -5,7 +5,9 @@
 	<string name="pref_title_E_cars">E-Car Model</string>
 	<string name="pref_summary_car">Used car: %1$</string>
 	<string name="pref_title_exportDB">Save</string>
+	<string name="pref_title_shutdown">Shutdown</string>
 	<string name="pref_summary_exportDB">Save all your logs and settings on your Android phone</string>
+	<string name="pref_summary_shutdown">Stop running in the background to save battery. Trips will not be recorded.</string>
 	<string name="pref_summary_cs">Create charging station at your current location</string>
 
 	<string-array name="pref_list_show_debug_messages">

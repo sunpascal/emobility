@@ -28,7 +28,7 @@ public class FragmentFolder {
 		// Mode Dashboard
 		ArrayList<Fragment> dashboardFragments = new ArrayList();
 		dashboardFragments.add(new DashboardFragment());
-		dashboardFragments.add(new DashboardOldFragment());			// alter Startbildschirm
+//		dashboardFragments.add(new DashboardOldFragment());			// alter Startbildschirm
 		drawers.put(MODE.DASHBOARD, dashboardFragments);
 		
 		// Mode EV Recommendation

@@ -125,6 +125,19 @@ public class SettingsFragment extends PreferenceFragment  {
 			}
 		});
 		
+		Preference shutdown = this.findPreference("shutdown");
+		shutdown.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+			public boolean onPreferenceClick(final Preference preference) {
+				
+				// quit app and stop running in the background
+				appContext.shutdown();
+//				Warning: do not call getActivity().finish() as it will cause a PreferenceManager exception  
+				
+				return true;
+			}
+		});		
+		
 		// load timeout for ending trips
 		ListPreference prefMaxVehicleTimeout2 = (ListPreference) findPreference("testing.maxvehiclestillduration");
 		prefMaxVehicleTimeout2
