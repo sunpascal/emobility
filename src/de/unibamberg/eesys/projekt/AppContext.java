@@ -134,7 +134,20 @@ public class AppContext extends Application {
 	private Recommender recommender;
 	
 	private FragmentFolder fragmentFolder;
-	private int goal;
+	
+	/** 
+	 * current kWh/100km consumption. 
+	 * Either set by user or application default
+	 * ToDo: persist!  
+	 */
+	private int goal = Params.DEFAULT_GOAL;
+	
+	/** 
+	 * represents the consumption at the time when setting a new goal
+	 * ToDo: persist!
+	 */
+	private double consumptionT0;	
+	
 	private DriveSequence lastTrip;
 	
 	static final String PREF_TESTING_ACTIVITY = "testing.activity";
@@ -626,6 +639,14 @@ public class AppContext extends Application {
 	 */
 	public void setLastTrip(DriveSequence lastTrip) {
 		this.lastTrip = lastTrip;
+	}
+
+	public double getConsumptionT0() {
+		return consumptionT0;
+	}
+
+	public void setConsumptionT0(double consumptionT0) {
+		this.consumptionT0 = consumptionT0;
 	}
 	
 }

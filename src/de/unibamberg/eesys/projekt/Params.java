@@ -37,6 +37,11 @@ public class Params {
 		public static String MAX_VEHICLE_STILL_DURATION = "119"; // 2 minutes	
 		public static String PREF_MAX_VEHICLE_STILL_DURATION = "testing.maxvehiclestillduration";
 		public String maxVehicleStillDuration = MAX_VEHICLE_STILL_DURATION;
+		
+		/** 
+		 * default kWh consumption/100km - should be set based on true consumption data of users
+		 */
+		public static final int DEFAULT_GOAL = 20;
 
 		/* 
 		 * the how many-th waypoint should be plotted on the map 
@@ -66,6 +71,7 @@ public Params(AppContext appContext) {
 public boolean isFakeHeightSet() {
 	String testingHeight = PreferenceManager.getDefaultSharedPreferences(
 			appContext).getString(PREF_TESTING_HEIGHT_DELTA, "disabled");
+	
 	if (testingHeight.equals("disabled"))
 		return false;
 		else return true;

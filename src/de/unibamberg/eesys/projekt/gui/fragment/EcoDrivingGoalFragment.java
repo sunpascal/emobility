@@ -30,6 +30,7 @@ import de.unibamberg.eesys.projekt.businessobjects.WayPoint;
 
 
 public class EcoDrivingGoalFragment extends Fragment implements OnClickListener {
+	
 	public static final String TAG = "EcoDrivingGoalFragment";
 	public static final String ARG_STATUS = "status";
 
@@ -39,7 +40,7 @@ public class EcoDrivingGoalFragment extends Fragment implements OnClickListener 
 	private Button okButton; 
 	private TextView currentGoal; 
 	private ProgressBar progressBar;
- 
+	
 	/**
 	 * Fragment Class Constructor
 	 */
@@ -62,11 +63,15 @@ public class EcoDrivingGoalFragment extends Fragment implements OnClickListener 
 		okButton = (Button) rootView.findViewById(R.id.button1);  
 		currentGoal = (TextView) rootView.findViewById(R.id.currentGoal);
 		progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar1);
+		progressBar.setVisibility(View.VISIBLE);
+		updateProgressBar();
 		
 		np = (NumberPicker) rootView.findViewById(R.id.numberPicker1);
 		np.setMaxValue(30);
 		np.setMinValue(10);
-		np.setValue(20); // default goal
+		
+		// set value of goal number picker - default is defined in Params class
+		np.setValue(appContext.getGoal()); 
 		
 		np.setOnClickListener(this);
 		
@@ -84,9 +89,23 @@ public class EcoDrivingGoalFragment extends Fragment implements OnClickListener 
 	}
 	
 	private void updateProgressBar() {
-		double currentCons = appContext.getLastTrip().calcAveragekWhPer100Km();
+		
+/* 		Beispiel: 		
+		Verbrauch t0: 24	=> Ziel: 20 kWh		
+				Quotient:    100% =~   24-20 => 4
+
+		Nach einigen Fahrten: 			
+		Verbrauch t1: 23    => (24-23) / 4 => 25%
+			*/ 
+		
+		double consT0 = appContext.getConsumptionT0();
 		int goal = appContext.getGoal();
-		int progress = (int) Math.round( (currentCons / goal) * 100 );
+		double quotient = consT0 - goal; 
+		
+		double currentCons = appContext.getLastTrip().calcAveragekWhPer100Km();
+		
+		int progress = (int) Math.round( ((consT0 - currentCons) / quotient) * 100 );
+		
 		if (progress <0)
 			progress = 0; 
 		else if (progress > 100)

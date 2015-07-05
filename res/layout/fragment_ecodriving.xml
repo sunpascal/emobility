@@ -19,7 +19,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:textStyle="bold"
-	        android:text="This table lists your consumption and personal range for each trip." />    
+	        android:text="This table lists your consumption per 100km and personal range for each trip." />    
 
 	<TableLayout
 	    		android:id="@+id/tableLayout1"
