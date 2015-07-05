@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.NumberPicker;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import de.unibamberg.eesys.projekt.AppContext;
@@ -33,9 +34,11 @@ public class EcoDrivingGoalFragment extends Fragment implements OnClickListener 
 	public static final String ARG_STATUS = "status";
 
 	private AppContext appContext;
+	
 	private NumberPicker np;
-	private Button button1; 
-
+	private Button okButton; 
+	private TextView currentGoal; 
+	private ProgressBar progressBar;
  
 	/**
 	 * Fragment Class Constructor
@@ -56,7 +59,9 @@ public class EcoDrivingGoalFragment extends Fragment implements OnClickListener 
 
 		appContext = (AppContext) getActivity().getApplicationContext();
 		
-		button1 = (Button) rootView.findViewById(R.id.button1);  
+		okButton = (Button) rootView.findViewById(R.id.button1);  
+		currentGoal = (TextView) rootView.findViewById(R.id.currentGoal);
+		progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar1);
 		
 		np = (NumberPicker) rootView.findViewById(R.id.numberPicker1);
 		np.setMaxValue(30);
@@ -71,8 +76,22 @@ public class EcoDrivingGoalFragment extends Fragment implements OnClickListener 
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.button1) {
-			appContext.setGoal(np.getValue());
+			int newGoal = np.getValue();
+			appContext.setGoal(newGoal);
+			currentGoal.setText(newGoal + "");
+			updateProgressBar();
 		}
+	}
+	
+	private void updateProgressBar() {
+		double currentCons = appContext.getLastTrip().calcAveragekWhPer100Km();
+		int goal = appContext.getGoal();
+		int progress = (int) Math.round( (currentCons / goal) * 100 );
+		if (progress <0)
+			progress = 0; 
+		else if (progress > 100)
+			progress = 100; 
+		progressBar.setProgress(progress);
 	}
 
 }
