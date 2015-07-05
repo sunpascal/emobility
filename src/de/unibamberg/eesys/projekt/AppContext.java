@@ -23,6 +23,7 @@ import com.google.android.gms.location.DetectedActivity;
 
 import de.unibamberg.eesys.projekt.businessobjects.Battery;
 import de.unibamberg.eesys.projekt.businessobjects.ChargingStation;
+import de.unibamberg.eesys.projekt.businessobjects.DriveSequence;
 import de.unibamberg.eesys.projekt.businessobjects.Ecar;
 import de.unibamberg.eesys.projekt.businessobjects.GeoCoordinate;
 import de.unibamberg.eesys.projekt.businessobjects.WayPoint;
@@ -134,6 +135,7 @@ public class AppContext extends Application {
 	
 	private FragmentFolder fragmentFolder;
 	private int goal;
+	private DriveSequence lastTrip;
 	
 	static final String PREF_TESTING_ACTIVITY = "testing.activity";
 	private static final String PREF_TESTING_SPEED = "testing.speed";
@@ -144,6 +146,33 @@ public class AppContext extends Application {
 
 	public void setBackgroundService(BackgroundService backgroundService) {
 		this.backgroundService = backgroundService;
+	}
+	
+	/** 
+	 * returns the lastTrip driven. Checks if it has been loaded and if not retrievs trip 
+	 * from database
+	 * 
+	 *   after ending a trip, lastTrip is updated  
+	 * @return
+	 */
+	public DriveSequence getLastTrip() {
+			if (this.lastTrip != null)
+				return this.lastTrip;
+		
+			List<DriveSequence> trips;
+			try {
+				trips = db.getDriveSequences(true);
+				this.lastTrip = trips.get(trips.size()-1);
+			} catch (DatabaseException e) {
+				L.e("Could not get last trip due to database error.");
+				e.printStackTrace();
+				return null;
+			} catch (IndexOutOfBoundsException e) {
+				L.e("Could not get last trip. Are there any recorded trips?");
+				return null;
+			}
+			
+		return this.lastTrip;
 	}
 	
 
@@ -589,6 +618,14 @@ public class AppContext extends Application {
 		}		
 		stopBackgroundService();
 		getMainActivity().finish();
+	}
+
+	/** 
+	 * used to update the last trip in app context to prevent constant database access
+	 * @param lastTrip
+	 */
+	public void setLastTrip(DriveSequence lastTrip) {
+		this.lastTrip = lastTrip;
 	}
 	
 }

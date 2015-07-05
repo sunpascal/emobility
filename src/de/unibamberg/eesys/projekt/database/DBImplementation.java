@@ -319,6 +319,12 @@ public class DBImplementation implements DatabaseInterface {
 		
 	
 	@Override
+	/**
+	 * @param onlyFinishedDriveSequences only display properly recorded trips which were completed
+	 * and properly stored in the database with trip ending time and energy consumption
+	 * 
+	 *  @throws DatabaseException If the database could not accessed successfully a DatabaseException is thrown 
+	 */
 	public List<DriveSequence> getDriveSequences(boolean onlyFinishedDriveSequences) throws DatabaseException{
 		
 		// working variables

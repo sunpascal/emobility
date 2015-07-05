@@ -397,6 +397,7 @@ public class Ecar {
 		try {
 			appContext.getDb().storeDriveSequence(currentTrip);
 			appContext.getDb().storeEcar(this);
+			appContext.setLastTrip(currentTrip);
 		} catch (DatabaseException e) {
 			Toast.makeText(appContext.getApplicationContext(),
 					"An unexpected error has occurred.", Toast.LENGTH_SHORT)

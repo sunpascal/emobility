@@ -26,6 +26,7 @@ import de.unibamberg.eesys.projekt.L;
 import de.unibamberg.eesys.projekt.Params;
 import de.unibamberg.eesys.projekt.R;
 import de.unibamberg.eesys.projekt.businessobjects.ChargingStation;
+import de.unibamberg.eesys.projekt.businessobjects.DriveSequence;
 import de.unibamberg.eesys.projekt.businessobjects.Ecar;
 import de.unibamberg.eesys.projekt.businessobjects.Ecar.CarState;
 import de.unibamberg.eesys.projekt.businessobjects.GeoCoordinate;
@@ -60,7 +61,10 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 	private TextView txtTimeTo100Lbl;
 	private TextView txtGPSDisabled;
 	private TextView txtTripCons; 
-	private TextView txt_tripConsLbl;   // todo: rename Lbl
+	private TextView txt_tripConsLbl;   
+	
+	private TextView txtavgCons;
+	private TextView txtavgConsLbl;		
 	
 	private TableLayout tableChargeStations;
 
@@ -72,8 +76,7 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 	// string constants
 	public String GPS_NO_SIGNAL = "GPS has no signal.";
 	public String GPS_NO_SIGNAL_TEMPORARILY = "GPS has no signal (temporarily).";
-	public String GPS_DISABLED = "GPS is currently disabled in Android settings.";	
-
+	public String GPS_DISABLED = "GPS is currently disabled in Android settings.";
 
 	/**
 	 * Fragment Class Constructor
@@ -116,6 +119,9 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 		// visible if CarState = charging
 		txtTimeTo100 = (TextView) rootView.findViewById(R.id.textview_text_timeTo100);
 		txtTimeTo100Lbl = (TextView) rootView.findViewById(R.id.textView_label_timeTo100);
+		
+		txtavgCons = (TextView) rootView.findViewById(R.id.textview_text_avgCons);
+		txtavgConsLbl = (TextView) rootView.findViewById(R.id.textView_label_avgCons);
 		
 		progressBar1 = (ProgressBar) rootView.findViewById(R.id.progressBar1);
 
@@ -204,7 +210,9 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 			txtTripCons.setVisibility(View.VISIBLE);
 			txt_tripConsLbl.setVisibility(View.VISIBLE);
 			txtCurrentConsumption.setVisibility(View.VISIBLE);
-			txtCurrentConsumptionLbl.setVisibility(View.VISIBLE);			
+			txtCurrentConsumptionLbl.setVisibility(View.VISIBLE);
+			txtavgCons.setVisibility(View.VISIBLE);
+			txtavgConsLbl.setVisibility(View.VISIBLE);				
 			txtTimeTo100.setVisibility(View.GONE);
 			txtTimeTo100Lbl.setVisibility(View.GONE);
 
@@ -219,8 +227,11 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 			txt_tripConsLbl.setVisibility(View.GONE);
 			txtCurrentConsumption.setVisibility(View.GONE);
 			txtCurrentConsumptionLbl.setVisibility(View.GONE);
+			txtavgCons.setVisibility(View.GONE);
+			txtavgConsLbl.setVisibility(View.GONE);				
 			txtTimeTo100.setVisibility(View.VISIBLE);
 			txtTimeTo100Lbl.setVisibility(View.VISIBLE);
+					
 
 		} else if (carState == Ecar.CarState.PARKING_NOT_CHARGING) {
 			// reset background color to white
@@ -234,7 +245,9 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 			txtTripCons.setVisibility(View.GONE);
 			txt_tripConsLbl.setVisibility(View.GONE);
 			txtCurrentConsumption.setVisibility(View.GONE);
-			txtCurrentConsumptionLbl.setVisibility(View.GONE);			
+			txtCurrentConsumptionLbl.setVisibility(View.GONE);	
+			txtavgCons.setVisibility(View.GONE);
+			txtavgConsLbl.setVisibility(View.GONE);					
 		}
 
 		txtDebug1.setVisibility(View.VISIBLE);
@@ -362,6 +375,15 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 		if (ecar.getCurrentTrip() != null && ecar.getBattery() != null) {
 			double tripkWh = ecar.getCurrentTrip().getSocStart() - ecar.getBattery().getCurrentSoc();
 			txtTripCons.setText(appContext.round(tripkWh) + " kWh");
+		}
+		
+		DriveSequence lastTrip = appContext.getLastTrip();
+		if (lastTrip != null) {
+			long consPer100 = Math.round(lastTrip.calcAveragekWhPer100Km());
+			txtavgCons.setText( consPer100 + " kWh/100km");
+		}
+		else {
+			txtavgCons.setText("");
 		}
 		
 		// todo: enable after importing gpx

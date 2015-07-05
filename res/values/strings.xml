@@ -78,5 +78,7 @@
     <string name="goal_intro">"Set new goal (kWh/100km): "</string>
 	<string name="speed_description">"This report shows the speed over the course of the trip."</string>
 	<string name="acceleration_description">"This report shows the acceleration over the course of the trip."</string>
+	
+	<string name="avgCons">"Avg. Consumption:"</string>
     
 </resources>
