@@ -175,7 +175,8 @@ public class AppContext extends Application {
 			List<DriveSequence> trips;
 			try {
 				trips = db.getDriveSequences(true);
-				this.lastTrip = trips.get(trips.size()-1);
+//				this.lastTrip = trips.get(trips.size()-1);
+				this.lastTrip = trips.get(0);
 			} catch (DatabaseException e) {
 				L.e("Could not get last trip due to database error.");
 				e.printStackTrace();

@@ -75,6 +75,7 @@
     <string name="improve_on">"You could improve on the following: "</string>
     <string name="secondVehicleRec2">\n<b>If you improve your consumption by PERCENT% the following vehicle will become feasible for you:\n</b></string>
     <string name="howCanIimproveMyConsumption"><u>How can I improve my consumption?</u></string>
+    <string name="goalAchievementLbl">"Goal achievement: "</string>
     <string name="currentGoal">"Current goal (kWh/100km): "</string>
     <string name="setNewGoal">"Set new goal (kWh/100km): "</string>
 	<string name="speed_description">"This report shows the speed over the course of the trip."</string>

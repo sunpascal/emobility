@@ -195,7 +195,7 @@ public class EcoDrivingTableFragment extends Fragment {
 		TextView t1 = new TextView(rootView.getContext());
 		t1.setText("Date");
 		TextView t2 = new TextView(rootView.getContext());
-		t2.setText("Consumption ");				// todo:  "(per 100km)"
+		t2.setText("kWh/100km ");				// todo:  "(per 100km)"
 		TextView t3 = new TextView(rootView.getContext());
 		t3.setText("Personal Range");		
 		TextView t4 = new TextView(rootView.getContext());

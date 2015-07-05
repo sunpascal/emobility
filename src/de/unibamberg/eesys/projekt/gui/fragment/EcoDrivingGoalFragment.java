@@ -29,7 +29,7 @@ import de.unibamberg.eesys.projekt.businessobjects.Ecar.CarState;
 import de.unibamberg.eesys.projekt.businessobjects.WayPoint;
 
 
-public class EcoDrivingGoalFragment extends Fragment implements OnClickListener {
+public class EcoDrivingGoalFragment extends Fragment {
 	
 	public static final String TAG = "EcoDrivingGoalFragment";
 	public static final String ARG_STATUS = "status";
@@ -62,6 +62,8 @@ public class EcoDrivingGoalFragment extends Fragment implements OnClickListener 
 		
 		okButton = (Button) rootView.findViewById(R.id.button1);  
 		currentGoal = (TextView) rootView.findViewById(R.id.currentGoal);
+		currentGoal.setText(appContext.getGoal() + "");
+		
 		progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar1);
 		progressBar.setVisibility(View.VISIBLE);
 		updateProgressBar();
@@ -73,20 +75,22 @@ public class EcoDrivingGoalFragment extends Fragment implements OnClickListener 
 		// set value of goal number picker - default is defined in Params class
 		np.setValue(appContext.getGoal()); 
 		
-		np.setOnClickListener(this);
+		okButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+    			int newGoal = np.getValue();
+    			appContext.setGoal(newGoal);
+    			double currentCons = appContext.getLastTrip().calcAveragekWhPer100Km();
+    			appContext.setConsumptionT0(currentCons);
+    			currentGoal.setText(newGoal + "");
+    			updateProgressBar();
+            }   
+		});
 		
 		return rootView;
 	}
 
-	@Override
-	public void onClick(View v) {
-		if (v.getId() == R.id.button1) {
-			int newGoal = np.getValue();
-			appContext.setGoal(newGoal);
-			currentGoal.setText(newGoal + "");
-			updateProgressBar();
-		}
-	}
+
 	
 	private void updateProgressBar() {
 		

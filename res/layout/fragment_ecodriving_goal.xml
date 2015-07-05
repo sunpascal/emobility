@@ -21,8 +21,17 @@
         android:id="@+id/currentGoal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="40"
+        android:textSize="35pt"
         android:text="    "
+        android:textStyle="bold" >
+    </TextView>    
+    
+    <TextView
+        android:id="@+id/goalAchievementLbl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="@string/goalAchievementLbl"
         android:textStyle="bold" >
     </TextView>    
     
