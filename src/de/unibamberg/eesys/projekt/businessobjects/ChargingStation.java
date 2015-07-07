@@ -53,7 +53,7 @@ public class ChargingStation implements Comparable {
 	 * defines the radius of which nearby charge stations are displayed,
 	 * in meters 
 	 */	
-	private final static double MIN_DISTANCE_TO_CHARGESTATION_FOR_DISPLAYING = 2000000;
+	private final static double MIN_DISTANCE_TO_CHARGESTATION_FOR_DISPLAYING = 10000;
 
 	private double chargedEnergy; // in kWh
 

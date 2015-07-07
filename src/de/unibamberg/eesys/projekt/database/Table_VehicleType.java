@@ -117,7 +117,7 @@ public class Table_VehicleType {
         args.put(Table_VehicleType.COLUMN_DESCRIPTION, "Freude am Fahren.");
         args.put(Table_VehicleType.COLUMN_BATTERY_CAPACITY, 18.8);
         args.put(Table_VehicleType.COLUMN_ENERGY_CONSUMPTION_PER_KM, 0.129);
-        args.put(Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY, 0.2);
+        args.put(Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY, 0.5);
         args.put(Table_VehicleType.COLUMN_MASS, 1195);
         args.put(Table_VehicleType.COLUMN_FRONT_AREA, 2.7966);
         args.put(Table_VehicleType.COLUMN_PRICE, "34950€");
@@ -128,7 +128,7 @@ public class Table_VehicleType {
         args.put(Table_VehicleType.COLUMN_DESCRIPTION, "Das Auto.");
         args.put(Table_VehicleType.COLUMN_BATTERY_CAPACITY, 18.7);
         args.put(Table_VehicleType.COLUMN_ENERGY_CONSUMPTION_PER_KM, 0.117);
-        args.put(Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY, 0.2);
+        args.put(Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY, 0.5);
         args.put(Table_VehicleType.COLUMN_MASS, 1214);
         args.put(Table_VehicleType.COLUMN_FRONT_AREA, 2.4272);
         args.put(Table_VehicleType.COLUMN_PRICE, "26900€");
@@ -139,7 +139,7 @@ public class Table_VehicleType {
         args.put(Table_VehicleType.COLUMN_DESCRIPTION, "open your mind.");
         args.put(Table_VehicleType.COLUMN_BATTERY_CAPACITY, 17.6);
         args.put(Table_VehicleType.COLUMN_ENERGY_CONSUMPTION_PER_KM, 0.151);
-        args.put(Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY, 0.2);
+        args.put(Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY, 0.5);
         args.put(Table_VehicleType.COLUMN_MASS, 975);
         args.put(Table_VehicleType.COLUMN_FRONT_AREA, 2.4492);
         args.put(Table_VehicleType.COLUMN_PRICE, "19610€");
@@ -151,7 +151,7 @@ public class Table_VehicleType {
         args.put(Table_VehicleType.COLUMN_DESCRIPTION, "");
         args.put(Table_VehicleType.COLUMN_BATTERY_CAPACITY, 85);
         args.put(Table_VehicleType.COLUMN_ENERGY_CONSUMPTION_PER_KM, 0.181);
-        args.put(Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY, 0.2);
+        args.put(Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY, 0.5);
         args.put(Table_VehicleType.COLUMN_MASS, 900);
         args.put(Table_VehicleType.COLUMN_FRONT_AREA, 2.4492);
         args.put(Table_VehicleType.COLUMN_PRICE, "90100€");
@@ -162,7 +162,7 @@ public class Table_VehicleType {
         args.put(Table_VehicleType.COLUMN_DESCRIPTION, "");
         args.put(Table_VehicleType.COLUMN_BATTERY_CAPACITY, 70);
         args.put(Table_VehicleType.COLUMN_ENERGY_CONSUMPTION_PER_KM, 0.181);
-        args.put(Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY, 0.2);
+        args.put(Table_VehicleType.COLUMN_RECUPERATION_EFFICIENCY, 0.5);
         args.put(Table_VehicleType.COLUMN_MASS, 2108);
         args.put(Table_VehicleType.COLUMN_FRONT_AREA, 2.4492);
         args.put(Table_VehicleType.COLUMN_PRICE, "79500€");
