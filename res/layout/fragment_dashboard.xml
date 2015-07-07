@@ -228,6 +228,15 @@
 
 		</TableLayout>
 		
+		
+		<TextView
+			android:id="@+id/proactiveFeedback"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="22pt"
+			/>		
+		
+		
 		<TableLayout
 		    		android:id="@+id/tableChargeStations"
 		            android:layout_width="match_parent"
