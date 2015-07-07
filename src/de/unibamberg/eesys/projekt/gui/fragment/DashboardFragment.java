@@ -66,6 +66,8 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 	private TextView txtavgCons;
 	private TextView txtavgConsLbl;		
 	
+	private TextView proactiveFeedback;
+	
 	private TableLayout tableChargeStations;
 
 	// Debug TextViews only Visible in Debug Mode not visible to user
@@ -129,6 +131,8 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 		txtGPSDisabled = (TextView) rootView.findViewById(R.id.textview_text_GPSDisabled);
 		
 		tableChargeStations = (TableLayout) rootView.findViewById(R.id.tableChargeStations);
+		
+		proactiveFeedback = (TextView) rootView.findViewById(R.id.proactiveFeedback);
 
 		// debug TextViews
 		txtDebug1 = (TextView) rootView.findViewById(R.id.debug1);
@@ -357,17 +361,10 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 		consumptionTxt = consumptionTxt + " kWh";
 		txtCurrentConsumption.setText(consumptionTxt);
 		
-		double currentConsumption = w.calcConsumptionPer100km(); 
-		int backgroundColor = getResources().getColor(R.color.color_green);
-		if (currentConsumption > Params.THRESSHOLD_ACCELERATION_FOR_GREEN_BACKGROUND &
-				currentConsumption < Params.THRESSHOLD_ACCELERATION_FOR_ORANGE_BACKGROUND) 
-			backgroundColor = getResources().getColor(R.color.color_orange);
-		
-		else if (currentConsumption > Params.THRESSHOLD_ACCELERATION_FOR_ORANGE_BACKGROUND)
-			backgroundColor = getResources().getColor(R.color.color_red);
-		
-		rootView.setBackgroundColor(backgroundColor);
-		
+		if (appContext.getEcar().getCarState() == Ecar.CarState.DRIVING) {
+			double currentConsumption = w.calcConsumptionPer100km(); 
+			giveBackgroundColorFeedback(currentConsumption); 
+		}
 		
 		// also update consumption in top notification menu ("Runterziehmenü") 
 		appContext.showNotification(appContext.getEcar().getStateString(), consumptionTxt);		
@@ -422,6 +419,20 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 
 	}
 	
+	private void giveBackgroundColorFeedback(double currentConsumption) {
+		
+		int backgroundColor = getResources().getColor(R.color.color_green);
+		
+		if (currentConsumption > Params.THRESSHOLD_ACCELERATION_FOR_GREEN_BACKGROUND &
+				currentConsumption < Params.THRESSHOLD_ACCELERATION_FOR_ORANGE_BACKGROUND) 
+			backgroundColor = getResources().getColor(R.color.color_orange);
+		
+		else if (currentConsumption > Params.THRESSHOLD_ACCELERATION_FOR_ORANGE_BACKGROUND)
+			backgroundColor = getResources().getColor(R.color.color_red);
+		
+		rootView.setBackgroundColor(backgroundColor);
+	}
+
 	private void updateNearbyChargeStations(WayPoint w) {
 		
 		List<ChargingStation> allChargingStations = appContext.getChargeStations();
