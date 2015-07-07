@@ -383,8 +383,7 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 			txtavgCons.setText("");
 		}
 		
-		// todo: enable after importing gpx
-//		updateNearbyChargeStations(w); 
+		updateNearbyChargeStations(w); 
 		
 		txtDebug1.setText(appContext.round(w.getVelocityinKmh(), 0) + " km/h");		
 		
