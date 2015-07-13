@@ -10,6 +10,7 @@ import com.google.android.gms.location.DetectedActivity;
 import de.unibamberg.eesys.projekt.AppContext;
 import de.unibamberg.eesys.projekt.L;
 import de.unibamberg.eesys.projekt.Params;
+import de.unibamberg.eesys.projekt.ProactiveFeedback;
 import de.unibamberg.eesys.projekt.businessobjects.Sequence.SequenceType;
 import de.unibamberg.eesys.projekt.database.DatabaseException;
 
@@ -46,6 +47,7 @@ public class Ecar {
 
 	private DriveSequence currentTrip; // not persisting
 	private ChargeSequence currentChargeSequence;
+	private ProactiveFeedback proactiveFeedback = null;
 
 	public static enum CarState {
 		DRIVING, CHARGING, PARKING_NOT_CHARGING;
@@ -357,6 +359,8 @@ public class Ecar {
 
 		L.i("Starting trip: "
 				+ appContext.getFormattedDateTime(currentTrip.getTimeStart()));
+		
+		proactiveFeedback  = new ProactiveFeedback();
 
 	}
 
@@ -776,6 +780,10 @@ public class Ecar {
 	 */
 	public ChargeSequence getCurrentChargeSequence() {
 		return currentChargeSequence;
+	}
+
+	public ProactiveFeedback getProactiveFeedback() {
+		return proactiveFeedback;
 	}
 
 }

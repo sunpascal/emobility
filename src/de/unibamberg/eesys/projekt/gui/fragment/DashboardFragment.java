@@ -66,7 +66,7 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 	private TextView txtavgCons;
 	private TextView txtavgConsLbl;		
 	
-	private TextView proactiveFeedback;
+	private TextView txtProactiveFeedback;
 	
 	private TableLayout tableChargeStations;
 
@@ -132,7 +132,7 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 		
 		tableChargeStations = (TableLayout) rootView.findViewById(R.id.tableChargeStations);
 		
-		proactiveFeedback = (TextView) rootView.findViewById(R.id.proactiveFeedback);
+		txtProactiveFeedback = (TextView) rootView.findViewById(R.id.proactiveFeedback);
 
 		// debug TextViews
 		txtDebug1 = (TextView) rootView.findViewById(R.id.debug1);
@@ -364,6 +364,12 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 		if (appContext.getEcar().getCarState() == Ecar.CarState.DRIVING) {
 			double currentConsumption = w.calcConsumptionPer100km(); 
 			giveBackgroundColorFeedback(currentConsumption); 
+			
+			String s_proactiveFeedback = ecar.getProactiveFeedback().getRecommendation(w);
+			// ToDo: how can performance impact be reduced (e.g. call this less often?) 
+			if (s_proactiveFeedback.isEmpty() == false)
+				// update GUI
+				txtProactiveFeedback.setText(s_proactiveFeedback);
 		}
 		
 		// also update consumption in top notification menu ("Runterziehmenü") 
@@ -374,9 +380,10 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 			txtTripCons.setText(appContext.round(tripkWh) + " kWh");
 		}
 		
-		
-		long consPer100 = Math.round(appContext.getEcar().getCurrentTrip().calcAveragekWhPer100Km());
-		txtavgCons.setText( consPer100 + " kWh/100km");
+		if (appContext.getEcar().getCurrentTrip() != null) {
+			long consPer100 = Math.round(appContext.getEcar().getCurrentTrip().calcAveragekWhPer100Km());
+			txtavgCons.setText( consPer100 + " kWh/100km");
+		}
 		
 		/*
 		DriveSequence lastTrip = appContext.getLastTrip();
