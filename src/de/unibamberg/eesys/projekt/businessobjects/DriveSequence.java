@@ -29,80 +29,10 @@ public class DriveSequence extends Sequence implements Comparable {
 	 * if this would be stored in DB, performance could be increased,
 	 * as eco-driving score only have to be calculated once 
 	 */
-	private double avgVelocityHighway;				// eco-driving: avoid high speeds on the highway
-	private double avgVarianceVelocityHighway;		// eco-driving: maintain constant speeds on the highway
-	private double avgPosAccelerationCity;			// eco-driving: Moderate acceleration (city)
-	private double avgNegAccelerationCity;			// eco-driving: Anticipate traffic (city)
-	private double avgPosAccelerationHighway;		// eco-driving: Moderate acceleration (highway)
-	private double avgNegAccelerationHighway;		// eco-driving: Anticipate traffic (highway)
-	
-	private int countNumberWayPointsHighway = 0;
-	private int countNumberWayPointsCity = 0;
+	private EcoDrivingStatistics ecoDrivingStatistics = null; 
 	
 	private double currentSoc = -999; // energy at this point of teh trip, in kWh, not perstisted
 	
-	private boolean hasEcoDrivingStatistics = false; 
-	
-	public void calcEcoDrivingStatistics() {
-
-		double sumVelocityHighway = 0;
-		double sumPositiveAccelerationCity = 0;
-		double sumNegativeAccelerationCity = 0;
-		double sumPositiveAccelerationHighway = 0;
-		double sumNegativeAccelerationHighway = 0;		
-		
-		RoadType roadType = new RoadType();
-		ROAD_TYPE currentRoadType = ROAD_TYPE.CITY;	
-		
-		ArrayList<Double> velocitiesHighway = new ArrayList<Double>(); 		// list of velocities during highway driving, used to calculate velocity variance
-		
-		for (WayPoint w : wayPoints) {
-			
-			currentRoadType = roadType.updateRoadType(w.getVelocity());
-			
-			if (currentRoadType == ROAD_TYPE.HIGHWAY) {
-				sumVelocityHighway += w.getVelocity();
-				velocitiesHighway.add(w.getVelocity());
-				
-				if (w.getAcceleration() > 0)
-					sumPositiveAccelerationHighway += w.getAcceleration();
-				else if (w.getAcceleration() < 0)
-					sumNegativeAccelerationHighway += w.getAcceleration();				
-				
-				countNumberWayPointsHighway++;
-			}
-			if (currentRoadType == ROAD_TYPE.CITY) {
-				
-				if (w.getAcceleration() > 0)
-					sumPositiveAccelerationCity += w.getAcceleration();
-				else if (w.getAcceleration() < 0)
-					sumNegativeAccelerationCity += w.getAcceleration();
-				
-				countNumberWayPointsCity++;
-			}
-				
-		}
-		
-		avgVelocityHighway = sumVelocityHighway / countNumberWayPointsHighway;
-		avgVelocityHighway = sumVelocityHighway / countNumberWayPointsHighway;
-		
-		avgPosAccelerationCity = sumPositiveAccelerationCity / countNumberWayPointsCity;
-		avgNegAccelerationCity = sumNegativeAccelerationCity / countNumberWayPointsCity;
-		
-		avgPosAccelerationHighway = sumPositiveAccelerationHighway / countNumberWayPointsHighway;
-		avgNegAccelerationHighway = sumNegativeAccelerationHighway / countNumberWayPointsHighway;		
-				
-		// calculate average variance of velocity
-		double sum = 0;
-		for (double v : velocitiesHighway) {
-			sum += Math.abs( v - avgVelocityHighway); 
-		}
-		
-		avgVarianceVelocityHighway = sum / countNumberWayPointsHighway;
-		
-		hasEcoDrivingStatistics = true; 
-	}	
-
 	public List<WayPoint> getWayPoints() {
 		return wayPoints;
 	}
@@ -274,29 +204,11 @@ public class DriveSequence extends Sequence implements Comparable {
 	}
 
 	public boolean hasEcoDrivingStatistics() {
-		return hasEcoDrivingStatistics;
+		if (this.ecoDrivingStatistics == null)
+		return false;
+		else return true; 
 	}
 
-	public double avgVelocityHighway() {
-		return avgVelocityHighway;
-	}
-
-	public double getAvgVarianceVelocityHighway() {
-		return avgVarianceVelocityHighway;
-	}
-
-	public double getAvgPosAccelerationCity() {
-		return avgPosAccelerationCity;
-	}
-
-	public double getAvgNegAccelationCity() {
-		return avgNegAccelerationCity;
-	}
-
-	public double getAvgNegAccelerationCity() {
-		return avgNegAccelerationCity;
-	}
-	
 	/**
 	 * converts km/h to m/s 
 	 * @param kmh
@@ -315,21 +227,6 @@ public class DriveSequence extends Sequence implements Comparable {
 		return ms * 3.6;
 	}
 
-	public double getAvgPosAccelerationHighway() {
-		return avgPosAccelerationHighway;
-	}
-
-	public double getAvgNegAccelerationHighway() {
-		return avgNegAccelerationHighway;
-	}
-
-	public int getCountNumberWayPointsHighway() {
-		return countNumberWayPointsHighway;
-	}
-
-	public int getCountNumberWayPointsCity() {
-		return countNumberWayPointsCity;
-	}
 
 	public double getCurrentSoc() {
 		return currentSoc;
@@ -337,5 +234,13 @@ public class DriveSequence extends Sequence implements Comparable {
 
 	public void setCurrentSoc(double currentSoc) {
 		this.currentSoc = currentSoc;
+	}
+	public void calcEcoDrivingStatistics() {
+		EcoDrivingStatistics stats = new EcoDrivingStatistics(this.wayPoints);
+		stats.calcEcoDrivingStatistics();
+		this.ecoDrivingStatistics = stats; 
+	}
+	public EcoDrivingStatistics getEcoDrivingStatistics() {
+		return ecoDrivingStatistics;
 	}	
 }

@@ -64,11 +64,11 @@ public class EcoDrivingScoreCalculator {
 					// high speed is based on average (top) speed
 					
 					// check if there were any waypoints on the highway 
-					if (Double.isNaN(trip.avgVelocityHighway()) ) {
+					if (Double.isNaN(trip.getEcoDrivingStatistics().avgVelocityHighway()) ) {
 						score.setVisible(false);
 					}
 					else {
-						double avgVelocityHighway = trip.avgVelocityHighway();
+						double avgVelocityHighway = trip.getEcoDrivingStatistics().avgVelocityHighway();
 						double avgVelocityBad = (160/3.6); 
 						double avgVelocityOk =  (110/3.6); 
 						
@@ -84,12 +84,12 @@ public class EcoDrivingScoreCalculator {
 				else if (score.getTechniqueName().equals(Technique.CONSTANT_SPEED_HIGHWAY)) {
 					
 					// check if there were any waypoints on the highway 
-					if (Double.isNaN(trip.avgVelocityHighway()) ) {
+					if (Double.isNaN(trip.getEcoDrivingStatistics().avgVelocityHighway()) ) {
 						score.setVisible(false);
 					}
 					
 					else {
-						double userValue = trip.getAvgVarianceVelocityHighway();
+						double userValue = trip.getEcoDrivingStatistics().getAvgVarianceVelocityHighway();
 						// Speed oscillations during cruising of 5 km/h increases fuel use  by 30% at 40 km/h and by 20% at 120 km/h (Waters and Laker 1980)
 						// lead to an increase in energy consumption by 20% (Waters and Laker (1980))
 						double limitBad = 1; 
@@ -105,11 +105,11 @@ public class EcoDrivingScoreCalculator {
 				else if (score.getTechniqueName().equals(Technique.MODERATE_ACCELERATION_CITY)) {
 				
 				// check if there were any waypoints in the city
-				if (trip.getCountNumberWayPointsCity() == 0 ) {
+				if (trip.getEcoDrivingStatistics().getCountNumberWayPointsCity() == 0 ) {
 					score.setVisible(false);
 				}
 				
-				double userValue = trip.getAvgPosAccelerationCity();
+				double userValue = trip.getEcoDrivingStatistics().getAvgPosAccelerationCity();
 				// An increase in acceleration to 1.765 m/s2 (coresponding to 0-100km/h time of 15 seconds) 
 				// Larsson and Ericsson (2009) define "strong accelerations" in their study 
 				// as accelerations greater than 1.5 m/s2.				
@@ -125,11 +125,11 @@ public class EcoDrivingScoreCalculator {
 				else if (score.getTechniqueName().equals(Technique.ANTICIPATE_STOPS_CITY)) {
 					
 				// check if there were any waypoints in the city
-				if (trip.getCountNumberWayPointsCity() == 0 ) {
+				if (trip.getEcoDrivingStatistics().getCountNumberWayPointsCity() == 0 ) {
 					score.setVisible(false);
 				}
 					
-				double userValue = trip.getAvgNegAccelerationCity();
+				double userValue = trip.getEcoDrivingStatistics().getAvgNegAccelerationCity();
 				double limitBad = -1; 
 				double limitOk = 0;	
 				double q1 = userValue - limitBad;
