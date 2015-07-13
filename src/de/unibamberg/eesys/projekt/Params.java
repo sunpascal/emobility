@@ -36,7 +36,10 @@ public class Params {
 			 */
 		public static String MAX_VEHICLE_STILL_DURATION = "119"; // 2 minutes	
 		public static String PREF_MAX_VEHICLE_STILL_DURATION = "testing.maxvehiclestillduration";
+		
 		public String maxVehicleStillDuration = MAX_VEHICLE_STILL_DURATION;
+
+		public static int NUMBER_OF_WAYPOINTS_UNTIL_NEW_ROADTYPE = 0;
 		
 		/** 
 		 * default kWh consumption/100km - should be set based on true consumption data of users
