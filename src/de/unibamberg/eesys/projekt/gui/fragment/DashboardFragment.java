@@ -367,7 +367,6 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 			
 			String s_proactiveFeedback = ecar.getProactiveFeedback().getRecommendation(w);
 			// ToDo: how can performance impact be reduced (e.g. call this less often?) 
-			if (s_proactiveFeedback.isEmpty() == false)
 				// update GUI
 				txtProactiveFeedback.setText(s_proactiveFeedback);
 		}

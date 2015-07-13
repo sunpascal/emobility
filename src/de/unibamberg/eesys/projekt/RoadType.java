@@ -6,7 +6,7 @@ public class RoadType {
 	private static double MIN_SPEED_HIGHWAY = 100 / 3.6; 	// m/s
 	
 	// number of waypoints for which speed must exceed min. road type speed
-	private int wayPointThreshold = Params.NUMBER_OF_WAYPOINTS_UNTIL_NEW_ROADTYPE;
+	private int wayPointThreshold;
 			
 	
 	private ROAD_TYPE currentRoadType = ROAD_TYPE.CITY;
@@ -16,17 +16,10 @@ public class RoadType {
 	};	
 
 	/**
-	 * overrides threshold defined in Params.NUMBER_OF_WAYPOINTS_UNTIL_NEW_ROADTYPE
-	 * @param threshholdWaypoint
+	 * @param threshholdWaypoint number of waypoints until a new road type is assumed
 	 */
 	public RoadType (int threshholdWaypoint) {
 		this.wayPointThreshold = threshholdWaypoint;
-	}
-	
-	/**
-	 * will use threshold defined in Params.NUMBER_OF_WAYPOINTS_UNTIL_NEW_ROADTYPE
-	 */
-	public RoadType() {
 	}
 
 	public ROAD_TYPE updateRoadType(double velocity) {
