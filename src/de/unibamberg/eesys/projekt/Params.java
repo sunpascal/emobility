@@ -21,12 +21,17 @@ public class Params {
 	public static final double THRESSHOLD_ACCELERATION_FOR_ORANGE_BACKGROUND = 30;		
 		
 	public static final int NUMBER_OF_CHARGE_STATIONS_TO_SHOW = 3;
+	
 	// MobilityManager
 		//Verzögerung die gewartet wird, bis die neue Activity umgestellt wird
-		// currently only every 10 minutes (de facto disabled), before: 1s 
-		public static final long ACTIVITY_RECOGNITION_UPDATE_TIME = 600*1000;		 
-	//	private static final long ACTIVITY_RECOGNITION_UPDATE_TIME = 360000000;
-		// idea: use dynamic interval depending on speed of last waypoint
+	
+	
+		// time out for activity recoginition - idea: use dynamic interval depending on speed of last waypoint 
+
+	// every 10 minutes (de facto disabled), before: 1s - may be the cause why trips are not ended properly 
+//		public static final long ACTIVITY_RECOGNITION_UPDATE_TIME = 600*1000;
+		public static final long ACTIVITY_RECOGNITION_UPDATE_TIME = 1*1000;
+				
 		public static final long GPS_UPDATE_TIME = 1*1000;
 		// Ecar
 		public static final int MIN_SPEED_FOR_MOVING = 3; // 3m/s = 10.8 km/h	
