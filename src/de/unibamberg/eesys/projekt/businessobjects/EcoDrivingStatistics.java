@@ -3,6 +3,7 @@ package de.unibamberg.eesys.projekt.businessobjects;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.unibamberg.eesys.projekt.Params;
 import de.unibamberg.eesys.projekt.RoadType;
 import de.unibamberg.eesys.projekt.RoadType.ROAD_TYPE;
 
@@ -18,10 +19,23 @@ public class EcoDrivingStatistics {
 	private double avgNegAccelerationHighway;		// eco-driving: Anticipate traffic (highway)	
 	
 	private int countNumberWayPointsHighway = 0;
-	private int countNumberWayPointsCity = 0;	
+	private int countNumberWayPointsCity = 0;
+
+	private int roadTypeThreshhold = Params.NUMBER_OF_WAYPOINTS_UNTIL_NEW_ROADTYPE;
+
 	
+	/**
+	 * will use threshhold defined in overrides threshold defined in Params.NUMBER_OF_WAYPOINTS_UNTIL_NEW_ROADTYPE
+	 * @param waypoints waypoints for which to calculate statistics
+	 */
 	public EcoDrivingStatistics(List<WayPoint> waypoints) {
 		this.wayPoints = waypoints;
+	}
+	
+	// overrides threshold defined in Params.NUMBER_OF_WAYPOINTS_UNTIL_NEW_ROADTYPE
+	public EcoDrivingStatistics(List<WayPoint> waypoints, int roadTypeThreshhold) {
+		this.wayPoints = waypoints;
+		this.roadTypeThreshhold  = roadTypeThreshhold;
 	}
 	
 	public void calcEcoDrivingStatistics() {
@@ -32,7 +46,7 @@ public class EcoDrivingStatistics {
 		double sumPositiveAccelerationHighway = 0;
 		double sumNegativeAccelerationHighway = 0;		
 		
-		RoadType roadType = new RoadType();
+		RoadType roadType = new RoadType(roadTypeThreshhold);
 		ROAD_TYPE currentRoadType = ROAD_TYPE.CITY;	
 		
 		ArrayList<Double> velocitiesHighway = new ArrayList<Double>(); 		// list of velocities during highway driving, used to calculate velocity variance
