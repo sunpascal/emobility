@@ -374,6 +374,11 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 			txtTripCons.setText(appContext.round(tripkWh) + " kWh");
 		}
 		
+		
+		long consPer100 = Math.round(appContext.getEcar().getCurrentTrip().calcAveragekWhPer100Km());
+		txtavgCons.setText( consPer100 + " kWh/100km");
+		
+		/*
 		DriveSequence lastTrip = appContext.getLastTrip();
 		if (lastTrip != null) {
 			long consPer100 = Math.round(lastTrip.calcAveragekWhPer100Km());
@@ -383,7 +388,8 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 			txtavgCons.setText("");
 		}
 		
-		updateNearbyChargeStations(w); 
+		updateNearbyChargeStations(w);
+		*/ 
 		
 		txtDebug1.setText(appContext.round(w.getVelocityinKmh(), 0) + " km/h");		
 		

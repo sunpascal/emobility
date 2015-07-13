@@ -591,7 +591,7 @@ public class Ecar {
 
 			// update battery state of charge
 			// only update if locoation was changed, i.e. do not update if
-			// merely the acitivity changed
+			// merely the activity changed
 			if (w.getUpdateType() == WayPoint.UpdateType.GPS) {
 				double currentSOC = getBattery().getCurrentSoc();
 				getBattery().setCurrentSoc(currentSOC - w.getEnergyInKWh());
@@ -602,6 +602,9 @@ public class Ecar {
 						.setCoveredDistance(
 								getCurrentTrip().getCoveredDistanceInMeters()
 										+ w.getDistance());
+				
+				// set current soc in order to be able to calculate energy consumption so far
+				getCurrentTrip().setCurrentSoc(currentSOC);
 			}
 
 		}

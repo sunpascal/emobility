@@ -39,6 +39,8 @@ public class DriveSequence extends Sequence implements Comparable {
 	private int countNumberWayPointsHighway = 0;
 	private int countNumberWayPointsCity = 0;
 	
+	private double currentSoc = -999; // energy at this point of teh trip, in kWh, not perstisted
+	
 	private boolean hasEcoDrivingStatistics = false; 
 	
 	public void calcEcoDrivingStatistics() {
@@ -163,7 +165,13 @@ public class DriveSequence extends Sequence implements Comparable {
 	 * @return total kWh
 	 */
 	public double calcSumkWh() {
-		double sumkWh = Math.abs(getSocStart() - getSocEnd());
+		double endkWh = getSocEnd(); 
+		if (endkWh == -1) {
+			// trip has not yet been completed, get energy consumption up to now
+			endkWh = currentSoc;
+		}
+		
+		double sumkWh = Math.abs(getSocStart() - endkWh);
 		return sumkWh;
 	}
 	/**
@@ -321,5 +329,13 @@ public class DriveSequence extends Sequence implements Comparable {
 
 	public int getCountNumberWayPointsCity() {
 		return countNumberWayPointsCity;
+	}
+
+	public double getCurrentSoc() {
+		return currentSoc;
+	}
+
+	public void setCurrentSoc(double currentSoc) {
+		this.currentSoc = currentSoc;
 	}	
 }
