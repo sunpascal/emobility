@@ -31,7 +31,7 @@ public class ProactiveFeedback {
 		if (last10Waypoints == null)
 			last10Waypoints = new ArrayList<WayPoint>();
 		
-		if (last10Waypoints.size() < 10) {
+		if (last10Waypoints.size() < 30) {
 			last10Waypoints.add(w);
 		}
 		else {
@@ -54,7 +54,7 @@ public class ProactiveFeedback {
 				
 				// if speed is > 140 km/h
 				// show top speed feedback...
-				if (stats.avgVelocityHighway() > (160/3.6) ) {
+				if (stats.avgVelocityHighway() > (140/3.6) ) {
 					// ToDo: make percentage dynamic 
 					recommendation = feedbackTopSpeed;
 				}
@@ -62,7 +62,7 @@ public class ProactiveFeedback {
 				// if speed variation is > ....
 				// show maintain constant speed feedback
 				 // Todo: check why AvgVarianceVelocityHighway is always 0!!!
-				else if (stats.getAvgVarianceVelocityHighway() > (5/3.6)) {
+				else if (stats.getAvgVarianceVelocityHighway() > (0)) {
 					recommendation = feedbackConstantSpeed;			
 				}
 					
