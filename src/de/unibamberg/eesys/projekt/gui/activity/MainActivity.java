@@ -71,29 +71,41 @@ public class MainActivity extends SwipeActivity {
 	 */
 	public void selectItem(int position) {
 
-		// will be null if fragment cannot be found or is already active
+		// will be null if fragment cannot be found 
 		Fragment selectedFragment = fragmentFolder.getDrawerFromPosition(position);
 		
 		// check that the activity is using the layout version with thecontent_frame FrameLayout
 		// and only continue if fragment could be found
 		if (this.findViewById(R.id.content_frame) != null && selectedFragment != null) {
 
-			// in case this activity was started with special instructions from
-			// an Intent, pass the Intent's extras to the fragment as arguments
-			selectedFragment.setArguments(this.getIntent().getExtras());
-			Bundle args = new Bundle();
-			args.putInt(selectedFragment.toString(), position);
-			selectedFragment.setArguments(args);
+			try {
+				// in case this activity was started with special instructions from
+				// an Intent, pass the Intent's extras to the fragment as arguments
+				selectedFragment.setArguments(this.getIntent().getExtras());
+			
+				Bundle args = new Bundle();
+				args.putInt(selectedFragment.toString(), position);
+				selectedFragment.setArguments(args);
+			}
+			catch (Exception e) {
+				L.i("Fragment already exists, cannot setArguments again.");
+				boolean isAdded = selectedFragment.isAdded();
+				boolean isInLayout = selectedFragment.isInLayout();
+				boolean isVisible = selectedFragment.isVisible();
+				boolean isResumed = selectedFragment.isResumed();				
+				e.printStackTrace();
+			}				
 
 //			// add the fragment to the 'content_frame' FrameLayout
-			getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, selectedFragment).commit();
-			getSupportFragmentManager().executePendingTransactions();
+				getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, selectedFragment).commit();
+				getSupportFragmentManager().executePendingTransactions();
 			
 			// update selected item and title, then close the drawer
 			this.mDrawerList.setItemChecked(position, true);
 			this.setTitle(this.mDrawerOptions[position]);
 		}
 			this.mDrawerLayout.closeDrawer(mDrawerList);
+		
 	}
 
 
@@ -286,7 +298,6 @@ public class MainActivity extends SwipeActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
 		selectItem(0);
 //		gpsAlert();
 		appContext.getEcar().processLifecycle();
