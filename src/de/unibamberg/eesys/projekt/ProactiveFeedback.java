@@ -62,7 +62,7 @@ public class ProactiveFeedback {
 				// if speed variation is > ....
 				// show maintain constant speed feedback
 				 // Todo: check why AvgVarianceVelocityHighway is always 0!!!
-				else if (stats.getAvgVarianceVelocityHighway() > (0)) {
+				else if (stats.getAvgVarianceVelocityHighway() > (5)) {
 					recommendation = feedbackConstantSpeed;			
 				}
 					
