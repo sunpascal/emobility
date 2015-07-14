@@ -74,10 +74,11 @@ public class EcoDrivingScoreCalculator {
 						
 						// calculate speed relative to interval
 						double percent = ( ( (avgVelocityBad - avgVelocityHighway)   / (avgVelocityBad - avgVelocityOk) ) * 100 ); 
-						score.setProgress(make100PercentIntervall(((int) percent)));
+						int percentTrimmed = make100PercentIntervall((int) Math.round(percent));
+						score.setProgress(percentTrimmed);
 						score.setTechniqueName(score.getTechniqueName() + " " +
-								"Ø VelocityHighway: " + Math.round(avgVelocityHighway*3.6) + "km/h " +
-								Math.round(percent));
+								"Ø velocity: " + Math.round(avgVelocityHighway*3.6) + "km/h " +
+								percentTrimmed + "%");
 					}
 				}
 				
@@ -95,10 +96,11 @@ public class EcoDrivingScoreCalculator {
 						double limitBad = 1; 
 						double limitOk = 0;	
 						double percent = ( (limitBad - userValue)   / Math.abs(limitBad - limitOk) ) * 100; 
-						score.setProgress(make100PercentIntervall((int) percent));
+						int percentTrimmed = make100PercentIntervall((int) Math.round(percent));
+						score.setProgress(percentTrimmed);
 						score.setTechniqueName(score.getTechniqueName() + " " + 
-								"Ø VarianceVelocityHighway: " + appContext.round(userValue) + " " +
-								Math.round(percent) +"%");
+								"Ø Velocity variance: " + appContext.round(userValue*3.6) + " km/h " +
+								percentTrimmed +"%");
 					}
 				}	
 			
@@ -116,10 +118,11 @@ public class EcoDrivingScoreCalculator {
 				double limitBad = 1; 
 				double limitOk = 0;	
 				double percent = ( (limitBad - userValue)   / Math.abs(limitBad - limitOk) ) * 100; 
+				int percentTrimmed = make100PercentIntervall((int) Math.round(percent));
 				score.setTechniqueName(score.getTechniqueName() + " " + 
-						"Ø Positive acceleration: " + appContext.round(userValue,2) + " " +
-						Math.round(percent) +"%");
-				score.setProgress(make100PercentIntervall((int) percent));
+						"Ø Acceleration: " + appContext.round(userValue,2) + " " +
+						percentTrimmed +"%");
+				score.setProgress(percentTrimmed);
 				}
 				
 				else if (score.getTechniqueName().equals(Technique.ANTICIPATE_STOPS_CITY)) {
@@ -135,10 +138,12 @@ public class EcoDrivingScoreCalculator {
 				double q1 = userValue - limitBad;
 				double q2 = Math.abs(limitBad - limitOk); 
 				double inPercent =  (q1/q2)  * 100; 
+				int percentCapped = make100PercentIntervall((int) Math.round(inPercent));
 				score.setTechniqueName(score.getTechniqueName() + " " + 
-						"Ø negative acceleration: " + appContext.round(userValue,2) + "m/s/s " +
-						Math.round(inPercent) + "%");
-				score.setProgress(make100PercentIntervall((int) inPercent));
+						"Ø Braking: " + appContext.round(userValue,2) + "m/s/s " +
+						percentCapped + "%");
+				
+				score.setProgress(percentCapped);
 				}				
 			}				
 			
