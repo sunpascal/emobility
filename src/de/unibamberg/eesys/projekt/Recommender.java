@@ -118,7 +118,7 @@ public class Recommender {
 	}
 
 	public VehicleType getAlternativeRecommendationWithEcoDrivingAdaptation(
-			VehicleType originalVehicle) {
+			VehicleType originalVehicle) throws NoTripsException {
 		
 		// check vehicle list for the first vehicle that has a smaller battery size than the original vehicle
 		// Todo: check if we have to go backwards
@@ -128,8 +128,8 @@ public class Recommender {
 				// determine how many trips have to done using another vehicles in order for this car
 				// to be possible 
 					double targetCapacity = v.getBatteryCapacity();
-					double currentConsumption = originalVehicle.getBatteryCapacity();
-					double percentConsumptionReduction  = ((currentConsumption-targetCapacity)/currentConsumption)*100;
+					double consumptionOfLongestTrip = calcBatterySize100PercentOfTrips();
+					double percentConsumptionReduction  = ((consumptionOfLongestTrip-targetCapacity)/consumptionOfLongestTrip)*100;
 					v.setPercentConsumptionReductionRequired( "" + Math.round(percentConsumptionReduction));
 				return v;
 			}
