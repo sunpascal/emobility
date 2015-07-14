@@ -79,6 +79,11 @@ public class MainActivity extends SwipeActivity {
 		if (this.findViewById(R.id.content_frame) != null && selectedFragment != null) {
 
 			try {
+				/* ToDo: check if try ... catch can be replaced using 
+				 if ( selectedFragment.isAdded() == false) { 
+				  			.... setArguments() .... 
+				 }
+				 */
 				// in case this activity was started with special instructions from
 				// an Intent, pass the Intent's extras to the fragment as arguments
 				selectedFragment.setArguments(this.getIntent().getExtras());
