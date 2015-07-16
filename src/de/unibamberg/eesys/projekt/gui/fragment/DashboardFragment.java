@@ -394,8 +394,10 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 			txtavgCons.setText("");
 		}
 		
-		updateNearbyChargeStations(w);
 		*/ 
+		
+		updateNearbyChargeStations(w);
+		
 		
 		txtDebug1.setText(appContext.round(w.getVelocityinKmh(), 0) + " km/h");		
 		
