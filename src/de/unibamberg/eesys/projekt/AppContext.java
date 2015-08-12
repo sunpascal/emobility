@@ -205,15 +205,7 @@ public class AppContext extends Application {
 		mobilityManager = new MobilityUpdater(this);
 		fragmentFolder = new FragmentFolder();
 		
-		// get list of all charging stations from database
-		try {
-			chargeStations = db.getChargingStations();
-		} catch (DatabaseException e) {
-			// TODO check exception handling
-			Toast.makeText(getApplicationContext(), e.getMessage(),
-					Toast.LENGTH_SHORT).show();
-			e.printStackTrace();
-		}
+		loadChargingStations();
 
 		// try to load ecar from database (warning: return empty object if there
 		// is no ecar in database)
@@ -259,6 +251,18 @@ public class AppContext extends Application {
 
 		updateGui();
 
+	}
+
+	public void loadChargingStations() {
+		// get list of all charging stations from database
+		try {
+			chargeStations = db.getChargingStations();
+		} catch (DatabaseException e) {
+			// TODO check exception handling
+			Toast.makeText(getApplicationContext(), e.getMessage(),
+					Toast.LENGTH_SHORT).show();
+			e.printStackTrace();
+		}
 	}
 
 	private void startBackgroundService() {

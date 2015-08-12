@@ -68,12 +68,24 @@ public class HlpEnergyConsumptionModel implements InterfaceEnergyConsumption {
 			L.e("hillClimbingForce konnte nicht berechnet werden, da distance=0");
 			hillClimbingForce = 0; 
 		}
+		double heightDiffPerMeter = hightDelta/distance;
+
+		// sanity check! 
+		// heigth returned by GPS can deviate due to inaccurate GPS locations
+		if (heightDiffPerMeter < 0.1 || heightDiffPerMeter > 3) {
+			L.e("hillClimbingForce konnte nicht berechnet werden, da Höhenunterschied unrealistisch.");
+			hillClimbingForce = 0; 
+		}		
+		if (endVelocity < 2.77 ) {
+			L.e("hillClimbingForce konnte nicht berechnet werden, da Geschwindigkeit unter 10km/h.");
+			hillClimbingForce = 0; 
+		}			
 		else { 
 //			=> ToDo: was if driving downhill? 
 //			double steigungswinkel = Math.toDegrees(Math.atan(hightDelta / distance));
 			hillClimbingForce = vehicleType.getMass()
 				* gravitationalAcceleration
-				* (hightDelta/distance);    // hÃ¶henunterschied pro Meter!
+				* (heightDiffPerMeter);    
 //			L.v("hillClimbingForce=" + hillClimbingForce + ", hillClimbingForce=" + hillClimbingForce);
 		}
 

@@ -629,8 +629,8 @@ public class DBImplementation implements DatabaseInterface {
 		DBAdapter_GeoCoordinate dbGeo = new DBAdapter_GeoCoordinate(db);
 		
 		geoId = dbGeo.createGeoCoordinate(
-				chargingStation.getGeoCoordinate().getLatitude(),
 				chargingStation.getGeoCoordinate().getLongitude(),
+				chargingStation.getGeoCoordinate().getLatitude(),
 				chargingStation.getGeoCoordinate().getAltitude()
 		);
 		
