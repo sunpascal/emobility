@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import de.unibamberg.eesys.projekt.AppContext;
+import de.unibamberg.eesys.projekt.L;
 import de.unibamberg.eesys.projekt.R;
 import de.unibamberg.eesys.projekt.businessobjects.ChargingStation;
 import de.unibamberg.eesys.projekt.businessobjects.ChargingType;
@@ -125,12 +126,13 @@ public class ChargingStationActivity extends Activity implements
 
 				ChargingStation chargingStation = new ChargingStation();
 				chargingStation.setName(mEdit.getText().toString());
+				chargingStation.setDescription(mEdit.getText().toString());
 				
 				// attempt to set GPS coordinates 
 				int gpsStatus = appContext.getCurrentGpsStatus();
 				GeoCoordinate geoCoordinate = appContext.getCurrentPosition();
 				if(geoCoordinate.getLatitude() == 0 && geoCoordinate.getLongitude() == 0 && geoCoordinate.getAltitude() == 0){
-					Toast.makeText(context, "GPS singal not available. Charging station cannot be created!",
+					Toast.makeText(context, "GPS signal not available. Charging station cannot be created!",
 							Toast.LENGTH_SHORT).show();
 				}
 				else{
@@ -149,6 +151,13 @@ public class ChargingStationActivity extends Activity implements
 							e.printStackTrace();
 						}
 						Toast.makeText(context, "Charging station created!",Toast.LENGTH_SHORT).show();
+						
+						// reload list of charging stations after adding new charging station
+						appContext.loadChargingStations();
+						
+//						L.d("Number of charging stations: " + appContext.getChargeStations().size());
+//						for (ChargingStation cs : appContext.getChargeStations())  
+//							L.d(cs.getName());
 						
 						finish();
 					} else {
