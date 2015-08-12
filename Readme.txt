@@ -1,12 +1,14 @@
-Setup Readme zur Installation der App.
- 
- 
-Das Projekt verwendet folgende externe Libraries:
-MPAndroidChart zur Darstellung der Charts (https://github.com/PhilJay/MPAndroidChart)
-JodaTime Api zum Konvertieren von Datumsformaten https://github.com/dlew/joda-time-android
-Google Play Services 
 
-Installationsanleitung:
+==========================================================================================================
+Installation der App
+
+Zur Verwendung der App auf dem Smartphone die Datei "Electric Vehicle Recommender.apk" per USB auf das Smartphone kopieren, über eine geeigneten File Manager auswählen und installieren.
+
+
+==========================================================================================================
+Einrichtung des Projekts unter Eclipse:
+
+Um den Code in Eclipse zu betrachten bzw. das Projekt zu bearbeiten, muss das Projekt in Eclipse importiert werden: 
     
 1. Installation des Android SDKs als Entwicklungsumgebung.
 Für die Entwicklung haben wir das API Level 17 vorgesehen, dies kann über den SDK-Manager installiert werden.
@@ -14,12 +16,18 @@ Für die Entwicklung haben wir das API Level 17 vorgesehen, dies kann über den SD
 2. Importieren des Projekts 
 Der Quellcode steht als vollständiges Eclipse-Projekt zur Verfügung, welches mit Eclipse importiert werden kann.  
 
-Hierbei ist darauf zu achten, dass die Google Play Services vorhanden sind, diese werden aber als referenziertes 
-Projekt direkt mit importiert. Falls dies nicht erfolgt ist kann dies mittels dieser Anleitung nachgeholt werden. 
+Das Projekt verwendet folgende externe Libraries:
+- MPAndroidChart zur Darstellung der Charts (https://github.com/PhilJay/MPAndroidChart)
+- JodaTime Api zum Konvertieren von Datumsformaten https://github.com/dlew/joda-time-android
+- Google Play Services 
+
+Die ersten beiden sind im Projekt enthalten, Google Play Services wird als referenziertes 
+Projekt verwendet (ggf. in Project Properties => Android => Libraries Pfad korrigieren).
+Weitere Informationen zu den Google Play Services: 
 (http://developer.android.com/google/play-services/setup.html)
 
-Für die Darstellung der in der Vergangenheit befahrenen Fahrten benötigen wir die Googel API Keys, diese sind 
-notwendig da die Map Funktionen ansonsten nicht verwendet werden können.
+Für die Darstellung der in der Vergangenheit befahrenen Fahrten werden die Google API Keys benötigt, diese sind 
+notwendig, da die Map Funktionen ansonsten nicht verwendet werden können.
 Sie können auf diesem Weg installiert werden: Die mitgeschickte debug.keystore Datei muss in das Benutzerverzeichnis 
 C:\Users\<Username>\.android (unter Windows) gelegt werden.
 
