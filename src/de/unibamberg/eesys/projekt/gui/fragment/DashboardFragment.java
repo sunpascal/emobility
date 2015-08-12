@@ -399,7 +399,7 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 		updateNearbyChargeStations(w);
 		
 		
-		txtDebug1.setText(appContext.round(w.getVelocityinKmh(), 0) + " km/h" + 
+		txtDebug1.setText(appContext.round(w.getVelocityinKmh(), 0) + " km/h  " + 
 							appContext.round(w.getGeoCoordinate().getAltitude(), 3) + "m");		
 		
 		String debugString = w.getUpdateType() + " "
