@@ -110,7 +110,7 @@ public class DriveSequence extends Sequence implements Comparable {
 	 */
 	public double calcAveragekWhPerKm() {
 		if (coveredDistance == 0) {
-			 L.v("calcAveragekWhPerKm(): Cannot calculate - covered distance is 0.");
+//			 L.v("calcAveragekWhPerKm(): Cannot calculate - covered distance is 0.");
 			 return 0; 
 		}
 
