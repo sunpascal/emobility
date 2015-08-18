@@ -1,6 +1,7 @@
 package de.unibamberg.eesys.projekt.gui.activity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -92,8 +93,8 @@ public class MainActivity extends SwipeActivity {
 				args.putInt(selectedFragment.toString(), position);
 				selectedFragment.setArguments(args);
 			}
-			catch (Exception e) {
-				L.i("Fragment already exists, cannot setArguments again.");
+			catch (IllegalStateException e) {
+				L.i("Fragment already active, cannot setArguments again.");
 				boolean isAdded = selectedFragment.isAdded();
 				boolean isInLayout = selectedFragment.isInLayout();
 				boolean isVisible = selectedFragment.isVisible();
@@ -102,8 +103,46 @@ public class MainActivity extends SwipeActivity {
 			}				
 
 //			// add the fragment to the 'content_frame' FrameLayout
-				getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, selectedFragment).commit();
-				getSupportFragmentManager().executePendingTransactions();
+				int contentFrame = R.id.content_frame;
+				FragmentManager fragmentManager = getSupportFragmentManager();
+				List<Fragment> frags = fragmentManager.getFragments(); 
+					if (frags == null) {
+						
+						fragmentManager.beginTransaction()
+							.add(R.id.content_frame, selectedFragment)
+							.show(selectedFragment)
+							.commit();
+					}
+					else {
+						fragmentManager.beginTransaction()
+							.replace(R.id.content_frame, selectedFragment)
+							.show(selectedFragment)
+							.commit();
+					}
+			try {
+				boolean result = fragmentManager.executePendingTransactions();
+			}
+			catch (NullPointerException e) {
+				String text = "NullPointerException in MainActivity.selectItem()" + e.getMessage() + e.getCause() + e.getStackTrace();
+				L.e(text);
+				appContext.showToast(text);
+				boolean isAdded = selectedFragment.isAdded();
+				boolean isInLayout = selectedFragment.isInLayout();
+				boolean isVisible = selectedFragment.isVisible();
+				boolean isResumed = selectedFragment.isResumed();				
+				e.printStackTrace();
+			}
+			catch (IllegalStateException e) {
+				String text = "IllegalStateException in MainActivity.selectItem()"  + " " + e.getMessage();
+				L.e(text);
+				appContext.showToast(text);
+				boolean isAdded = selectedFragment.isAdded();
+				boolean isInLayout = selectedFragment.isInLayout();
+				boolean isVisible = selectedFragment.isVisible();
+				boolean isResumed = selectedFragment.isResumed();				
+				e.printStackTrace();
+			}			
+			
 			
 			// update selected item and title, then close the drawer
 			this.mDrawerList.setItemChecked(position, true);
@@ -171,10 +210,6 @@ public class MainActivity extends SwipeActivity {
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-		if (savedInstanceState == null) {
-			selectItem(0);
-		}
 
 		mDrawerLayout.setOnClickListener(new OnClickListener() {
 			@Override
