@@ -341,6 +341,7 @@ public class AppContext extends Application {
 	 * @param mId
 	 */
 	public void showNotification(String title, String content, int mId) {
+		/*
 		// prevent app crashes due to null accessing
 		if (title == null && content == null)
 			return;
@@ -370,6 +371,8 @@ public class AppContext extends Application {
 		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		// mId allows you to update the notification later on.
 		mNotificationManager.notify(mId, mBuilder.build());
+		
+		*/
 	}
 
 	// called by activity to register to gps and activity updates
