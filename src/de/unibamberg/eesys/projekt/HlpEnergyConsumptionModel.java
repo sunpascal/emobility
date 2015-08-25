@@ -72,8 +72,8 @@ public class HlpEnergyConsumptionModel implements InterfaceEnergyConsumption {
 
 		// sanity check! 
 		// heigth returned by GPS can deviate due to inaccurate GPS locations
-		if (heightDiffPerMeter < 0.1 || heightDiffPerMeter > 3) {
-			L.e("hillClimbingForce konnte nicht berechnet werden, da Höhenunterschied unrealistisch.");
+		if (Math.abs(heightDiffPerMeter) < 0.1 || Math.abs(heightDiffPerMeter) > 3) {
+			L.e("hillClimbingForce konnte nicht berechnet werden, da HÃ¶henunterschied unrealistisch.");
 			hillClimbingForce = 0; 
 		}		
 		if (endVelocity < 2.77 ) {
