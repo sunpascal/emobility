@@ -23,6 +23,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.unibamberg.eesys.projekt.AppContext;
+import de.unibamberg.eesys.projekt.L;
 import de.unibamberg.eesys.projekt.R;
 import de.unibamberg.eesys.projekt.businessobjects.DriveSequence;
 import de.unibamberg.eesys.projekt.database.DBImplementation;
@@ -245,20 +246,27 @@ public class EcoDrivingTableFragment extends Fragment {
 		fragmentManager = getFragmentManager();
 		fragmentTransaction = fragmentManager.beginTransaction();
 		
-		AnalysisSpeedFragment fragment = (AnalysisSpeedFragment) appContext.getFragmentFolder().getAnalysisSpeedTab();
-		fragment.setTrip(ds);
-		
-		containerId = ((ViewGroup) getView().getParent()).getId();
-
-		fragment.setArguments(getActivity().getIntent().getExtras());
-		
-		fragment.setArguments(getActivity().getIntent().getExtras());
-		Bundle args = new Bundle();
-		args.putInt(fragment.toString(), 0);
-		fragment.setArguments(args);
-
-		getFragmentManager().beginTransaction()
-				.replace(R.id.content_frame, fragment).commit();
+		try {
+			AnalysisSpeedFragment fragment = (AnalysisSpeedFragment) appContext.getFragmentFolder().getAnalysisSpeedTab();
+			fragment.setTrip(ds);
+			
+			containerId = ((ViewGroup) getView().getParent()).getId();
+	
+			fragment.setArguments(getActivity().getIntent().getExtras());
+			
+			fragment.setArguments(getActivity().getIntent().getExtras());
+			Bundle args = new Bundle();
+			args.putInt(fragment.toString(), 0);
+			fragment.setArguments(args);
+	
+			getFragmentManager().beginTransaction()
+					.replace(R.id.content_frame, fragment).commit();
+		}
+		catch (ClassCastException e) {
+			String m = "Unexpected fragment type"; 
+			L.e(m);
+			appContext.showToast(m);
+		}		
 	}		
 	
 	private void loadAccelerationFragment(DriveSequence ds) {
@@ -266,20 +274,27 @@ public class EcoDrivingTableFragment extends Fragment {
 		fragmentManager = getFragmentManager();
 		fragmentTransaction = fragmentManager.beginTransaction();
 		
-		AnalysisAccelerationFragment fragment = (AnalysisAccelerationFragment) appContext.getFragmentFolder().getAnalysisAccelerationTab();
-		fragment.setTrip(ds);
-		
-		containerId = ((ViewGroup) getView().getParent()).getId();
-
-		fragment.setArguments(getActivity().getIntent().getExtras());
-		
-		fragment.setArguments(getActivity().getIntent().getExtras());
-		Bundle args = new Bundle();
-		args.putInt(fragment.toString(), 0);
-		fragment.setArguments(args);
-
-		getFragmentManager().beginTransaction()
-				.replace(R.id.content_frame, fragment).commit();
+		try {
+			AnalysisAccelerationFragment fragment = (AnalysisAccelerationFragment) appContext.getFragmentFolder().getAnalysisAccelerationTab();
+			fragment.setTrip(ds);
+			
+			containerId = ((ViewGroup) getView().getParent()).getId();
+	
+			fragment.setArguments(getActivity().getIntent().getExtras());
+			
+			fragment.setArguments(getActivity().getIntent().getExtras());
+			Bundle args = new Bundle();
+			args.putInt(fragment.toString(), 0);
+			fragment.setArguments(args);
+	
+			getFragmentManager().beginTransaction()
+					.replace(R.id.content_frame, fragment).commit();
+		}
+		catch (ClassCastException e) {
+			String m = "Unexpected fragment type"; 
+			L.e(m);
+			appContext.showToast(m);
+		}
 	}		
 	
 	private void refreshDriveSequences() {
