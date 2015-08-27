@@ -132,6 +132,7 @@ public class SettingsFragment extends PreferenceFragment  {
 				
 				// quit app and stop running in the background
 				appContext.shutdown();
+				getActivity().finish();
 //				Warning: do not call getActivity().finish() as it will cause a PreferenceManager exception  
 				
 				return true;
