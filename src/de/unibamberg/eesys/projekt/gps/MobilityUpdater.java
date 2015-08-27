@@ -183,6 +183,14 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 		// Store the listener object
 		this.listeners.add(listener);
 	}
+	
+	/** 
+	 * shutdown GPS and Activity updates
+	 */
+	public void shutdownLocationUpdates() {
+		locationManager.removeUpdates(this);
+		mContext.unregisterReceiver(activityUpdateReceiver);
+	}
 
 	// Called when a connection to the ActivityRecognitionService has been
 	// established.

@@ -185,7 +185,7 @@ public class SettingsFragment extends PreferenceFragment  {
 		loadGpx.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
 			public boolean onPreferenceClick(final Preference preference) {
-				appContext.getMobilityManager().loadTestDataFromGpx();
+				appContext.loadTestDataFromGpx();
 				return true;
 			}
 		});

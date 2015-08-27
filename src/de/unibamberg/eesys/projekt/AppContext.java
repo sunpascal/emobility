@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.app.Application;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -128,7 +130,7 @@ public class AppContext extends Application {
 	 * well as status updates from Google Play services (which indicate if the
 	 * phone is still, walking, driving, etc)
 	 */
-	private MobilityUpdater mobilityManager;
+//	private MobilityUpdater mobilityManager;
 	
 	private BackgroundService backgroundService;
 	private Recommender recommender;
@@ -203,7 +205,6 @@ public class AppContext extends Application {
 		// get database access object
 		db = new DBImplementation(this);
 		consumptionModel = new HlpEnergyConsumptionModel();
-		mobilityManager = new MobilityUpdater(this);
 		fragmentFolder = new FragmentFolder();
 		
 		loadChargingStations();
@@ -270,7 +271,7 @@ public class AppContext extends Application {
 		}
 	}
 
-	private void startBackgroundService() {
+	public void startBackgroundService() {
 		startService(new Intent(this, BackgroundService.class));
 	}
 	
@@ -532,14 +533,6 @@ public class AppContext extends Application {
 				.getRawOffset())));
 	}
 
-	public MobilityUpdater getMobilityManager() {
-		return mobilityManager;
-	}
-
-	public void setMobilityManager(MobilityUpdater mobilityManager) {
-		this.mobilityManager = mobilityManager;
-	}
-
 	/**
 	 * formats the date for use in GUI. Does not include time (e.g. 2015-03-08).
 	 * 
@@ -662,6 +655,24 @@ public class AppContext extends Application {
 
 	public void setConsumptionT0(double consumptionT0) {
 		this.consumptionT0 = consumptionT0;
+	}
+	
+	public boolean isBackgroundServiceRunning() {
+	    ActivityManager manager = (ActivityManager) 
+	            this.getSystemService(Context.ACTIVITY_SERVICE);
+	    List<RunningServiceInfo> services =  manager.getRunningServices(Integer.MAX_VALUE);
+	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+	        if (BackgroundService.class.getName().equals(
+	                service.service.getClassName())) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+	
+	public void loadTestDataFromGpx() {
+		if (backgroundService != null)
+			backgroundService.loadTestDataFromGpx();
 	}
 	
 }

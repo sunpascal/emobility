@@ -45,6 +45,8 @@ public class BackgroundService extends Service implements GpsUpdateListener {
 	private AppContext appContext;
 	private ArrayList<WayPoint> buffer;
 	private static final int BUFFER_MAX_LENGTH = 1;
+	
+	private MobilityUpdater mobilityManager;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -62,6 +64,7 @@ public class BackgroundService extends Service implements GpsUpdateListener {
 		// store reference to AppContext to use underlying functions and access
 		// database.
 		appContext = (AppContext) getApplicationContext();
+		Toast.makeText(this, "Starting background service.", Toast.LENGTH_LONG).show();
 		appContext.setBackgroundService(this);
 
 //		new DatabaseImplementationTest(appContext.getDb(), appContext).testDatabase(); // @Stefan
@@ -70,7 +73,7 @@ public class BackgroundService extends Service implements GpsUpdateListener {
 		appContext.getParams().getMaxVehicleStillLocation();
 		
 		// reference to mobility manager which provides GPS and status updates.
-		MobilityUpdater mobilityManager = appContext.getMobilityManager();
+		mobilityManager = new MobilityUpdater(getApplicationContext());;
 
 		// GPS & activity recognition:
 		// register for gps+activity updates - this will cause onGpsUpdate() to
@@ -157,10 +160,13 @@ public class BackgroundService extends Service implements GpsUpdateListener {
 			e.printStackTrace();
 		}
 	}
+	
 
 	public void onDestroy() {
 		super.onDestroy();
-		// Todo: do not stop if settings view is closed!!!
+		// unregister listeners to save energy
+		mobilityManager.shutdownLocationUpdates();
+
 	}
 
 	@Override
@@ -177,6 +183,11 @@ public class BackgroundService extends Service implements GpsUpdateListener {
 	public void onStatusChanged(int status) {
 		appContext.statusChanged(status);
 
+	}
+
+	public void loadTestDataFromGpx() {
+		if (mobilityManager != null)
+			mobilityManager.loadTestDataFromGpx();
 	}
 
 }
