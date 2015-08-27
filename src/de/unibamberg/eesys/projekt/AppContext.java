@@ -152,6 +152,7 @@ public class AppContext extends Application {
 	
 	static final String PREF_TESTING_ACTIVITY = "testing.activity";
 	private static final String PREF_TESTING_SPEED = "testing.speed";
+	private static final String GOAL = "ecodriving.goal";
 	
 	public BackgroundService getBackgroundService() {
 		return backgroundService;
@@ -245,6 +246,10 @@ public class AppContext extends Application {
 					Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
+		
+		// load personal eco-driving goal
+		this.goal  = PreferenceManager.getDefaultSharedPreferences(
+				this).getInt(GOAL, Params.DEFAULT_GOAL);
 
 		// start background service
 		startBackgroundService();
@@ -619,6 +624,8 @@ public class AppContext extends Application {
 
 	public void setGoal(int value) {
 		this.goal = value; 
+		PreferenceManager.getDefaultSharedPreferences(this).
+		edit().putInt(GOAL, value).apply();		
 	}
 
 	public int getGoal() {
