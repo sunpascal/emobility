@@ -104,14 +104,17 @@ public class EcoDrivingTableFragment extends Fragment {
 			// todo: this use current ecar type... 
 			t3.setText(Math.round(d.calcPersonalRange(appContext.getEcar().getVehicleType().getBatteryCapacity())) + " km");
 			
+			// get goal that user has set in goal fragment 
+			int goal = appContext.getGoal();
 			TextView t4 = new TextView(rootView.getContext());
-			if (kWhPer100Km > 20 )  { // todo: use personal goal
+			if (kWhPer100Km > goal )  { 
 				t4.setText(":(");		// ☹
 				t4.setTextColor(Color.RED);
 			}
 			else {
-				t4.setText("☺");
 				t4.setTextColor(Color.GREEN);
+				t4.setText("☺");
+				
 			}
 			
 			TableRow row = new TableRow(rootView.getContext()); 
