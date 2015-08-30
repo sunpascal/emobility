@@ -462,41 +462,44 @@ public class DashboardFragment extends Fragment implements GuiUpdateInterface {
 			
 //		only show NUMBER_OF_CHARGE_STATIONS_TO_SHOW closest charge stations
 		for (int i=0; i<Params.NUMBER_OF_CHARGE_STATIONS_TO_SHOW; i++) {
+			// they may not be any nearby charge stations!
+			if (i < nearbyCS.size()) {
 			ChargingStation cs = nearbyCS.get(i);
-			
-			TextView t1 = new TextView(rootView.getContext());
-			String descr = cs.getDescription();
-			// truncate long charging station descriptions
-//			if (descr.length() > 30)
-//				descr = descr.substring(0, 30);
-			t1.setText(descr);
-			
-			TextView t2 = new TextView(rootView.getContext());
-			t2.setGravity(Gravity.RIGHT);
-			t2.setText(AppContext.round(cs.getDistanceInKm(), 2) + " km");
-			
-			TableRow row = new TableRow(rootView.getContext()); 
-			row.addView(t1);
-			row.addView(t2);
-			row.setPadding(0, 3, 0, 3);
-			
-			final GeoCoordinate coords = cs.getGeoCoordinate(); 
-			
-			row.setOnClickListener(new OnClickListener() {
-	            @Override
-	             public void onClick(View v) {
-			    	
-//			        // Start google maps 
-			        String uri = "geo:" + coords.getLatitude() + "," + coords.getLongitude();
-			    	Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-			    	intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
-			    	startActivity(intent);
-	             }   
-			});
-			
-			tableChargeStations.addView(row);	
-			tableChargeStations.setColumnShrinkable(0, true);
-			tableChargeStations.setColumnStretchable(0, true);
+				
+				TextView t1 = new TextView(rootView.getContext());
+				String descr = cs.getDescription();
+				// truncate long charging station descriptions
+	//			if (descr.length() > 30)
+	//				descr = descr.substring(0, 30);
+				t1.setText(descr);
+				
+				TextView t2 = new TextView(rootView.getContext());
+				t2.setGravity(Gravity.RIGHT);
+				t2.setText(AppContext.round(cs.getDistanceInKm(), 2) + " km");
+				
+				TableRow row = new TableRow(rootView.getContext()); 
+				row.addView(t1);
+				row.addView(t2);
+				row.setPadding(0, 3, 0, 3);
+				
+				final GeoCoordinate coords = cs.getGeoCoordinate(); 
+				
+				row.setOnClickListener(new OnClickListener() {
+		            @Override
+		             public void onClick(View v) {
+				    	
+	//			        // Start google maps 
+				        String uri = "geo:" + coords.getLatitude() + "," + coords.getLongitude();
+				    	Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+				    	intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+				    	startActivity(intent);
+		             }   
+				});
+				
+				tableChargeStations.addView(row);	
+				tableChargeStations.setColumnShrinkable(0, true);
+				tableChargeStations.setColumnStretchable(0, true);
+			}
 		}
 	}
 	
