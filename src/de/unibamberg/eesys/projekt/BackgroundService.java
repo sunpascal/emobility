@@ -64,7 +64,7 @@ public class BackgroundService extends Service implements GpsUpdateListener {
 		// store reference to AppContext to use underlying functions and access
 		// database.
 		appContext = (AppContext) getApplicationContext();
-		Toast.makeText(this, "Starting background service.", Toast.LENGTH_LONG).show();
+//		Toast.makeText(this, "Starting background service.", Toast.LENGTH_LONG).show();
 		appContext.setBackgroundService(this);
 
 //		new DatabaseImplementationTest(appContext.getDb(), appContext).testDatabase(); // @Stefan
