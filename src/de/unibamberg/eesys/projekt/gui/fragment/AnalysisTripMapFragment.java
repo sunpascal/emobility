@@ -124,7 +124,22 @@ public class AnalysisTripMapFragment extends Fragment {
 		
 		if (listDriveSequences == null)
 			try {
-				listDriveSequences = db.getDriveSequences(true);
+				List<DriveSequence> allDriveSequences;
+				allDriveSequences = db.getDriveSequences(true);
+				
+				// show maximum of 10 trips
+				int numberOfTripsToShow = Params.N_TRIPS_TO_DRAW;
+				if (allDriveSequences.size() < Params.N_TRIPS_TO_DRAW)
+					numberOfTripsToShow = allDriveSequences.size();
+				
+				for (int i=0; i<numberOfTripsToShow; i++) {
+					listDriveSequences = new ArrayList();
+					listDriveSequences.add(
+							allDriveSequences.get(i)
+							);
+				}		
+				
+				
 			} catch (DatabaseException e1) {
 				Toast.makeText(appContext, "An unexpected error has occurred.",
 						Toast.LENGTH_SHORT).show();
@@ -133,6 +148,7 @@ public class AnalysisTripMapFragment extends Fragment {
 			}		
 
 		try {
+			
 			for (DriveSequence ds : listDriveSequences) {
 				ds.setWayPoints(db.getWayPoints(ds));
 			}

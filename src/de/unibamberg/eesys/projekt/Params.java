@@ -51,12 +51,17 @@ public class Params {
 		 */
 		public static final int DEFAULT_GOAL = 20;
 
-		/* 
+		/** 
 		 * the how many-th waypoint should be plotted on the map 
 		 * mapping every waypoint recorded is likely to overload the device
 		 * 10 = every 10th waypoint
 		 */
-		public final static int DRAW_NTH_WAYPOINT = 1;
+		public final static int DRAW_NTH_WAYPOINT = 20;
+		
+		/**
+		 * maximum number of trips to draw
+		 */
+		public final static int N_TRIPS_TO_DRAW = 2;
 		 
 		public void updateMaxVehicleStillDuration() {
 			try {
