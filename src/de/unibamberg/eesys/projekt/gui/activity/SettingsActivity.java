@@ -6,7 +6,10 @@ import de.unibamberg.eesys.projekt.R;
 import de.unibamberg.eesys.projekt.gui.fragment.SettingsFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceScreen;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.view.MenuItem;
@@ -35,6 +38,7 @@ public class SettingsActivity extends PreferenceActivity {
 				
 		this.getFragmentManager().beginTransaction()
 				.replace(android.R.id.content, new SettingsFragment()).commit();
+		
 	}
 
 	@Override

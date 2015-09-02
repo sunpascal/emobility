@@ -1,5 +1,6 @@
 package de.unibamberg.eesys.projekt.gui.activity;
 
+import de.unibamberg.eesys.projekt.AppContext;
 import de.unibamberg.eesys.projekt.R;
 import android.app.Activity;
 import android.content.Intent;
@@ -7,13 +8,19 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 /**
  * Activity for displaying the About section in preferences
- * @author Julia
  *
  */
 public class AboutActivity extends Activity {
+	
+	private int countClicks = 0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -22,8 +29,31 @@ public class AboutActivity extends Activity {
 		getActionBar().setHomeButtonEnabled(true);
 		
 		// set action bar icon to white car on green background 
-		getActionBar().setIcon(R.drawable.drawer_icon);				
+		getActionBar().setIcon(R.drawable.drawer_icon);		
+		
+		ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+
+		imageView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				countClicks++; 
+				
+				if (countClicks == 4) {
+					AppContext appContext = (AppContext) getApplicationContext();
+			    	// switch debug mode on or off
+					appContext.setDebug(!appContext.isDebug());
+			    	appContext.showToast("Debug mode.");					
+			    	countClicks = 0;
+				}
+			}
+
+		});
+		
+		
 	}
+
+
 	@Override
 	/**
 	 * Method handles the back navigation 
@@ -56,4 +86,5 @@ public class AboutActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
 }

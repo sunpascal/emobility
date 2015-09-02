@@ -12,7 +12,10 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Toast;
 import de.unibamberg.eesys.projekt.AppContext;
 import de.unibamberg.eesys.projekt.L;
@@ -201,7 +204,17 @@ public class SettingsFragment extends PreferenceFragment  {
 				}
 			});
 		}
+
 		
+		
+		// hide debug preferences: 
+		PreferenceScreen preferenceScreen = getPreferenceScreen();
+		if (appContext.isDebug() == false ) {
+			Preference categoryDebug = this.findPreference("testing.categoryDebug");
+			preferenceScreen.removePreference(categoryDebug);
+		}
+		
+	
 		
 	}
 

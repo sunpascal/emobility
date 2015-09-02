@@ -116,6 +116,17 @@ public class AppContext extends Application {
 	
 	// whether to show debug message - can be enabled in app settings menu
 	private boolean showDebugMessages = false;
+	
+	
+	private boolean isDebug = false; 
+
+	public boolean isDebug() {
+		return isDebug;
+	}
+
+	public void setDebug(boolean isDebug) {
+		this.isDebug = isDebug;
+	}
 
 	public boolean isShowDebugMessages() {
 		return showDebugMessages;

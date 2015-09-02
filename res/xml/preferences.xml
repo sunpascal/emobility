@@ -31,8 +31,8 @@
 		
 	</PreferenceCategory>
 	
-<!-- 	
-	<PreferenceCategory android:title="@string/pref_title_override" >
+ 	
+	<PreferenceCategory android:key="testing.categoryDebug" android:title="@string/pref_title_override" >
 	    
 		<ListPreference
 			android:entries="@array/pref_list_show_debug_messages"
@@ -85,6 +85,5 @@
 		
 	</PreferenceCategory>
 
- -->
 
 </PreferenceScreen>
