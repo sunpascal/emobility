@@ -138,57 +138,70 @@ public class SettingsFragment extends PreferenceFragment  {
 				return true;
 			}
 		});		
+	
+		
+		// DEBUG OPTIONS - may be hidden by commenting out in preferences.xml  // 
+		
 		
 		// load timeout for ending trips
 		ListPreference prefMaxVehicleTimeout2 = (ListPreference) findPreference("testing.maxvehiclestillduration");
-		prefMaxVehicleTimeout2
-				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-					@Override
-					// use on onPreferenceChange instead of onPreferenceClick 
-					// to get code AFTER the preference is changed
-					// Note: this is still executed before the change is stored! 
-					// only way to update is seems to be to access newValue! 
-					public boolean onPreferenceChange(Preference preference,
-							Object newValue) {
-							appContext.getParams().setMaxVehicleStillLocation(newValue);
-							return true;
-					}
-				});			
+		if (prefMaxVehicleTimeout2 != null) { 	// is null if not defined in preferences.xml (commented out)
+			prefMaxVehicleTimeout2
+					.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+						@Override
+						// use on onPreferenceChange instead of onPreferenceClick 
+						// to get code AFTER the preference is changed
+						// Note: this is still executed before the change is stored! 
+						// only way to update is seems to be to access newValue! 
+						public boolean onPreferenceChange(Preference preference,
+								Object newValue) {
+								appContext.getParams().setMaxVehicleStillLocation(newValue);
+								return true;
+						}
+					});			
+		}
 
 		// Following options are only for testing!
 		// Import Database for testing
 		Preference importDB = this.findPreference("testing.importDB");
-		importDB.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-			
-			public boolean onPreferenceClick(final Preference preference) {
-				Log.v(SettingsFragment.TAG, "Import DB");
-				appContext.getDb().importDb();
-				Toast.makeText(appContext, "Database imported successfully",
-						Toast.LENGTH_LONG).show();
-				return true;
-			}
-		});
+		if (importDB != null) { 	// is null if not defined in preferences.xml (commented out)		
+			importDB.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+				
+				public boolean onPreferenceClick(final Preference preference) {
+					Log.v(SettingsFragment.TAG, "Import DB");
+					appContext.getDb().importDb();
+					Toast.makeText(appContext, "Database imported successfully",
+							Toast.LENGTH_LONG).show();
+					return true;
+				}
+			});
+		}
 		
 		Preference resetBatteryButton = this.findPreference("testing.resetBattery");
-		resetBatteryButton.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-			
-			public boolean onPreferenceClick(final Preference preference) {
-				L.v("resetting battery to 100%");
-				appContext.getEcar().getBattery().setCurrentSoc(
-						appContext.getEcar().getVehicleType().getBatteryCapacity());
-				return true;
-			}
-		});		
+		if (resetBatteryButton != null) { 	// is null if not defined in preferences.xml (commented out)
+			resetBatteryButton.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+				
+				public boolean onPreferenceClick(final Preference preference) {
+					L.v("resetting battery to 100%");
+					appContext.getEcar().getBattery().setCurrentSoc(
+							appContext.getEcar().getVehicleType().getBatteryCapacity());
+					return true;
+				}
+			});		
+		}
 		
 		// load Gpx for testing
 		Preference loadGpx = this.findPreference("testing.loadGpx");
-		loadGpx.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-
-			public boolean onPreferenceClick(final Preference preference) {
-				appContext.loadTestDataFromGpx();
-				return true;
-			}
-		});
+		if (loadGpx != null) { 	// is null if not defined in preferences.xml (commented out)		
+			loadGpx.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+	
+				public boolean onPreferenceClick(final Preference preference) {
+					appContext.loadTestDataFromGpx();
+					return true;
+				}
+			});
+		}
+		
 		
 	}
 

@@ -84,7 +84,7 @@
 	<string name="pref_title_dev">Developer</string>
 	<string name="pref_dev_version">Version</string>
 	<string name="pref_title_cs">Add charging stations</string>
-	<string name="pref_title_override">Override position data (debugging)</string>
+	<string name="pref_title_override">Debug Options</string>
 	
 
 </resources>

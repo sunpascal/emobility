@@ -31,6 +31,7 @@
 		
 	</PreferenceCategory>
 	
+<!-- 	
 	<PreferenceCategory android:title="@string/pref_title_override" >
 	    
 		<ListPreference
@@ -83,5 +84,7 @@
 			android:title="Ignore Activity Recognition" />
 		
 	</PreferenceCategory>
+
+ -->
 
 </PreferenceScreen>
