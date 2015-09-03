@@ -33,6 +33,12 @@ public class Params {
 		public static final long ACTIVITY_RECOGNITION_UPDATE_TIME = 1*1000;
 				
 		public static final long GPS_UPDATE_TIME = 1*1000;
+		
+		/**
+		 * minimum distance between two points for a GPS point to be counter
+		 */
+		public static final long UPDATE_DISTANCE = 0;		// use 0 in order to detect when car has stopped		
+		
 		// Ecar
 		public static final int MIN_SPEED_FOR_MOVING = 3; // 3m/s = 10.8 km/h	
 		/**

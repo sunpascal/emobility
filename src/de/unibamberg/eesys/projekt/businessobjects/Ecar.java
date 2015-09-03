@@ -598,6 +598,11 @@ public class Ecar {
 			// merely the activity changed
 			if (w.getUpdateType() == WayPoint.UpdateType.GPS) {
 				double currentSOC = getBattery().getCurrentSoc();
+				
+				String s = Math.round(w.getDistance()/1000) + " km / " + 
+						Math.round(w.getEnergyInKWh()) + " kWh";
+				L.e(s);
+//				appContext.showToast(s);
 				getBattery().setCurrentSoc(currentSOC - w.getEnergyInKWh());
 
 				// update covered distance (cumulated distance of this trip so

@@ -76,10 +76,6 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 	// 			...   70m at 50 km/h
 	//			...   27m at 20 km/h
 	
-	/**
-	 * minimum distance between two points for a GPS point to be counter
-	 */
-	private static final long UPDATE_DISTANCE = 0;		// use 0 in order to detect when car has stopped
 	
 	private static final String PREF_TESTING_ACTIVITY = "testing.activity";
 	private static final String PREF_TESTING_SPEED = "testing.speed";
@@ -99,7 +95,11 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 		 */
 		public void onReceive(Context context, Intent intent) {
 
+			/*
 			waypoint.setUpdateType(UpdateType.ACTIVITY_RECOGNITION);
+			
+			appContext.showToast("Activity Update");
+			L.d("Activity Update");
 
 			// use true activity value
 			if (intent.hasExtra("activityType"))
@@ -108,7 +108,7 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 				waypoint.setActivityConfidence(intent.getIntExtra("confidence",
 						-1));
 
-			sendUpdateToListeners();
+			sendUpdateToListeners();  */
 		}
 	}
 
@@ -126,7 +126,7 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 		// GPS_UPDATE_TIME, UPDATE_DISTANCE, mlocListener);
 
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-				Params.GPS_UPDATE_TIME, UPDATE_DISTANCE, mlocListener);
+				Params.GPS_UPDATE_TIME, Params.UPDATE_DISTANCE, mlocListener);
 
 		appContext = (AppContext) a.getApplicationContext();
 		consumptionModel = appContext.getConsumptionModel();
@@ -331,6 +331,9 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 		waypoint.setEnergy(energy);
 
 		sendUpdateToListeners();
+		
+		// make sure way point is not processed twice
+		waypoint.clear();
 	}
 
 	/** 
@@ -600,7 +603,9 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 		
 //		 new GpxImportTask().execute();
 		
+		
 		 GpxLoader gpxLoader = new GpxLoader(appContext);
+		 /*
 		// use this to load all .gpx files in /assets	    	 
 			String[] listOfFiles;
 			try {
@@ -614,10 +619,10 @@ public class MobilityUpdater implements LocationListener, ConnectionCallbacks,
 			} catch (IOException e) {
 				L.e("Could not get list of *.gpx files");
 				e.printStackTrace();
-			}		
+			}	*/	
 			Toast.makeText(appContext, "Gpx import complete.", Toast.LENGTH_SHORT);
 		 
-//		 simulateLocations(gpxLoader.loadGpx("Track201501262107.gpx"), false);
+		 simulateLocations(gpxLoader.loadGpx("Track201501262107.gpx"), false);
 //		 simulateLocations(gpxLoader.loadGpx("Track201501241618.gpx"), false);
 //		 simulateLocations(gpxLoader.loadGpx("Track201501202031.gpx"), false);
 //		 simulateLocations(gpxLoader.loadGpx("Track201501211158.gpx"), false);

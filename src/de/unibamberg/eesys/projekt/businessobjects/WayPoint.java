@@ -379,5 +379,19 @@ public class WayPoint implements Parcelable {
 	 */
 	public double calcConsumptionPer100km() {
 		return calcConsumptionPerKm() * 100;
+	}
+
+	public void clear() {
+		id = 0;
+		acceleration = 0;
+
+		distance = 0;  	// in meters
+		velocity = 0.0;
+		activityType = -2;
+		activityConfidence = -2;
+
+		energy = 0;  	// in kW
+		updateType = UpdateType.NOT_SET;
+		
 	}	
 }
