@@ -212,6 +212,8 @@ public class AppContext extends Application {
 	 */
 	public void onCreate() {
 		super.onCreate();
+		
+		showToast("new AppContext");
 
 		// get database access object
 		db = new DBImplementation(this);
@@ -264,7 +266,7 @@ public class AppContext extends Application {
 				this).getInt(GOAL, Params.DEFAULT_GOAL);
 
 		// start background service
-		startBackgroundService();
+		startBackgroundServiceIfNotRunning();		
 
 		updateGui();
 
@@ -668,7 +670,7 @@ public class AppContext extends Application {
 		this.consumptionT0 = consumptionT0;
 	}
 	
-	public boolean isBackgroundServiceRunning() {
+	private boolean isBackgroundServiceRunning() {
 	    ActivityManager manager = (ActivityManager) 
 	            this.getSystemService(Context.ACTIVITY_SERVICE);
 	    List<RunningServiceInfo> services =  manager.getRunningServices(Integer.MAX_VALUE);
@@ -684,6 +686,16 @@ public class AppContext extends Application {
 	public void loadTestDataFromGpx() {
 		if (backgroundService != null)
 			backgroundService.loadTestDataFromGpx();
+	}
+
+	public void startBackgroundServiceIfNotRunning() {
+		if (isBackgroundServiceRunning() == false)
+			startBackgroundService();
+		else {
+			String s = "Not starting backgroud service, since already running.";
+			showToast(s);
+			L.e(s);
+		}
 	}
 	
 }

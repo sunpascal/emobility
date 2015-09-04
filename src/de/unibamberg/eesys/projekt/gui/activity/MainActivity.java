@@ -333,8 +333,7 @@ public class MainActivity extends SwipeActivity {
 		selectItem(0);
 //		gpsAlert();
 		
-		if (appContext.isBackgroundServiceRunning() == false)
-			appContext.startBackgroundService();
+		appContext.startBackgroundServiceIfNotRunning();
 		
 		appContext.getEcar().processLifecycle();
 		appContext.updateGui();
