@@ -693,8 +693,8 @@ public class AppContext extends Application {
 			startBackgroundService();
 		else {
 			String s = "Not starting backgroud service, since already running.";
-			showToast(s);
-			L.e(s);
+//			showToast(s);
+			L.i(s);
 		}
 	}
 	
